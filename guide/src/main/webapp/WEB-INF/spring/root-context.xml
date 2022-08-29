@@ -21,7 +21,7 @@
 		<!-- <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
 			 <property name="jdbcUrl" value="jdbc:oracle:thin:@192.168.4.180:1521:xe"/> -->
 		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/> <!-- 속성값 -->
-        <property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@146.56.150.22:1521:XE"/>
+        <property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@localhost:1521:XE"/>
 		<property name="username" value="guide"/>
 		<property name="password" value="1234"/>
 	</bean>
