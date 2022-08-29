@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.guide.qna.mapper.ReplyMapper">
+	
+	<!-- qna 댓글 등록 기능 -->
+	<insert id="insertReplyBoard" parameterType="kr.co.guide.qna.domain.ReplyDTO">
+		INSERT INTO tbl_qna_reply( 	 qna_reply_no
+									,qna_reply_content
+									,qna_no
+									,member_id 
+								  )
+		
+		VALUES                    (  seq_qna_reply.NEXTVAL
+								    ,#{qna_reply_content}
+								    ,#{qna_no}
+								    ,#{member_id}
+								  )
+		<selectKey keyProperty="qna_reply_no" resultType="String" order="AFTER">
+			SELECT seq_qna_reply.currval 
+			FROM dual
+		</selectKey>
+	</insert>
+	
+	<!-- 해당 게시글의 모든 댓글 출력 -->
+	<select id="selectReplyList" parameterType="String" resultType="kr.co.guide.qna.domain.ReplyDTO">
+		SELECT   qna_reply_no
+				,qna_reply_content
+				,qna_reply_regist_date
+				,qna_no
+				,member_id 
+		
+		FROM     tbl_qna_reply
+		
+		WHERE    qna_no = #{qna_no}
+		
+		ORDER BY qna_reply_regist_date DESC
+	
+	</select>
+	
+	<!-- qna 댓글 상세글 -->
+	<select id="selectReplyInfo" parameterType="String" resultType="kr.co.guide.qna.domain.ReplyDTO">
+		
+		SELECT   qna_reply_no
+				,qna_reply_content
+				,qna_reply_regist_date
+				,qna_no
+				,member_id 
+		
+		FROM     tbl_qna_reply
+		
+		WHERE    qna_reply_no = #{qna_reply_no}
+		
+	</select>
+	
+	<!-- qna 댓글 수정 -->
+	<update id="updateReplyBoard" parameterType="kr.co.guide.qna.domain.ReplyDTO">
+		
+		UPDATE  tbl_qna_reply
+		
+		SET     qna_reply_content = #{qna_reply_content}
+			   ,member_id = #{member_id}
+			   
+		WHERE   qna_reply_no = #{qna_reply_no}
+	</update>
+	
+	<!-- qna 댓글 삭제 -->
+	<delete id="deleteReplyBoard" parameterType="String">
+		
+		DELETE   
+		
+		FROM    tbl_qna_reply
+		
+		WHERE   qna_reply_no = #{qna_reply_no}
+	
+	</delete>
+	
+	<delete id="deleteAllReplyBoard" parameterType="String">
+		
+		DELETE   
+		
+		FROM    tbl_qna_reply
+		
+		WHERE   qna_no = #{qna_no}
+	
+	</delete>
+	
+	
+</mapper>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.guide.admin.mapper.TourMGMapper">
+
+	<select id="read" resultType="kr.co.guide.admin.domain.TourDTO">
+		SELECT DISTINCT
+				tour_no,
+			    tour_title,
+			    tour_content,
+			    tour_zipcode,
+			    tour_address,
+			    tour_type,
+			    tour_image,
+			    tour_thumbnail,
+			    tour_category1,
+			    tour_category2,
+			    tour_category3,
+			    tour_mapx,
+			    tour_mapy,
+			    tour_maplevel,
+			    tour_homepage,
+			    tour_count,
+			    t.area_code,
+			    t.area_detail_code,
+			    
+			    area_name,
+			    area_detail_name
+		FROM tbl_tour t
+		JOIN tbl_area a
+		ON t.area_code = a.area_code
+		WHERE t.area_detail_code = a.area_detail_code 
+		AND tour_no = #{tour_no}
+	</select>
+
+	<!-- 관광지 검색 -->
+   	<sql id="criteria">
+	   	<if test="!(area_code == null or ''.equals(area_code))">
+  				AND t.area_code = #{area_code}
+  			</if>
+  			<if test="!(area_detail_code == null or ''.equals(area_detail_code))">
+  				AND t.area_detail_code = #{area_detail_code}
+  			</if>
+  			<if test="!(tour_type == null or ''.equals(tour_type))">
+  				AND tour_type = #{tour_type}
+  		</if> 
+	   	<trim prefix="AND (" suffix=")" prefixOverrides="OR" >
+			<foreach collection="typeArr" item="type">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							tour_title LIKE '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'A'.toString()">
+							tour_address LIKE '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+	 
+  	<select id="getListWithPaging" resultType="kr.co.guide.admin.domain.TourDTO">
+  	<![CDATA[
+		SELECT *
+		FROM (SELECT DISTINCT /*+ INDEX_ASC(tbl_tour PK_TBL_TOUR) */
+			    rownum rn,
+			    tour_no,
+			    tour_title,
+			    tour_content,
+			    tour_zipcode,
+			    tour_address,
+			    tour_type,
+			    tour_image,
+			    tour_thumbnail,
+			    tour_category1,
+			    tour_category2,
+			    tour_category3,
+			    tour_mapx,
+			    tour_mapy,
+			    tour_maplevel,
+			    tour_homepage,
+			    tour_count,
+			    t.area_code,
+			    t.area_detail_code,
+			    
+			    area_name,
+			    area_detail_name
+			    
+			    
+			FROM tbl_tour t
+			JOIN tbl_area a
+			ON t.area_code = a.area_code
+			WHERE t.area_detail_code = a.area_detail_code 
+		]]>
+  			<include refid="criteria"></include>
+		<![CDATA[
+			AND rownum <= #{pageNum} * #{amount})
+			WHERE rn > (#{pageNum} - 1) * #{amount}	
+		]]>
+  	</select>
+  	
+	<select id="getTotalCnt" resultType="int">
+  		SELECT COUNT(*)
+  		FROM tbl_tour t
+  		WHERE tour_no > 0
+  		<include refid="criteria"></include>
+  	</select> 
+  	
+  	
+  	<delete id="delete">
+  		DELETE FROM tbl_tour
+  		WHERE tour_no = #{tour_no}
+  	</delete>
+  	
+  	
+  	<select id="cateList" resultType="kr.co.guide.admin.domain.AreaDTO">
+  		SELECT area_code, area_detail_code, area_english_title, area_name, area_detail_name 
+  		FROM tbl_area
+		ORDER BY area_code, TO_NUMBER(area_detail_code)
+  	</select>
+  	
+
+</mapper>
+
+
+
+

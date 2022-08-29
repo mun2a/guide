@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security
+	 	http://www.springframework.org/schema/security/spring-security-4.2.xsd
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!-- 로그인시도시 들어가는 곳 -->
+	<bean id="CustomUserDetailsService" class="kr.co.guide.security.CustomUserDetailsService"/>
+	<bean id="CustomUserLoginFailHandler" class="kr.co.guide.security.CustomUserLoginFailHandler"/>
+	<bean id="CustomUserLoginSuccessHandler" class="kr.co.guide.security.CustomUserLoginSuccessHandler"/>
+	<bean id="CustomUserLoginAuthenticationProvider" class="kr.co.guide.security.CustomUserLoginAuthenticationProvider"/> 
+	
+	<bean id="BCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
+
+	<security:http auto-config="true" use-expressions="true">
+	
+		<!-- <security:intercept-url pattern="/gogo.co.kr" access="hasRole('ROLE_MEMBER')"/> -->
+		
+		<security:form-login  username-parameter="member_id"         
+							  password-parameter="member_password"
+							  login-page="/login"
+							  login-processing-url="/login"
+							  authentication-failure-handler-ref="CustomUserLoginFailHandler"
+							  authentication-success-handler-ref="CustomUserLoginSuccessHandler"/>
+		
+		<security:access-denied-handler error-page="/gogo.co.kr/dninePage"/>
+		
+		<security:logout  logout-url="/logout"
+						  logout-success-url="/"	
+						  invalidate-session="true"
+						  delete-cookies=""/>
+						 
+			
+	</security:http>
+	
+	<security:authentication-manager>
+		
+		<!-- AuthenticationProvider 커스터마이징 -->
+		<security:authentication-provider  ref="CustomUserLoginAuthenticationProvider"/>
+	   
+	</security:authentication-manager>
+	
+	
+	
+	
+
+</beans>
+
+	
+	
+
+

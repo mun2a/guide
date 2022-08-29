@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.guide.admin.mapper.AdminMGMapper">
+
+<resultMap type="kr.co.guide.admin.domain.MemberDTO" id="memberMap">
+	<id property="member_id" column="member_id" />
+	<result property="member_id" column="member_id" />
+	<result property="member_password" column="member_password" />
+	<result property="member_name" column="member_name" />
+	<result property="member_nickname" column="member_nickname" />
+	<result property="member_regist_date" column="member_regist_date" />
+	<result property="member_access_date" column="member_access_date" />
+	<result property="member_withdraw" column="member_withdraw" />
+	<result property="member_delete_date" column="member_delete_date" />
+	<result property="member_dormant" column="member_dormant" />
+	<result property="member_dormant_date" column="member_dormant_date" />
+	<result property="member_lock" column="member_lock" />
+	<collection property="authList" resultMap="memberAuthMap"></collection>
+</resultMap>
+
+<resultMap type="kr.co.guide.admin.domain.MemberAuthDTO" id="memberAuthMap">
+	<result property="member_id" column="member_id" />
+	<result property="member_authority" column="member_authority" />
+</resultMap>
+
+	<!-- 관리자 목록 -->
+	<select id="adminList" resultMap="memberMap">
+		SELECT *
+		FROM tbl_member m
+		join tbl_authority au
+		on m.member_id = au.member_id
+		WHERE au.member_authority = 'ROLE_ADMIN'
+	</select>
+
+	<!-- 관리자 권한 등록 -->
+	<insert id="insertAdminAuth" parameterType="String">
+		INSERT INTO tbl_authority 
+		VALUES (#{member_id}, 'ROLE_ADMIN')   
+	</insert>
+	
+	<!-- 관리자 이메일 확인 -->
+	<select id="confirmPK" resultType="int">
+		SELECT 
+		    count(*)
+		FROM tbl_member
+		WHERE member_id = #{member_id}
+	</select>
+	
+	<!-- 관리자 권한 삭제 -->
+	<delete id="deleteAdminAuth">
+		DELETE FROM tbl_authority
+		WHERE member_id = #{member_id}
+		AND member_authority = 'ROLE_ADMIN'
+	</delete>
+
+</mapper>
+
+
+

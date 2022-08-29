@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.guide.admin.mapper.QnaMGMapper">
+
+	<resultMap type="kr.co.guide.admin.domain.QnaDTO" id="qnaMap">
+ 		<id property="qna_no" column="qna_no"/>
+ 		<result property="qna_no" column="qna_no"/>
+ 		<result property="qna_title" column="qna_title"/>
+ 		<result property="qna_content" column="qna_content"/>
+ 		<result property="qna_regist_date" column="qna_regist_date"/>
+ 		<result property="qna_write" column="qna_write"/>
+ 		<result property="qna_write_name" column="qna_write_name"/>
+ 		<result property="qna_secret" column="qna_secret"/>
+ 		<result property="qna_password" column="qna_password"/>
+ 		<result property="qna_reply_exist" column="qna_reply_exist"/>
+ 		<collection property="replyList" resultMap="replyMap"/>
+ 	</resultMap>
+ 	
+ 	<resultMap type="kr.co.guide.admin.domain.QnaReplyDTO" id="replyMap">
+ 		<result property="qna_reply_no" column="qna_reply_no"/>
+ 		<result property="qna_reply_content" column="qna_reply_content"/>
+ 		<result property="qna_reply_regist_date" column="qna_reply_regist_date"/>
+ 		<result property="qna_no" column="qna_no"/>
+ 		<result property="member_id" column="member_id"/>
+ 	</resultMap>
+ 	
+ 	<!-- qna 검색 -->
+	<sql id="criteria">
+	   	<trim prefix="AND (" suffix=")" prefixOverrides="OR" >
+			<foreach collection="typeArr" item="type">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'Q'.toString()">
+							qna_no LIKE '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'T'.toString()">
+							qna_title LIKE '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'E'.toString()">
+							qna_write LIKE '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'N'.toString()">
+							qna_write_name LIKE '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>	
+ 	
+ 	<!-- 페이지 목록 -->
+ 	<select id="getListWithPaging" resultType="kr.co.guide.admin.domain.QnaDTO">
+  	<![CDATA[
+		SELECT *
+		FROM (SELECT DISTINCT /*+ INDEX_ASC(tbl_qna PK_TBL_QNA) */
+			    rownum rn,
+			    qna_no,
+				qna_title,
+				qna_content,
+				qna_regist_date,
+				qna_write,
+				qna_write_name,
+				qna_secret,
+				qna_password,
+				qna_reply_exist
+			FROM tbl_qna
+			WHERE rownum <= #{pageNum} * #{amount}
+		]]>
+  			<include refid="criteria"></include>
+		<![CDATA[
+			)
+			WHERE rn > (#{pageNum} - 1) * #{amount}	
+			ORDER BY qna_no desc
+		]]>
+  	</select>
+  	
+	<select id="getTotalCnt" resultType="int">
+  		SELECT COUNT(*)
+  		FROM tbl_qna
+  		WHERE qna_no > 0
+  		<include refid="criteria"></include>
+  	</select> 
+  	
+  	<!-- 상세 페이지 -->
+  	<select id="read" resultType="kr.co.guide.admin.domain.QnaDTO">
+  		SELECT * 
+  		FROM tbl_qna
+  		where qna_no = #{qna_no}
+  	</select>
+
+	<select id="readReply" resultType="kr.co.guide.admin.domain.QnaReplyDTO">
+		SELECT * 
+  		FROM tbl_qna_reply
+  		where qna_no = #{qna_no}
+	</select>
+
+
+
+</mapper>
+  

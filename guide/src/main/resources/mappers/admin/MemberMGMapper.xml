@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.guide.admin.mapper.MemberMGMapper">
+
+<resultMap type="kr.co.guide.admin.domain.MemberDTO" id="memberMap">
+	<id property="member_id" column="member_id" />
+	<result property="member_id" column="member_id" />
+	<result property="member_password" column="member_password" />
+	<result property="member_name" column="member_name" />
+	<result property="member_nickname" column="member_nickname" />
+	<result property="member_regist_date" column="member_regist_date" />
+	<result property="member_access_date" column="member_access_date" />
+	<result property="member_withdraw" column="member_withdraw" />
+	<result property="member_delete_date" column="member_delete_date" />
+	<result property="member_dormant" column="member_dormant" />
+	<result property="member_dormant_date" column="member_dormant_date" />
+	<result property="member_lock" column="member_lock" />
+	<collection property="authList" resultMap="memberAuthMap"></collection>
+</resultMap>
+
+<resultMap type="kr.co.guide.admin.domain.MemberAuthDTO" id="memberAuthMap">
+	<result property="member_id" column="member_id" />
+	<result property="member_authority" column="member_authority" />
+</resultMap>
+
+	<!-- 회원 검색 -->
+	<sql id="criteria">
+	   	<trim prefix="AND (" suffix=")" prefixOverrides="OR" >
+			<foreach collection="typeArr" item="type">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'E'.toString()">
+							member_id LIKE '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'N'.toString()">
+							member_name LIKE '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'I'.toString()">
+							member_nickname LIKE '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'L'.toString()">
+							member_lock LIKE '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+	
+	<!-- 탈퇴안한 회원 리스트 -->
+	<select id="getListWithdrawNPaging" resultMap="memberMap">
+	<![CDATA[
+		SELECT *
+		FROM (SELECT DISTINCT /*+ INDEX_ASC(tbl_member PK_TBL_MEMBER) */
+				rownum rn,
+			   	member_id,
+			    member_password,
+			    member_name,
+			    member_nickname,
+			    member_regist_date,
+			    member_access_date,
+			    member_withdraw,
+			    member_delete_date,
+			    member_dormant,
+			    member_dormant_date,
+			    member_lock
+			FROM tbl_member
+			WHERE member_withdraw = 'N'
+		]]>
+  			<include refid="criteria"></include>
+		<![CDATA[
+			AND rownum <= #{pageNum} * #{amount})
+			WHERE rn > (#{pageNum} - 1) * #{amount}	
+			ORDER BY member_id
+		]]>
+	</select>
+	
+	<select id="getWithdrawNCnt" resultType="int">
+  		SELECT COUNT(*)
+  		FROM tbl_member
+  		WHERE member_withdraw = 'N'
+  		<include refid="criteria"></include>
+  	</select>
+  	
+	
+	<update id="updateWithdrawY">
+		UPDATE tbl_member
+		SET member_withdraw = 'Y',
+			member_delete_date = sysdate
+		WHERE member_id = #{member_id}
+	</update>
+	
+	<!-- ● 회원정보 수정 페이지 -->
+	<select id="read" resultMap="memberMap">
+		SELECT 
+		    m.member_id,
+		    member_authority,
+		    member_password,
+		    member_name,
+		    member_nickname,
+		    member_regist_date,
+		    member_access_date,
+		    member_withdraw,
+		    member_delete_date,
+		    member_dormant,
+		    member_dormant_date,
+		    member_lock
+		FROM tbl_member m
+		JOIN tbl_authority au
+		ON m.member_id = au.member_id
+		WHERE m.member_id = #{member_id}
+	</select>
+	<select id="confirmNick"  parameterType="string" resultType="int">
+		SELECT 
+		    count(*)
+		FROM tbl_member
+		WHERE member_nickname = #{member_nickname}
+	</select>
+	<update id="update" parameterType="kr.co.guide.admin.domain.MemberDTO">
+		UPDATE tbl_member
+		SET 
+			<if test="!(''.equals(member_password))">
+				member_password = #{member_password},
+			</if>
+			member_nickname = #{member_nickname},
+			member_lock = #{member_lock}
+		WHERE member_id = #{member_id}
+	</update>
+
+	<!-- ● 탈퇴한 회원 관리 페이지 -->
+	<select id="getListWithdrawYPaging" resultType="kr.co.guide.admin.domain.MemberDTO">
+	<![CDATA[
+		SELECT *
+		FROM (SELECT DISTINCT /*+ INDEX_ASC(tbl_member PK_TBL_MEMBER) */
+				rownum rn,
+			   	member_id,
+			    member_password,
+			    member_name,
+			    member_nickname,
+			    member_regist_date,
+			    member_access_date,
+			    member_withdraw,
+			    member_delete_date,
+			    member_dormant,
+			    member_dormant_date,
+			    member_lock
+			FROM tbl_member
+			WHERE member_withdraw = 'Y'
+		]]>
+  			<include refid="criteria"></include>
+		<![CDATA[
+			AND rownum <= #{pageNum} * #{amount})
+			WHERE rn > (#{pageNum} - 1) * #{amount}	
+			ORDER BY member_id
+		]]>
+	</select>
+	
+	<select id="getWithdrawYCnt" resultType="int">
+  		SELECT COUNT(*)
+  		FROM tbl_member
+  		WHERE member_withdraw = 'Y'
+  		<include refid="criteria"></include>
+  	</select>
+	
+	<update id="updateWithdrawN">
+		UPDATE tbl_member
+		SET member_withdraw = 'N',
+			member_delete_date = null
+		WHERE member_id = #{member_id}
+	</update>
+
+	<delete id="delete">
+		DELETE FROM tbl_member
+  		WHERE member_id = #{member_id}
+	</delete>
+
+
+
+	<!-- ● 회원 권한 페이지 -->
+	<insert id="insertAuth" parameterType="kr.co.guide.admin.domain.MemberAuthDTO">
+		INSERT INTO tbl_authority
+		VALUES (#{member_id}, 'ROLE_ADMIN')
+	</insert>
+	
+	<delete id="deleteAuth">
+		DELETE FROM tbl_authority
+  		WHERE member_id = #{member_id}
+  		AND member_authority = 'ROLE_ADMIN'
+	</delete>
+	
+	
+	
+</mapper>
+
+

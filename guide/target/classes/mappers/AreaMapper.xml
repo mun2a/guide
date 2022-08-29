@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.guide.travel.mapper.AreaMapper">
+	
+	<select id="TourRead" parameterType="kr.co.guide.travel.domain.AreaDTO" resultType="kr.co.guide.travel.domain.TourDTO">
+		SELECT *
+		FROM tbl_tour
+		WHERE area_code = #{area_code}
+		AND area_detail_code = #{area_detail_code}
+	</select>
+	
+	<select id="selectAreaList" resultType="kr.co.guide.travel.domain.AreaDTO">
+		SELECT *
+		
+		FROM tbl_area
+		
+	</select>
+	
+	<select id="selectSearchAreaList" parameterType="String" resultType="kr.co.guide.travel.domain.AreaDTO">
+		SELECT *
+		
+		FROM tbl_area
+		
+		<if test="area_code != null">
+			<if test='!("".equals(area_code))'>
+			WHERE area_code = #{area_code} 
+			</if>
+		</if>
+		
+		<if test="area_name != null">
+		WHERE area_name LIKE '%'||#{area_name}||'%'
+		
+		OR    area_detail_name LIKE '%'||#{area_name}||'%'
+		
+		OR    UPPER(area_english_title) LIKE '%'||UPPER(#{area_name})||'%'
+		</if>
+	
+	</select>
+	
+	
+	
+</mapper>

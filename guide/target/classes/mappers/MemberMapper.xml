@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.guide.member.mapper.MemberMapper">
+	
+	<resultMap type="kr.co.guide.member.domain.MemberDTO" id="memberMap">
+ 		<id property="member_id" column="member_id"/>
+ 		<result property="member_id" column="member_id"/>
+ 		<result property="member_password" column="member_password"/>
+ 		<result property="member_name" column="member_name"/>
+ 		<result property="member_nickname" column="member_nickname"/>
+ 		<result property="member_regist_date" column="member_regist_date"/>
+ 		<result property="member_access_date" column="member_access_date"/>
+ 		<result property="member_withdraw" column="member_withdraw"/>
+ 		<result property="member_delete_date" column="member_delete_date"/>
+ 		<result property="member_dormant" column="member_dormant"/>
+ 		<result property="member_dormant_date" column="member_dormant_date"/>
+ 		<result property="member_withdraw" column="member_withdraw"/>
+ 		<result property="member_lock" column="member_lock"/>
+ 		<collection property="authList" resultMap="authMap"/>
+ 	</resultMap>
+ 	
+ 	<resultMap type="kr.co.guide.member.domain.AuthorityDTO" id="authMap">
+ 		<result property="member_id" column="member_id"/>
+ 		<result property="member_authority" column="member_authority"/>
+ 	</resultMap>
+ 	
+ 	<!-- 해당 회원정보 출력 -->
+	<select id="selectMemberInfo" parameterType="String" resultMap="memberMap">
+	
+		SELECT   member.member_id              
+				,member.member_password          
+				,member.member_name            
+				,member.member_nickname        
+				,member.member_regist_date     
+				,member.member_access_date     
+				,member.member_withdraw        
+				,member.member_delete_date     
+				,member.member_dormant        
+				,member.member_dormant_date    
+				,member.member_lock            
+			    ,authority.member_authority
+		
+		FROM     tbl_member member
+ 	            ,tbl_authority authority
+ 	   
+ 	    WHERE    member.member_id = authority.member_id
+		
+		AND      member.member_id = #{member_id}	   
+	
+	</select>
+	
+	<!-- 회원등록 쿼리 -->
+	<insert id="insertMemberInfo" parameterType="kr.co.guide.member.domain.MemberDTO">
+		
+		INSERT INTO tbl_member  (    member_id              
+									,member_password          
+									,member_name            
+									,member_nickname        
+					 			)
+		
+		VALUES                  (    #{member_id}
+									,#{member_password}
+									,#{member_name}
+									,#{member_nickname}
+					               
+				                 )   
+	</insert>
+	
+	
+	<!-- 일반회원 권한 등록 쿼리 -->
+	<insert id="insertMemberAuthority" parameterType="String">
+		INSERT INTO tbl_authority (   member_id
+					                 ,member_authority
+					               )
+		
+		VALUES 					  (   #{member_id}
+		                             ,'ROLE_MEMBER'
+			                       )   
+	</insert>
+	
+	<!-- 관리자 권한 등록 쿼리 -->
+	<insert id="insertAdminAuthority" parameterType="String">
+		INSERT INTO tbl_authority   (  member_id
+					  				  ,member_authority
+									 )
+		
+		VALUES 						(  #{member_id}
+		            				  ,'ROLE_ADMIN'
+			   						 )   
+	</insert>
+	
+	<!-- 로그인시 해당회원 접속일자 최신화 -->
+	<update id="updateMemberAccessDate" parameterType="String">
+	
+		UPDATE tbl_member
+		
+		SET    member_access_date = sysdate
+		
+		WHERE  member_id = #{member_id}
+	
+	</update>	
+	
+	<!-- 회원 정보 체크(비밀번호찾기, 회원정보 수정창 접근 직전 페이지) -->
+	<select id="selectMemberCheck" parameterType="kr.co.guide.member.domain.MemberDTO" resultType="String">
+		SELECT member_id
+		
+		FROM   tbl_member
+		
+		WHERE  member_id =#{member_id}
+		
+		AND    member_withdraw = 'N'
+		
+		<if test="member_password != null">
+		AND    member_password = #{member_password}
+		</if>
+		
+		<if test="member_name != null">
+		AND    member_name = #{member_name}
+		</if>
+	
+	</select>
+	
+	<!-- 회원가입시 중복체크(아이디(이메일) / 닉네임) -->
+	<select id="selectDuplicateCheck" parameterType="kr.co.guide.member.domain.MemberDTO" resultType="String">
+		SELECT member_id
+		
+		FROM   tbl_member
+		
+		<if test="member_id != null">
+		WHERE  member_id = #{member_id}
+		</if>
+		
+		<if test="member_nickname != null">
+		WHERE  member_nickname = #{member_nickname}
+		</if>
+	</select>
+	
+	<!-- 회원 정보 수정 -->
+	<update id="updateMemberInfo" parameterType="kr.co.guide.member.domain.MemberDTO">
+		UPDATE  tbl_member
+		
+		SET     <if test="member_nickname != null">
+				member_nickname = #{member_nickname}
+				</if>
+		  		  <if test="!(''.equals(member_password))">
+				,member_password = #{member_password}
+				</if>
+				
+		WHERE   member_id = #{member_id}
+	
+	</update>
+	
+	<!-- 회원 임시 비밀번호 전송 -->
+	<update id="updateMemberPassword" parameterType="kr.co.guide.member.domain.MemberDTO">
+		
+		UPDATE  tbl_member
+		
+		SET     member_password = #{member_password}
+		
+		WHERE   member_id = #{member_id}
+	
+	</update>
+	
+	<!-- 회원탈퇴 컬럼명 바꾸기 -->
+	<update id="updateMemberDelete" parameterType="kr.co.guide.member.domain.MemberDTO">
+	
+		UPDATE  tbl_member
+		
+		SET     member_withdraw = 'Y'
+		
+		WHERE   member_id = #{member_id}
+	
+	</update>
+</mapper>

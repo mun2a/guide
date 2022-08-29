@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.guide.qna.mapper.QnaMapper">
+	
+	<resultMap type="kr.co.guide.qna.domain.QnaDTO" id="qnaMap">
+ 		<id property="qna_no" column="qna_no"/>
+ 		<result property="qna_no" column="qna_no"/>
+ 		<result property="qna_title" column="qna_title"/>
+ 		<result property="qna_content" column="qna_content"/>
+ 		<result property="qna_regist_date" column="qna_regist_date"/>
+ 		<result property="qna_write" column="qna_write"/>
+ 		<result property="qna_write_name" column="qna_write_name"/>
+ 		<result property="qna_secret" column="qna_secret"/>
+ 		<result property="qna_password" column="qna_password"/>
+ 		<collection property="replyList" resultMap="replyMap"/>
+ 	</resultMap>
+ 	
+ 	<resultMap type="kr.co.guide.qna.domain.ReplyDTO" id="replyMap">
+ 		<result property="qna_reply_no" column="qna_reply_no"/>
+ 		<result property="qna_reply_content" column="qna_reply_content"/>
+ 		<result property="qna_reply_regist_date" column="qna_reply_regist_date"/>
+ 		<result property="qna_no" column="qna_no"/>
+ 		<result property="member_id" column="member_id"/>
+ 	</resultMap>
+ 	
+ 	<!-- QNA 게시판 글 등록 -->
+ 	<insert id="insertQnaBoard" parameterType="kr.co.guide.qna.domain.QnaDTO">
+ 	
+ 		INSERT INTO tbl_qna(	 qna_no
+ 								,qna_title
+ 								,qna_content
+ 								,qna_regist_date
+ 								,qna_write
+ 								,qna_write_name
+ 								,qna_secret
+ 								<if test='"Y".equals(qna_secret)'>
+ 								,qna_password
+ 								</if>
+ 							)
+ 		
+ 		VALUES				(	 seq_qna.NEXTVAL
+ 								,#{qna_title}
+ 								,#{qna_content}
+ 								,SYSDATE
+ 								,#{qna_write}
+ 								,#{qna_write_name}
+ 								,#{qna_secret}
+ 								<if test='"Y".equals(qna_secret)'>
+ 								,#{qna_password}
+ 								</if>
+ 							)
+ 	
+ 	</insert>
+ 	
+ 		<!-- 모든 QNA 게시글 출력 -->
+ 	<select id="selectQnaList" resultType="kr.co.guide.qna.domain.QnaDTO">
+ 		SELECT   rn
+ 				,qna_no
+ 				,qna_title
+ 				,qna_content
+ 				,qna_regist_date
+ 				,qna_write
+ 				,qna_write_name
+ 				,qna_secret
+ 				,qna_password
+ 				,qna_reply_exist
+ 				
+ 		
+ 		FROM  (SELECT    rownum rn
+ 						,qna_no
+ 						,qna_title
+ 						,qna_content
+ 						,qna_regist_date
+ 						,qna_write
+ 						,qna_write_name
+ 						,qna_secret
+ 						,qna_password
+ 						,qna_reply_exist
+ 				
+ 		
+ 				FROM    ( SELECT     qna_no
+ 									,qna_title
+ 									,qna_content
+ 									,qna_regist_date
+ 									,qna_write
+ 									,qna_write_name
+ 									,qna_secret
+ 									,qna_password
+ 									,qna_reply_exist
+ 				
+ 		
+ 				  		FROM       tbl_qna  
+ 				  
+ 				  		ORDER BY   qna_no ASC
+ 				))
+ 		
+ 		<![CDATA[
+		WHERE     rn > #{total} -  ((#{criteria.pageNum}) * #{criteria.amount})
+
+		AND 	rn <= #{total} -  ((#{criteria.pageNum} - 1) * #{criteria.amount})
+		]]>
+		ORDER BY rn DESC
+ 	</select>
+ 	
+ 	<select id="countQnaBoard" resultType="int">
+ 		SELECT COUNT(qna_no)
+ 		
+ 		FROM   tbl_qna
+ 	
+ 	</select>
+ 	
+ 	
+ 	
+ 	<!-- 임시 보관중-->
+ 	<select id="selectQnaListss" resultMap="qnaMap">
+ 		SELECT   qna.qna_no
+ 				,qna.qna_title
+ 				,qna.qna_content
+ 				,qna.qna_regist_date
+ 				,qna.qna_write
+ 				,qna.qna_write_name
+ 				,qna.qna_secret
+ 				,qna.qna_password
+ 				,reply.qna_reply_no
+ 				,reply.qna_reply_content
+ 				,reply.qna_reply_regist_date
+ 				,reply.member_id
+ 		
+ 		FROM     tbl_qna qna
+ 			    ,tbl_qna_reply reply
+ 			    
+ 		WHERE    qna.qna_no = reply.qna_no
+ 	
+ 	</select>
+ 	
+ 	<!-- 상세 QNA 게시판 출력 -->
+ 	<select id="selectQnaInfo" parameterType="String" resultType="kr.co.guide.qna.domain.QnaDTO">
+ 		SELECT	 qna_no
+ 				,qna_title
+ 				,qna_content
+ 				,qna_regist_date
+ 				,qna_write
+ 				,qna_write_name
+ 				,qna_secret
+ 				,qna_password
+ 				
+ 		FROM     tbl_qna
+ 		
+ 		WHERE    qna_no = #{qna_no}
+ 	
+ 	</select>
+ 	
+ 	<!-- QNA 게시글 수정 -->
+ 	<update id="updateQnaBoard" parameterType="kr.co.guide.qna.domain.QnaDTO">
+ 		UPDATE  tbl_qna
+ 		
+ 		SET      qna_title = #{qna_title}
+ 				,qna_content = #{qna_content}
+ 				
+ 		WHERE    qna_no = #{qna_no}
+ 	
+ 	</update>
+ 	
+ 	<!-- QNA 게시글 삭제 -->
+ 	<delete id="deleteQnaBoard" parameterType="String">
+ 		DELETE  
+ 		
+ 		FROM    tbl_qna
+ 		
+ 		WHERE   qna_no = #{qna_no}
+ 	</delete>
+ 	
+ 	<!-- QNA 댓글 존재 여부 변경 -->
+ 	<update id="updateQnaExist" parameterType="kr.co.guide.qna.domain.QnaDTO">
+ 		UPDATE   tbl_qna
+ 		
+ 		SET      qna_reply_exist = #{qna_reply_exist}
+ 		
+ 		WHERE    qna_no = #{qna_no}
+ 	</update>
+ 	
+ 	<!-- QNA 비밀글 비밀번호 일치 여부확인 -->
+	<select id="selectQnaPasswordCheck" parameterType="kr.co.guide.qna.domain.QnaDTO" resultType="kr.co.guide.qna.domain.QnaDTO">
+		SELECT  qna_no
+		
+		FROM    tbl_qna
+		
+		WHERE   qna_no = #{qna_no}
+		
+		AND     qna_password = #{qna_password}
+	
+	</select> 	
+</mapper>
