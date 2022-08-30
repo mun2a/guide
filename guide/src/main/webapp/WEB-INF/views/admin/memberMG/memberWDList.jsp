@@ -191,11 +191,13 @@ label {
 		e.preventDefault();
 		var pk = $(this).attr("href");
 		
-		actionForm.append("<input type='hidden' name='member_id' value='" + pk + "'>");
-		actionForm.attr("action", "${contextPath}/admin/memberMG/memberRemove");
-		actionForm.submit();
-		alert("회원 정보가 삭제되었습니다. : " + pk);
-	
+		if (confirm("회원 정보를 삭제 하시겠습니까? : " + pk)) {
+			actionForm.append("<input type='hidden' name='member_id' value='" + pk + "'>");
+			actionForm.attr("action", "${contextPath}/admin/memberMG/memberRemove");
+			actionForm.submit();
+			alert("회원 정보가 삭제되었습니다. : " + pk);
+		}  
+		
 	});
 	
 	$(".paginate_button a").on("click", function(e) {

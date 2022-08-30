@@ -47,7 +47,7 @@
 	            </div>
 	              
 	              <hr class="my-4">
-	              <div class="d-grid mb-2">
+<!-- 	              <div class="d-grid mb-2">
 	                <button class="btn btn-danger text-uppercase fw-bold" type="submit" style="background-color: red;">
 	                  <i class="bi bi-google btn-google"></i> 구글 로그인
 	                  
@@ -57,7 +57,7 @@
 	                <button class="btn btn-primary text-uppercase fw-bold" type="submit" style="background-color: blue;">
 	                  <i class="bi bi-facebook"></i> 페이스북 로그인
 	                </button>
-	              </div>
+	              </div> -->
 	          </div>
 	        </div>
 	      </div>
