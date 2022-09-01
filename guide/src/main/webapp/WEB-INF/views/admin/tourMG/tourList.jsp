@@ -61,7 +61,8 @@ label {
 							</select>
 							
 							<input type="search" name="keyword" placeholder="Search" value="${pageMaker.cri.keyword}" class="form-control form-control-sm" placeholder="" aria-controls="dataTable" style="width: 29%;">
-							<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">  
+							<%-- <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">   --%>
+							<input type="hidden" name="pageNum" value="1">  <!-- 검색시 1페이지 -->
                             <input type="hidden" name="amount" value="${pageMaker.cri.amount}"> 
 							<button class="btn btn-default" id="searchBtn"><i class="fa fa-search"></i>검색</button>
 							</label>

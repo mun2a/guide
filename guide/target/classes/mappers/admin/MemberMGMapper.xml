@@ -50,7 +50,7 @@
 	</sql>
 	
 	<!-- 탈퇴안한 회원 리스트 -->
-	<select id="getListWithdrawNPaging" resultMap="memberMap">
+ 	<select id="getListWithdrawNPaging" resultType="kr.co.guide.admin.domain.MemberDTO">
 	<![CDATA[
 		SELECT *
 		FROM (SELECT DISTINCT /*+ INDEX_ASC(tbl_member PK_TBL_MEMBER) */
@@ -66,7 +66,7 @@
 			    member_dormant,
 			    member_dormant_date,
 			    member_lock
-			FROM tbl_member
+			FROM tbl_member m
 			WHERE member_withdraw = 'N'
 		]]>
   			<include refid="criteria"></include>
@@ -75,7 +75,8 @@
 			WHERE rn > (#{pageNum} - 1) * #{amount}	
 			ORDER BY member_id
 		]]>
-	</select>
+	</select> 
+	
 	
 	<select id="getWithdrawNCnt" resultType="int">
   		SELECT COUNT(*)

@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import kr.co.guide.admin.domain.Criteria;
+import kr.co.guide.admin.domain.MemberCriteria;
 import kr.co.guide.admin.domain.MemberDTO;
-import kr.co.guide.admin.domain.PageDTO;
+import kr.co.guide.admin.domain.MemberPageDTO;
 import kr.co.guide.admin.service.IMemberMGService;
 import lombok.extern.log4j.Log4j;
 
@@ -29,30 +29,32 @@ public class MemberMGController {
 	/* ● 회원 목록 페이지 */
 	//회원목록
 	@RequestMapping(value = "/memberList", method = RequestMethod.GET)
-	public void memberPage(Criteria cri, Model model) throws Exception {
+	public void memberPage(MemberCriteria cri, Model model) throws Exception {
 		log.info("memberPage..............");	
 		
-		model.addAttribute("memberMGList", service.listPaging(cri));
+		model.addAttribute("memberMGList", service.getListWithdrawNPaging(cri));
 		
-		int total = service.getTotalCnt(cri);
+		int total = service.getWithdrawNCnt(cri);
 		log.info("total : " + total);
 		
-		model.addAttribute("pageMaker", new PageDTO(cri, total));
+		model.addAttribute("pageMaker", new MemberPageDTO(cri, total));
 		
 	}
 	
-	@RequestMapping(value = "/memberList", method = RequestMethod.POST)
-	public void memberPagePost(Criteria cri, Model model) throws Exception {
-		log.info("memberPage.....Post.........");	
-		
-		model.addAttribute("memberMGList", service.listPaging(cri));
-		
-		int total = service.getTotalCnt(cri);
-		log.info("total : " + total);
-		
-		model.addAttribute("pageMaker", new PageDTO(cri, total));
-		
-	}
+	
+	
+//	@RequestMapping(value = "/memberList", method = RequestMethod.POST)
+//	public void memberPagePost(MemberCriteria cri, Model model) throws Exception {
+//		log.info("memberPage.....Post.........");	
+//		
+//		model.addAttribute("memberMGList", service.listPaging(cri));
+//		
+//		int total = service.getTotalCnt(cri);
+//		log.info("total : " + total);
+//		
+//		model.addAttribute("pageMaker", new MemberPageDTO(cri, total));
+//		
+//	}
 	
 	//회원탈퇴
 	@RequestMapping(value = "/memberWD", method = RequestMethod.POST)		
@@ -104,7 +106,7 @@ public class MemberMGController {
 	/* ● 탈퇴한 회원 관리 페이지 */
 	//탈퇴 회원목록
 	@RequestMapping(value = "/memberWDList", method = RequestMethod.GET)
-	public void memberWD(Criteria cri, Model model) throws Exception {
+	public void memberWD(MemberCriteria cri, Model model) throws Exception {
 		log.info("memberWDList..............");	
 		
 		model.addAttribute("memberMGList", service.listWithdrawPaging(cri));
@@ -112,21 +114,21 @@ public class MemberMGController {
 		int total = service.getWithdrawCnt(cri);
 		log.info("total : " + total);
 		
-		model.addAttribute("pageMaker", new PageDTO(cri, total));
+		model.addAttribute("pageMaker", new MemberPageDTO(cri, total));
 		
 	}
-	@RequestMapping(value = "/memberWDList", method = RequestMethod.POST)
-	public void memberWDPost(Criteria cri, Model model) throws Exception {
-		log.info("memberWDList.......Post.......");	
-		
-		model.addAttribute("memberMGList", service.listWithdrawPaging(cri));
-		
-		int total = service.getWithdrawCnt(cri);
-		log.info("total : " + total);
-		
-		model.addAttribute("pageMaker", new PageDTO(cri, total));
-		
-	}
+//	@RequestMapping(value = "/memberWDList", method = RequestMethod.POST)
+//	public void memberWDPost(MemberCriteria cri, Model model) throws Exception {
+//		log.info("memberWDList.......Post.......");	
+//		
+//		model.addAttribute("memberMGList", service.listWithdrawPaging(cri));
+//		
+//		int total = service.getWithdrawCnt(cri);
+//		log.info("total : " + total);
+//		
+//		model.addAttribute("pageMaker", new MemberPageDTO(cri, total));
+//		
+//	}
 	
 	//회원 탈퇴 취소
 	@RequestMapping(value = "/memberWDCancle", method = RequestMethod.POST)		

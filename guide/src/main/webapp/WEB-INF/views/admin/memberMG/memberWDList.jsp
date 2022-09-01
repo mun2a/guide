@@ -150,12 +150,14 @@ label {
                             </div>
                             
                             
-                            <form id="actionForm" action="${contextPath}/admin/memberMG/memberWDList" method="post">
-                            	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                            <form id="actionForm" action="${contextPath}/admin/memberMG/memberWDList" method="get">
+                            	<%-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> --%>
                             	<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
                             	<input type="hidden" name="amount" value="${pageMaker.cri.amount }">
                             	<input type="hidden" name="type" value="${pageMaker.cri.type }">
                             	<input type="hidden" name="keyword" value="${pageMaker.cri.keyword }">
+                            	
+                            	<input type="hidden" name="member_id" value="${pageMaker.cri.member_id }">
                             </form>
                                 
                                 
@@ -191,11 +193,13 @@ label {
 		e.preventDefault();
 		var pk = $(this).attr("href");
 		
-		actionForm.append("<input type='hidden' name='member_id' value='" + pk + "'>");
-		actionForm.attr("action", "${contextPath}/admin/memberMG/memberRemove");
-		actionForm.submit();
-		alert("회원 정보가 삭제되었습니다. : " + pk);
-	
+		if (confirm("회원 정보를 삭제 하시겠습니까? : " + pk)) {
+			actionForm.append("<input type='hidden' name='member_id' value='" + pk + "'>");
+			actionForm.attr("action", "${contextPath}/admin/memberMG/memberRemove");
+			actionForm.submit();
+			alert("회원 정보가 삭제되었습니다. : " + pk);
+		}  
+		
 	});
 	
 	$(".paginate_button a").on("click", function(e) {

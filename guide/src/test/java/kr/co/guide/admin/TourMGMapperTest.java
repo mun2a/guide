@@ -22,11 +22,11 @@ public class TourMGMapperTest {
 	@Autowired
 	private TourMGMapper mapper;
 	
-	@Test
-	public void testRead() throws Exception{
-		String tour_no = "125266";
-		mapper.read(tour_no);
-	}
+//	@Test
+//	public void testRead() throws Exception{
+//		String tour_no = "125266";
+//		mapper.read(tour_no);
+//	}
 	
 //	@Test
 //	public void testRead() throws Exception{

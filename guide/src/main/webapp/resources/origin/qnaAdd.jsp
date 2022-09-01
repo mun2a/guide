@@ -51,7 +51,9 @@
 								     <div class="form-group row mb-3">
 								      <label for="board_title" class="col-sm-2 col-form-label fw-bolder">비밀번호</label>
 								      <div class="col-sm-10">
-								        <input type="text"  class="form-control w-25 bg-white" id="qna_password" name="qna_password" maxlength="4">
+								        <input type="password"  class="form-control w-25 bg-white" id="qna_password" name="qna_password" maxlength="4">
+								        <label for="qna_password">비밀번호(문자,숫자 조합 8~15자)</label>
+										<span class="fs-6 text-danger" id="span-qna-password">　</span>
 								      </div>
 								    </div>
 								    
@@ -70,7 +72,34 @@
 	
 <%-- 바디 끝 --%>
 
+<script type="text/javascript">
+$(document).ready(function(){
 	
+	var reg_password = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,15}$/;	
+	
+	<%-- 비밀번호 유효성 blur처리 --%>
+	$("#qna_password").on("blur",function(){
+		var qna_password = $("#qna_password").val();
+		
+		if(qna_password == "") {
+			$("#span-qna-password").html("비밀번호를 입력해주세요.");
+			$("#qna_password").addClass("is-invalid");
+		} else if (reg_blank.test(qna_password)){
+			$("#span-qna-password").html("공백이 존재합니다.");
+			$("#qna_password").addClass("is-invalid");
+		} else if (!reg_password.test(qna_password) || reg_sc.test(qna_password)){
+			$("#span-qna-password").html("비밀번호는 영어 숫자 조합 8~15자 입니다.");
+			$("#qna_password").addClass("is-invalid");
+		} else if (reg_password.test(qna_password)){
+			$("#span-qna-password").html("　");
+			$("#qna_password").removeClass("is-invalid");
+			$("#qna_password").addClass("is-valid");
+		} 
+		
+	})
+	
+})
+</script>
 	
 </body>
 </html>
