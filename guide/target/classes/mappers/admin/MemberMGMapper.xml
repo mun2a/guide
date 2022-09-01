@@ -55,7 +55,7 @@
 		SELECT *
 		FROM (SELECT DISTINCT /*+ INDEX_ASC(tbl_member PK_TBL_MEMBER) */
 				rownum rn,
-			   	member_id,
+			   	m.member_id,
 			    member_password,
 			    member_name,
 			    member_nickname,
@@ -65,11 +65,14 @@
 			    member_delete_date,
 			    member_dormant,
 			    member_dormant_date,
-			    member_lock
-			FROM tbl_member
+			    member_lock,
+			    member_authority
+			FROM tbl_member m 
+			JOIN tbl_authority au 
+			ON m.member_id = au.member_id
 			WHERE member_withdraw = 'N'
 		]]>
-  			<include refid="criteria"></include>
+  			<!-- <include refid="criteria"></include> -->
 		<![CDATA[
 			AND rownum <= #{pageNum} * #{amount})
 			WHERE rn > (#{pageNum} - 1) * #{amount}	

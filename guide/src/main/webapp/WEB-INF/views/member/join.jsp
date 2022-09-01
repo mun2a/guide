@@ -33,7 +33,7 @@
 							</div>
 							<div class="form-floating mb-2">
 								<input type="password" class="form-control" id="member_password" name="member_password" placeholder="text" maxlength="20"> 
-								<label for="member_password">비밀번호(문자,숫자 조합 8~15자)</label>
+								<label for="member_password">비밀번호(영어,숫자 조합 8~15자)</label>
 								<span class="fs-6 text-danger" id="span-member-password">　</span>
 							</div>
 							<div class="form-floating mb-2">

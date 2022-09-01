@@ -1,5 +1,7 @@
 package kr.co.guide.admin;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import kr.co.guide.DataSourceTest;
-import kr.co.guide.admin.domain.TourCriteria;
-import kr.co.guide.admin.domain.Criteria;
+import kr.co.guide.admin.domain.MemberCriteria;
 import kr.co.guide.admin.domain.MemberAuthDTO;
 import kr.co.guide.admin.domain.MemberDTO;
 import kr.co.guide.admin.mapper.MemberMGMapper;
@@ -67,7 +68,7 @@ public class MemberMGMapperTest {
 //	@Test
 //	public void testList() throws Exception{
 //		
-//		Criteria cri = new Criteria();
+//		MemberCriteria cri = new MemberCriteria();
 //		
 //		cri.setPageNum(1);
 //		cri.setAmount(20);
@@ -78,9 +79,9 @@ public class MemberMGMapperTest {
 //	@Test
 //	public void testTotal() throws Exception{
 //		
-//		Criteria cri = new Criteria();
+//		MemberCriteria cri = new MemberCriteria();
 //		
-//		mapper.getTotalCnt(cri);
+//		mapper.getWithdrawNCnt(cri);
 //	}
 	
 //	@Test
@@ -117,7 +118,7 @@ public class MemberMGMapperTest {
 	
 //	@Test
 //	public void testGetListWithdrawNPaging() throws Exception {
-//		Criteria cri = new Criteria();
+//		MemberCriteria cri = new MemberCriteria();
 //		
 //		 mapper.getListWithdrawNPaging(cri);
 //		
@@ -126,10 +127,36 @@ public class MemberMGMapperTest {
 //	@Test
 //	public void testTotalCnt() throws Exception {
 //		
-//		Criteria cri = new Criteria();
+//		MemberCriteria cri = new MemberCriteria();
 //		
 //		System.out.println(mapper.getTotalCnt(cri));
 //	}
+	
+//	@Test
+//	public void testgetWithdrawNCnt() throws Exception {
+//		
+//		MemberCriteria cri = new MemberCriteria();
+//		
+//		System.out.println(mapper.getWithdrawNCnt(cri));
+//	}
+	
+	@Test
+	public void testListCriteria() throws Exception {
+		MemberCriteria cri = new MemberCriteria();
+		List<MemberDTO> result;
+		
+		cri.setPageNum(1);
+		cri.setAmount(20);
+		
+		result = mapper.getListWithdrawNPaging(cri);
+		
+		System.out.println(mapper.getWithdrawNCnt(cri));
+		System.out.println(result);
+		System.out.println("-----------------------------------------------------------------");
+		
+	}
+
+	
 	
 	
 }
