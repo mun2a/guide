@@ -50,12 +50,12 @@
 	</sql>
 	
 	<!-- 탈퇴안한 회원 리스트 -->
-	<select id="getListWithdrawNPaging" resultMap="memberMap">
+ 	<select id="getListWithdrawNPaging" resultType="kr.co.guide.admin.domain.MemberDTO">
 	<![CDATA[
 		SELECT *
 		FROM (SELECT DISTINCT /*+ INDEX_ASC(tbl_member PK_TBL_MEMBER) */
 				rownum rn,
-			   	m.member_id,
+			   	member_id,
 			    member_password,
 			    member_name,
 			    member_nickname,
@@ -65,20 +65,18 @@
 			    member_delete_date,
 			    member_dormant,
 			    member_dormant_date,
-			    member_lock,
-			    member_authority
-			FROM tbl_member m 
-			JOIN tbl_authority au 
-			ON m.member_id = au.member_id
+			    member_lock
+			FROM tbl_member m
 			WHERE member_withdraw = 'N'
 		]]>
-  			<!-- <include refid="criteria"></include> -->
+  			<include refid="criteria"></include>
 		<![CDATA[
 			AND rownum <= #{pageNum} * #{amount})
 			WHERE rn > (#{pageNum} - 1) * #{amount}	
 			ORDER BY member_id
 		]]>
-	</select>
+	</select> 
+	
 	
 	<select id="getWithdrawNCnt" resultType="int">
   		SELECT COUNT(*)
