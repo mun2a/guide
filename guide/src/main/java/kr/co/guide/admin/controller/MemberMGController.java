@@ -28,7 +28,7 @@ public class MemberMGController {
 
 	/* ● 회원 목록 페이지 */
 	//회원목록
-	@RequestMapping(value = "/memberList", method = RequestMethod.GET)
+	@RequestMapping(value = "/memberList", method = RequestMethod.POST)
 	public void memberPage(MemberCriteria cri, Model model) throws Exception {
 		log.info("memberPage..............");	
 		
@@ -40,21 +40,20 @@ public class MemberMGController {
 		model.addAttribute("pageMaker", new MemberPageDTO(cri, total));
 		
 	}
+	@RequestMapping(value = "/memberList", method = RequestMethod.GET)
+	public void memberPageGet(MemberCriteria cri, Model model) throws Exception {
+		log.info("memberPage.............get.");	
+		
+		model.addAttribute("memberMGList", service.getListWithdrawNPaging(cri));
+		
+		int total = service.getWithdrawNCnt(cri);
+		log.info("total : " + total);
+		
+		model.addAttribute("pageMaker", new MemberPageDTO(cri, total));
+		
+	}
 	
 	
-	
-//	@RequestMapping(value = "/memberList", method = RequestMethod.POST)
-//	public void memberPagePost(MemberCriteria cri, Model model) throws Exception {
-//		log.info("memberPage.....Post.........");	
-//		
-//		model.addAttribute("memberMGList", service.listPaging(cri));
-//		
-//		int total = service.getTotalCnt(cri);
-//		log.info("total : " + total);
-//		
-//		model.addAttribute("pageMaker", new MemberPageDTO(cri, total));
-//		
-//	}
 	
 	//회원탈퇴
 	@RequestMapping(value = "/memberWD", method = RequestMethod.POST)		
@@ -105,7 +104,7 @@ public class MemberMGController {
 	
 	/* ● 탈퇴한 회원 관리 페이지 */
 	//탈퇴 회원목록
-	@RequestMapping(value = "/memberWDList", method = RequestMethod.GET)
+	@RequestMapping(value = "/memberWDList", method = RequestMethod.POST)
 	public void memberWD(MemberCriteria cri, Model model) throws Exception {
 		log.info("memberWDList..............");	
 		
@@ -117,18 +116,18 @@ public class MemberMGController {
 		model.addAttribute("pageMaker", new MemberPageDTO(cri, total));
 		
 	}
-//	@RequestMapping(value = "/memberWDList", method = RequestMethod.POST)
-//	public void memberWDPost(MemberCriteria cri, Model model) throws Exception {
-//		log.info("memberWDList.......Post.......");	
-//		
-//		model.addAttribute("memberMGList", service.listWithdrawPaging(cri));
-//		
-//		int total = service.getWithdrawCnt(cri);
-//		log.info("total : " + total);
-//		
-//		model.addAttribute("pageMaker", new MemberPageDTO(cri, total));
-//		
-//	}
+	@RequestMapping(value = "/memberWDList", method = RequestMethod.GET)
+	public void memberWDGet(MemberCriteria cri, Model model) throws Exception {
+		log.info("memberWDList.............get.");	
+		
+		model.addAttribute("memberMGList", service.listWithdrawPaging(cri));
+		
+		int total = service.getWithdrawCnt(cri);
+		log.info("total : " + total);
+		
+		model.addAttribute("pageMaker", new MemberPageDTO(cri, total));
+		
+	}
 	
 	//회원 탈퇴 취소
 	@RequestMapping(value = "/memberWDCancle", method = RequestMethod.POST)		

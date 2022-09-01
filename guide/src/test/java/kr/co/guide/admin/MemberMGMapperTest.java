@@ -31,15 +31,16 @@ public class MemberMGMapperTest {
 	@Setter(onMethod_ = @Autowired)
 	private PasswordEncoder passwordEncoder;
 	
-//	@Test
-//	public void testRead() throws Exception{
-//		String member_id = "user3@naver.com";
-//		MemberDTO mDto = new MemberDTO();
-//		mDto = mapper.read(member_id);
-//		
-//		System.out.println("======================================================================");
-//		System.out.println(mDto.getAuthList());
-//	}
+	@Test
+	public void testRead() throws Exception{
+		String member_id = "admin@naver.com";
+		MemberDTO mDto = new MemberDTO();
+		mDto = mapper.read(member_id);
+		
+		System.out.println(mapper.read(member_id));
+		System.out.println("======================================================================");
+		System.out.println(mDto.getAuthList());
+	}
 	
 //	@Test
 //	public void testUpdate() throws Exception{
@@ -140,21 +141,21 @@ public class MemberMGMapperTest {
 //		System.out.println(mapper.getWithdrawNCnt(cri));
 //	}
 	
-	@Test
-	public void testListCriteria() throws Exception {
-		MemberCriteria cri = new MemberCriteria();
-		List<MemberDTO> result;
-		
-		cri.setPageNum(1);
-		cri.setAmount(20);
-		
-		result = mapper.getListWithdrawNPaging(cri);
-		
-		System.out.println(mapper.getWithdrawNCnt(cri));
-		System.out.println(result);
-		System.out.println("-----------------------------------------------------------------");
-		
-	}
+//	@Test
+//	public void testListCriteria() throws Exception {
+//		MemberCriteria cri = new MemberCriteria();
+//		List<MemberDTO> result;
+//		
+//		cri.setPageNum(1);
+//		cri.setAmount(20);
+//		
+//		result = mapper.getListWithdrawNPaging(cri);
+//		
+//		System.out.println(mapper.getWithdrawNCnt(cri));
+//		System.out.println(result);
+//		System.out.println("-----------------------------------------------------------------");
+//		
+//	}
 
 	
 	

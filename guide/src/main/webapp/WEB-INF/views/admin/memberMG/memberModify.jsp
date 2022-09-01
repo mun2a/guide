@@ -40,12 +40,12 @@
 	                                    </c:forEach>
 	                                    </td></tr> --%>
 	                                	<tr>
-	                                        <td>비밀번호: <input type="text" class="form-control" name="member_password" id="member_password">
+	                                        <td>비밀번호: <input type="password" class="form-control" name="member_password" id="member_password">
 	                                        	<span id="span-member-password">　</span>
 	                                        </td>
 	                                    </tr>
 	                                	<tr>
-	                                        <td>비밀번호: 확인 <input type="text" class="form-control" name="member_password_confirm" id="member_password_confirm" >
+	                                        <td>비밀번호: 확인 <input type="password" class="form-control" name="member_password_confirm" id="member_password_confirm" >
 	                                        	<span id="span-member-password-confirm">　</span>
 	                                        </td>
 	                                    </tr>
@@ -102,14 +102,6 @@
 
 <script type="text/javascript">
 	var actionForm = $("#actionForm");
-	var modifyForm = $("#modifyForm");
-	
-	//회원 수정
-	$(".modify").on("click", function(e) {
-		e.preventDefault();
-		modifyForm.submit(); 
-	
-	});
 	
 	//회원 수정 취소
 	$(".cancle").on("click", function(e) {
@@ -126,6 +118,7 @@
 $(document).ready(function(){
 	var csrf_headername = "${_csrf.headerName}"; 
 	var csrf_token = "${_csrf.token}"; 
+	var modifyForm = $("#modifyForm");
 	var confirm_number = "";
 	
 	<%-- 정규식 --%>

@@ -150,14 +150,12 @@ label {
                             </div>
                             
                             
-                            <form id="actionForm" action="${contextPath}/admin/memberMG/memberWDList" method="get">
-                            	<%-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> --%>
+                            <form id="actionForm" action="${contextPath}/admin/memberMG/memberWDList" method="post">
+                            	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> 
                             	<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
                             	<input type="hidden" name="amount" value="${pageMaker.cri.amount }">
                             	<input type="hidden" name="type" value="${pageMaker.cri.type }">
                             	<input type="hidden" name="keyword" value="${pageMaker.cri.keyword }">
-                            	
-                            	<input type="hidden" name="member_id" value="${pageMaker.cri.member_id }">
                             </form>
                                 
                                 
