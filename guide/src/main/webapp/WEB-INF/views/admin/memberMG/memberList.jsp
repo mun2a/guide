@@ -150,8 +150,8 @@ label {
                             </div>
                             
                             
-                            <form id="actionForm" action="${contextPath}/admin/memberMG/memberList" method="post">
-                            	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                            <form id="actionForm" action="${contextPath}/admin/memberMG/memberList" method="get">
+                            	<%-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> --%>
                             	<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
                             	<input type="hidden" name="amount" value="${pageMaker.cri.amount }">
                             	<input type="hidden" name="type" value="${pageMaker.cri.type }">
