@@ -6,11 +6,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.guide.admin.domain.MemberCriteria;
 import kr.co.guide.admin.domain.MemberDTO;
@@ -28,18 +30,6 @@ public class MemberMGController {
 
 	/* ● 회원 목록 페이지 */
 	//회원목록
-	@RequestMapping(value = "/memberList", method = RequestMethod.POST)
-	public void memberPage(MemberCriteria cri, Model model) throws Exception {
-		log.info("memberPage..............");	
-		
-		model.addAttribute("memberMGList", service.getListWithdrawNPaging(cri));
-		
-		int total = service.getWithdrawNCnt(cri);
-		log.info("total : " + total);
-		
-		model.addAttribute("pageMaker", new MemberPageDTO(cri, total));
-		
-	}
 	@RequestMapping(value = "/memberList", method = RequestMethod.GET)
 	public void memberPageGet(MemberCriteria cri, Model model) throws Exception {
 		log.info("memberPage.............get.");	
@@ -50,35 +40,40 @@ public class MemberMGController {
 		log.info("total : " + total);
 		
 		model.addAttribute("pageMaker", new MemberPageDTO(cri, total));
+		model.addAttribute("cri", cri);
 		
 	}
 	
 	
 	
 	//회원탈퇴
-	@RequestMapping(value = "/memberWD", method = RequestMethod.POST)		
-	public String memberWD(@RequestParam("member_id") String member_id) throws Exception {
+	@RequestMapping(value = "/memberWD", method = RequestMethod.GET)		
+	public String memberWDCri(@RequestParam("member_id") String member_id) throws Exception {
 		log.info("memberWD............................ : " + member_id);
 		service.modifyWithdraw(member_id);
-		return "redirect:/admin/memberMG/memberList";
+		return "redirect:/admin/memberMG/memberList"  ;
 	}
 	
 	/* ● 회원정보 상세 페이지 */
 	@RequestMapping(value = "/memberDetail")
-	public String memberDetail(@RequestParam("member_id") String member_id, Model model) throws Exception {
+	public String memberDetail(@RequestParam("member_id") String member_id, 
+				@ModelAttribute("cri") MemberCriteria cri, Model model) throws Exception {
 		log.info("memberDetail.............." + service.read(member_id));	
 		
 		model.addAttribute("memberDetail", service.read(member_id));
+		model.addAttribute("cri", cri);
 		
 		return "admin/memberMG/memberDetail";
 	}
 	
 	/* ● 회원정보 수정 페이지 */
-	@RequestMapping(value = "/memberModify")
-	public String memberModify(@RequestParam("member_id") String member_id, Model model) throws Exception {
+	@RequestMapping(value = "/memberModify", method = RequestMethod.GET)
+	public String memberModify(@RequestParam("member_id") String member_id, 
+				@ModelAttribute("cri") MemberCriteria cri, Model model) throws Exception {
 		log.info("memberModify.............." + service.read(member_id));	
 		
 		model.addAttribute("memberModify", service.read(member_id));
+		model.addAttribute("cri", cri);
 		
 		return "admin/memberMG/memberModify";
 	}
@@ -94,11 +89,13 @@ public class MemberMGController {
 	
 	//수정 기능 실행
 	@RequestMapping(value = "/memberModifyPost", method = RequestMethod.POST)
-	public String memberModifyPost(MemberDTO mDto) throws Exception {
+	public String memberModifyPost(MemberDTO mDto,
+			@ModelAttribute("cri") MemberCriteria cri,
+			RedirectAttributes rttr)throws Exception {
 		log.info("memberModifyPost.............." + service.modify(mDto));	
 		
 		
-		return "admin/memberMG/memberModify";
+		return "admin/memberMG/memberModify" + cri.GetListLink();
 	}
 
 	

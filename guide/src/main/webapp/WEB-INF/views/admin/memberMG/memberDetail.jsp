@@ -66,6 +66,8 @@
 	                                        <td>
 	                                        	<a class="modify btn btn-primary btn-sm" href="${memberDetail.member_id}">수정</a>
 	                                        	<a class="withdraw btn btn-danger btn-sm" href="${memberDetail.member_id}">탈퇴</a>
+	                                        	
+	                                        	<a class="list btn btn-secondary btn-sm" style="float: right;">목록</a>
 	                                        </td>
 	                                    </tr>
 
@@ -79,11 +81,19 @@
                 <!-- /.container-fluid -->
 
 
-<form id="actionForm" action="${contextPath}/admin/memberMG/memberDetail" method="post">
-	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+<form id="actionForm" action="${contextPath}/admin/memberMG/memberDetail" method="get">
+<%-- 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> --%>
+	<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
+    <input type="hidden" name="amount" value="${pageMaker.cri.amount }">
+    <input type="hidden" name="type" value="${pageMaker.cri.type }">
+    <input type="hidden" name="keyword" value="${pageMaker.cri.keyword }">
+    
+    <input type="hidden" name="member_id" value="${memberDetail.member_id}">
 </form>
 
 <script type="text/javascript">
+
+	
 	var actionForm = $("#actionForm");
 	
 	//회원 수정
@@ -106,7 +116,16 @@
 		actionForm.attr("action", "${contextPath}/admin/memberMG/memberWD");
 		actionForm.submit();
 		alert("탈퇴되었습니다. : " + pk );
+		
 	
+	});
+	
+	//회원 목록
+	$(".list").on("click", function(e) {
+
+		location.href = "${contextPath}/admin/memberMG/memberList?pageNum=${cri.pageNum}"
+			+"&amount=${cri.amount}"
+			+"&type=${cri.type}&keyword=${cri.keyword}";
 	});
 </script>
             

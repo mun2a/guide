@@ -96,8 +96,8 @@
                 <!-- /.container-fluid -->
 
 
-<form id="actionForm" action="${contextPath}/admin/memberMG/memberModify" method="post">
-	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+<form id="actionForm" action="${contextPath}/admin/memberMG/memberModify" method="get">
+	<%-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> --%>
 </form>
 
 <script type="text/javascript">
