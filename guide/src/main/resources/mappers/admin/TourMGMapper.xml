@@ -98,6 +98,7 @@
 		<![CDATA[
 			AND rownum <= #{pageNum} * #{amount})
 			WHERE rn > (#{pageNum} - 1) * #{amount}	
+			ORDER BY rn
 		]]>
   	</select>
   	

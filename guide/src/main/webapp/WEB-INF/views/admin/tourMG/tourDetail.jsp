@@ -87,6 +87,14 @@
 	                                	<tr>
 	                                        <td>지역 상세 코드: ${tourDetail.area_detail_code} (${tourDetail.area_detail_name})</td>
 	                                    </tr>
+	                                    
+	                                    <tr>
+	                                        <td>
+	                                        	<a class="remove btn btn-danger btn-sm" href="${tourDetail.tour_no}" >삭제</a>
+	                                        	
+	                                        	<a class="list btn btn-secondary btn-sm" style="float: right;">목록</a>
+	                                        </td>
+	                                    </tr>
 
                                     </tbody>
                                 </table>
@@ -94,10 +102,14 @@
                             
                             <form id="actionForm" action="${contextPath}/admin/tourMG/tourList" method="get">
                             	<%-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> --%>
-                            	<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
-                            	<input type="hidden" name="amount" value="${pageMaker.cri.amount }">
-                            	<input type="hidden" name="type" value="${pageMaker.cri.type }">
-                            	<input type="hidden" name="keyword" value="${pageMaker.cri.keyword }">
+                            	<input type="hidden" name="pageNum" value="${cri.pageNum }">
+                            	<input type="hidden" name="amount" value="${cri.amount }">
+                            	<input type="hidden" name="type" value="${cri.type }">
+                            	<input type="hidden" name="keyword" value="${cri.keyword }">
+                            	
+                            	<input type="hidden" name="area_code" value="${cri.area_code }">
+                            	<input type="hidden" name="area_detail_code" value="${cri.area_detail_code }">
+                            	<input type="hidden" name="tour_type" value="${cri.tour_type }">
                             </form>
                             
                                 
@@ -114,34 +126,27 @@
 
 <script type="text/javascript">
 	var actionForm = $("#actionForm");
-	$(".detail").on("click", function(e) {
+	
+	//관광지 삭제
+ 	$(".remove").on("click", function(e) {
 		e.preventDefault();
 		var pk = $(this).attr("href");
-		
-		actionForm.append("<input type='hidden' name='tour_no' value='" + pk + "'>");
-		actionForm.attr("action", "${contextPath}/admin/tourMG/tourDetail");
-		actionForm.submit();
+		if (confirm("관광지정보를 삭제하시겠습니까? : " + pk)){
+			actionForm.append("<input type='hidden' name='tour_no' value='" + pk + "'>");
+			actionForm.attr("action", "${contextPath}/admin/tourMG/tourListDel");
+			actionForm.submit();
+			alert("삭제되었습니다. : " + pk );
+		}
 	
-	});
+	}); 
 	
-/* 	$(".remove").on("click", function(e) {
-		e.preventDefault();
-		var pk = $(this).attr("href");
-		
-		actionForm.append("<input type='hidden' name='tour_no' value='" + pk + "'>");
-		actionForm.attr("action", "${contextPath}/admin/tourMG/tourListDel");
-		actionForm.submit();
-		alert("삭제되었습니다. : " + pk );
-	
-	}); */
-	
-	$(".paginate_button a").on("click", function(e) {
-		e.preventDefault();
-		
-		console.log("click");
-		
-		actionForm.find("input[name='pageNum']").val($(this).attr("href"));
-		actionForm.submit();
+ 	//관광지 목록
+	$(".list").on("click", function(e) {
+
+		location.href = "${contextPath}/admin/tourMG/tourList?pageNum=${cri.pageNum}"
+			+"&amount=${cri.amount}&type=${cri.type}&keyword=${cri.keyword}"
+			+"&area_code=${cri.area_code}&area_detail_code=${cri.area_detail_code}"
+			+"&tour_type=${cri.tour_type}";
 	});
 	
 </script>

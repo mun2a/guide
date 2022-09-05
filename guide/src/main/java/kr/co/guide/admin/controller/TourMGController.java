@@ -54,15 +54,27 @@ public class TourMGController {
 	public String tourRemove(@RequestParam("tour_no") String tour_no, @ModelAttribute("cri") TourCriteria cri,
 			RedirectAttributes rttr) throws Exception {
 		log.info("tourListDel............................ : " + tour_no);
+		
+		//1개 있을 경우 이전 페이지 이동
+		int total = service.getTotalCnt(cri);
+		if (total%cri.getAmount() == 1) {
+			cri.setPageNum(cri.getPageNum()-1);
+			if (cri.getPageNum()<1) {
+				cri.setPageNum(1);
+			}
+		} 
+		
 		service.remove(tour_no);
 		return "redirect:/admin/tourMG/tourList" + cri.GetListLink();
 	}
 	
 	@RequestMapping(value = "/tourDetail", method = RequestMethod.GET)		
-	public void tourDetail(@RequestParam("tour_no") String tour_no, Model model) throws Exception {
+	public void tourDetail(@RequestParam("tour_no") String tour_no, 
+			@ModelAttribute("cri") TourCriteria cri, Model model) throws Exception {
 		log.info("tourDetail............................ : " + tour_no);
 		
 		model.addAttribute("tourDetail", service.read(tour_no));
+		model.addAttribute("cri", cri);
 		
 	}
 	
