@@ -64,8 +64,8 @@
 	                                    </tr>
 	                                    <tr>
 	                                        <td>
-	                                        	<a class="modify btn btn-primary btn-sm" href="${memberDetail.member_id}">수정</a>
-	                                        	<a class="withdraw btn btn-danger btn-sm" href="${memberDetail.member_id}">탈퇴</a>
+	                                        	<a class="modify btn btn-primary btn-sm" >수정</a>
+	                                        	<a class="withdraw btn btn-danger btn-sm" href="${memberDetail.member_id}" >탈퇴</a>
 	                                        	
 	                                        	<a class="list btn btn-secondary btn-sm" style="float: right;">목록</a>
 	                                        </td>
@@ -83,10 +83,10 @@
 
 <form id="actionForm" action="${contextPath}/admin/memberMG/memberDetail" method="get">
 <%-- 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> --%>
-	<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
-    <input type="hidden" name="amount" value="${pageMaker.cri.amount }">
-    <input type="hidden" name="type" value="${pageMaker.cri.type }">
-    <input type="hidden" name="keyword" value="${pageMaker.cri.keyword }">
+	<input type="hidden" name="pageNum" value="${cri.pageNum }">
+    <input type="hidden" name="amount" value="${cri.amount }">
+    <input type="hidden" name="type" value="${cri.type }">
+    <input type="hidden" name="keyword" value="${cri.keyword }">
     
     <input type="hidden" name="member_id" value="${memberDetail.member_id}">
 </form>
@@ -99,11 +99,11 @@
 	//회원 수정
 	$(".modify").on("click", function(e) {
 		e.preventDefault();
-		var pk = $(this).attr("href");
 		
-		actionForm.append("<input type='hidden' name='member_id' value='" + pk + "'>");
-		actionForm.attr("action", "${contextPath}/admin/memberMG/memberModify");
-		actionForm.submit();
+		if (confirm("회원 정보를 수정 하시겠습니까? : " )){
+			actionForm.attr("action", "${contextPath}/admin/memberMG/memberModify");
+			actionForm.submit();
+		}
 	
 	});
 	
@@ -112,12 +112,11 @@
 		e.preventDefault();
 		var pk = $(this).attr("href");
 		
-		actionForm.append("<input type='hidden' name='member_id' value='" + pk + "'>");
-		actionForm.attr("action", "${contextPath}/admin/memberMG/memberWD");
-		actionForm.submit();
-		alert("탈퇴되었습니다. : " + pk );
-		
-	
+		if (confirm("탈퇴 하시겠습니까? : "  + pk )){
+			actionForm.attr("action", "${contextPath}/admin/memberMG/memberWD");
+			alert("탈퇴되었습니다. : " + pk );
+			actionForm.submit();
+		}
 	});
 	
 	//회원 목록
