@@ -45,11 +45,19 @@ public class MemberMGController {
 	}
 	
 	
-	
 	//회원탈퇴
 	@RequestMapping(value = "/memberWD", method = RequestMethod.GET)		
 	public String memberWDCri(@RequestParam("member_id") String member_id, MemberCriteria cri) throws Exception {
 		log.info("memberWD............................ : " + member_id);
+		
+		//회원 해당 페이지에 1명 있을 경우 이전 페이지 이동
+		int total = service.getWithdrawNCnt(cri);
+		if (total%cri.getAmount() == 1) {
+			cri.setPageNum(cri.getPageNum()-1);
+			if (cri.getPageNum()<1) {
+				cri.setPageNum(1);
+			}
+		} 
 		service.modifyWithdraw(member_id);
 		return "redirect:/admin/memberMG/memberList" + cri.GetListLink() ;
 	}
@@ -103,21 +111,9 @@ public class MemberMGController {
 	
 	/* ● 탈퇴한 회원 관리 페이지 */
 	//탈퇴 회원목록
-	@RequestMapping(value = "/memberWDList", method = RequestMethod.POST)
-	public void memberWD(MemberCriteria cri, Model model) throws Exception {
-		log.info("memberWDList..............");	
-		
-		model.addAttribute("memberMGList", service.listWithdrawPaging(cri));
-		
-		int total = service.getWithdrawCnt(cri);
-		log.info("total : " + total);
-		
-		model.addAttribute("pageMaker", new MemberPageDTO(cri, total));
-		
-	}
-	@RequestMapping(value = "/memberWDList", method = RequestMethod.GET)
-	public void memberWDGet(MemberCriteria cri, Model model) throws Exception {
-		log.info("memberWDList.............get.");	
+	@RequestMapping(value = "/memberWDList")
+	public void memberWDPage(MemberCriteria cri, Model model) throws Exception {
+		log.info("memberWDList..............");		
 		
 		model.addAttribute("memberMGList", service.listWithdrawPaging(cri));
 		
@@ -130,18 +126,39 @@ public class MemberMGController {
 	
 	//회원 탈퇴 취소
 	@RequestMapping(value = "/memberWDCancle", method = RequestMethod.POST)		
-	public String memberWDCancle(@RequestParam("member_id") String member_id) throws Exception {
+	public String memberWDCancle(@RequestParam("member_id") String member_id, MemberCriteria cri) throws Exception {
 		log.info("memberWDCancle............................ : " + member_id);
+		
+		//탈퇴한 회원인 한페이지에 1명 있을 경우 이전 페이지 이동
+		int total = service.getWithdrawCnt(cri);
+		if (total%cri.getAmount() == 1) {
+			cri.setPageNum(cri.getPageNum()-1);
+			if (cri.getPageNum()<1) {
+				cri.setPageNum(1);
+			}
+		} 
 		service.modifyWithdrawCancle(member_id);
-		return "redirect:/admin/memberMG/memberWDList";
+		
+		return "redirect:/admin/memberMG/memberWDList" + cri.GetListLink() ;
+		
 	}
+	
 	
 	//회원 삭제
 	@RequestMapping(value = "/memberRemove", method = RequestMethod.POST)
-	public String memberRemove(@RequestParam("member_id") String member_id) throws Exception {
+	public String memberRemove(@RequestParam("member_id") String member_id, MemberCriteria cri) throws Exception {
 		log.info("memberRemove............................ : " + member_id);
+		
+		//삭제한 회원인 한페이지에 1명 있을 경우 이전 페이지 이동
+		int total = service.getWithdrawCnt(cri);
+		if (total%cri.getAmount() == 1) {
+			cri.setPageNum(cri.getPageNum()-1);
+			if (cri.getPageNum()<1) {
+				cri.setPageNum(1);
+			}
+		} 
 		service.remove(member_id);
-		return "redirect:/admin/memberMG/memberWDList";
+		return "redirect:/admin/memberMG/memberWDList" + cri.GetListLink() ;
 	}
 	
 	

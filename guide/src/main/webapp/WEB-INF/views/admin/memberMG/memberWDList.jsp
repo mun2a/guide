@@ -179,10 +179,12 @@ label {
 		e.preventDefault();
 		var pk = $(this).attr("href");
 		
-		actionForm.append("<input type='hidden' name='member_id' value='" + pk + "'>");
-		actionForm.attr("action", "${contextPath}/admin/memberMG/memberWDCancle");
-		actionForm.submit();
-		alert("탈퇴가 취소되었습니다. : " + pk);
+		if (confirm("탙퇴를 취소하시겠습니까? : " + pk)) {
+			actionForm.append("<input type='hidden' name='member_id' value='" + pk + "'>");
+			actionForm.attr("action", "${contextPath}/admin/memberMG/memberWDCancle");
+			actionForm.submit();
+			alert("탈퇴가 취소되었습니다. : " + pk);
+		}
 	
 	});
 	

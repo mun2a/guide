@@ -41,5 +41,6 @@ public class MemberCriteria {
 		return builder.toUriString();
 													
 	}
+	
 													
 }
