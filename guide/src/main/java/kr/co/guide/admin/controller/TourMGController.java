@@ -34,7 +34,7 @@ public class TourMGController {
 		//검색
 		ObjectMapper objm = new ObjectMapper();
 		List<AreaDTO> list = service.cateList();
-		String cateList = objm.writeValueAsString(list);
+		String cateList = objm.writeValueAsString(list); 
 		
 		
 		model.addAttribute("tourMGList", service.listAllPaging(cri));
