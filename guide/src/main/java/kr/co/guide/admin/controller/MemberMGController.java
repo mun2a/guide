@@ -48,11 +48,12 @@ public class MemberMGController {
 	
 	//회원탈퇴
 	@RequestMapping(value = "/memberWD", method = RequestMethod.GET)		
-	public String memberWDCri(@RequestParam("member_id") String member_id) throws Exception {
+	public String memberWDCri(@RequestParam("member_id") String member_id, MemberCriteria cri) throws Exception {
 		log.info("memberWD............................ : " + member_id);
 		service.modifyWithdraw(member_id);
-		return "redirect:/admin/memberMG/memberList"  ;
+		return "redirect:/admin/memberMG/memberList" + cri.GetListLink() ;
 	}
+	
 	
 	/* ● 회원정보 상세 페이지 */
 	@RequestMapping(value = "/memberDetail")
@@ -69,11 +70,12 @@ public class MemberMGController {
 	/* ● 회원정보 수정 페이지 */
 	@RequestMapping(value = "/memberModify", method = RequestMethod.GET)
 	public String memberModify(@RequestParam("member_id") String member_id, 
-				@ModelAttribute("cri") MemberCriteria cri, Model model) throws Exception {
+				//@ModelAttribute("cri") MemberCriteria cri, 
+				Model model) throws Exception {
 		log.info("memberModify.............." + service.read(member_id));	
 		
 		model.addAttribute("memberModify", service.read(member_id));
-		model.addAttribute("cri", cri);
+		//model.addAttribute("cri", cri);
 		
 		return "admin/memberMG/memberModify";
 	}

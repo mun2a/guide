@@ -188,10 +188,12 @@ label {
 		e.preventDefault();
 		var pk = $(this).attr("href");
 		
-		actionForm.append("<input type='hidden' name='member_id' value='" + pk + "'>");
-		actionForm.attr("action", "${contextPath}/admin/memberMG/memberWD");
-		actionForm.submit();
-		alert("탈퇴되었습니다. : " + pk );
+		if (confirm("탈퇴 하시겠습니까? : "  + pk )){
+			actionForm.append("<input type='hidden' name='member_id' value='" + pk + "'>");
+			actionForm.attr("action", "${contextPath}/admin/memberMG/memberWD");
+			actionForm.submit();
+			alert("탈퇴되었습니다. : " + pk );
+		}
 	
 	});
 	
