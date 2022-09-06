@@ -89,13 +89,13 @@ public class MemberMGController {
 	}
 	
 	//중복 체크 기능 confirmNick
-	@PostMapping(value = "/confirmNick", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE })
-	public ResponseEntity<String> confirmNick(@RequestBody String member_nickname) throws Exception {
-		log.info("userid............................................ : " + member_nickname);
-
-		return service.confirmNick(member_nickname) == 0 ? new ResponseEntity<String>("0", HttpStatus.OK)
-				: new ResponseEntity<String>("1", HttpStatus.OK);
-	}
+//	@PostMapping(value = "/confirmNick", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE })
+//	public ResponseEntity<String> confirmNick(@RequestBody String member_nickname) throws Exception {
+//		log.info("userid............................................ : " + member_nickname);
+//
+//		return service.confirmNick(member_nickname) == 0 ? new ResponseEntity<String>("0", HttpStatus.OK)
+//				: new ResponseEntity<String>("1", HttpStatus.OK);
+//	}
 	
 	//수정 기능 실행
 	@RequestMapping(value = "/memberModifyPost", method = RequestMethod.POST)

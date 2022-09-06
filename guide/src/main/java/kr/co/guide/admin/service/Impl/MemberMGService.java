@@ -71,8 +71,8 @@ public class MemberMGService implements IMemberMGService{
 	}
 
 	@Override
-	public int confirmNick(String member_nickname) throws Exception {
-		return mapper.confirmNick(member_nickname);
+	public String confirmNick(MemberDTO mDto) throws Exception {
+		return mapper.confirmNick(mDto);
 	}
 
 	@Override

@@ -113,12 +113,13 @@
 		ON m.member_id = au.member_id
 		WHERE m.member_id = #{member_id}
 	</select>
-	<select id="confirmNick"  parameterType="string" resultType="int">
-		SELECT 
-		    count(*)
+	
+	<select id="confirmNick"  parameterType="kr.co.guide.admin.domain.MemberDTO" resultType="string">
+		SELECT member_nickname
 		FROM tbl_member
 		WHERE member_nickname = #{member_nickname}
 	</select>
+	
 	<update id="update" parameterType="kr.co.guide.admin.domain.MemberDTO">
 		UPDATE tbl_member
 		SET 
