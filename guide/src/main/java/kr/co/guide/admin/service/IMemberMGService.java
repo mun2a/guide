@@ -20,7 +20,7 @@ public interface IMemberMGService {
 	public String confirmNick(MemberDTO mDto) throws Exception;
 	
 	//회원 정보 수정
-	public int modify(MemberDTO mDto) throws Exception;
+	public boolean modify(MemberDTO mDto) throws Exception;
 	
 	/* ● 탈퇴한 회원 관리 페이지 */
 	public List<MemberDTO> listWithdrawPaging(MemberCriteria cri) throws Exception;

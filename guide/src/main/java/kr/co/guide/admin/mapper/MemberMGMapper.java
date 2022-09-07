@@ -24,7 +24,7 @@ public interface MemberMGMapper {
 	//닉네임 중복 확인
 	public String confirmNick(MemberDTO mDto) throws Exception;
 	
-	public int update(MemberDTO mDto) throws Exception;
+	public boolean update(MemberDTO mDto) throws Exception;
 	
 	/* ● 탈퇴한 회원 관리 페이지 */
 	public List<MemberDTO> getListWithdrawYPaging(MemberCriteria cri) throws Exception;

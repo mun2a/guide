@@ -78,7 +78,7 @@
 		]]>
 	</select> 
 	
-	
+	<!-- 탈퇴 안한 회원 수 -->
 	<select id="getWithdrawNCnt" resultType="int">
   		SELECT COUNT(*)
   		FROM tbl_member
@@ -86,7 +86,7 @@
   		<include refid="criteria"></include>
   	</select>
   	
-	
+	<!-- 탈퇴로 변경 -->
 	<update id="updateWithdrawY">
 		UPDATE tbl_member
 		SET member_withdraw = 'Y',
@@ -115,19 +115,23 @@
 		WHERE m.member_id = #{member_id}
 	</select>
 	
+	<!-- 닉네임 중복 확인 -->
 	<select id="confirmNick"  parameterType="kr.co.guide.admin.domain.MemberDTO" resultType="string">
 		SELECT member_nickname
 		FROM tbl_member
 		WHERE member_nickname = #{member_nickname}
 	</select>
 	
+	<!-- 회원 정보 수정 -->
 	<update id="update" parameterType="kr.co.guide.admin.domain.MemberDTO">
 		UPDATE tbl_member
 		SET 
 			<if test="!(''.equals(member_password))">
 				member_password = #{member_password},
 			</if>
-			member_nickname = #{member_nickname},
+			<if test="member_nickname != null">
+				member_nickname = #{member_nickname},
+			</if>
 			member_lock = #{member_lock}
 		WHERE member_id = #{member_id}
 	</update>
@@ -161,6 +165,7 @@
 		]]>
 	</select>
 	
+	<!-- 탈퇴한 회원 수 -->
 	<select id="getWithdrawYCnt" resultType="int">
   		SELECT COUNT(*)
   		FROM tbl_member
@@ -168,6 +173,7 @@
   		<include refid="criteria"></include>
   	</select>
 	
+	<!-- 탈퇴 취소 -->
 	<update id="updateWithdrawN">
 		UPDATE tbl_member
 		SET member_withdraw = 'N',
@@ -175,6 +181,7 @@
 		WHERE member_id = #{member_id}
 	</update>
 
+	<!-- 회원 정보 삭제 -->
 	<delete id="delete">
 		DELETE FROM tbl_member
   		WHERE member_id = #{member_id}
@@ -183,11 +190,13 @@
 
 
 	<!-- ● 회원 권한 페이지 -->
+	<!-- 관리자 권한 추가 -->
 	<insert id="insertAuth" parameterType="kr.co.guide.admin.domain.MemberAuthDTO">
 		INSERT INTO tbl_authority
 		VALUES (#{member_id}, 'ROLE_ADMIN')
 	</insert>
 	
+	<!-- 관리자 권한 제거 -->
 	<delete id="deleteAuth">
 		DELETE FROM tbl_authority
   		WHERE member_id = #{member_id}

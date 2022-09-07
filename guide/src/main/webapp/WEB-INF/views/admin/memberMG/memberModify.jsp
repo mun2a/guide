@@ -54,6 +54,7 @@
 	                                    </tr>
 	                                	<tr>
 	                                        <td>닉네임: <input type="text" class="form-control" name="member_nickname" id="member_nickname" value="${memberModify.member_nickname}">
+	                                        	<input type="hidden" name="ori_member_nick" id="ori_member_nick"  value="${memberModify.member_nickname}">
 	                                        	<span id="span-member-nickname">　</span>
 	                                        </td>
 	                                    </tr>
@@ -87,6 +88,10 @@
 
                                     </tbody>
                                 </table>
+                                <input type="hidden" name="pageNum" value="${cri.pageNum }">
+    							<input type="hidden" name="amount" value="${cri.amount }">
+							    <input type="hidden" name="type" value="${cri.type }">
+							    <input type="hidden" name="keyword" value="${cri.keyword }">
                                 </form>
                             </div>
                         </div>
@@ -186,6 +191,7 @@ $(document).ready(function(){
 	<%-- 닉네임 유효성 blur 처리--%>
 	$("#member_nickname").on("blur",function(){
 		var member_nickname = $("#member_nickname").val();
+		var ori_member_nick = $("#ori_member_nick").val();
 		var form = {member_nickname:member_nickname}
 		
 		if(member_nickname == "") {
@@ -210,7 +216,7 @@ $(document).ready(function(){
 			    },
 			    success : function(data) {
 					if(data != "") {
-						if (data == member_nickname) {
+						if (data == ori_member_nick) {
 							$("#span-member-nickname").html(" ");
 							$("#member_nickname").removeClass("is-invalid");
 							$("#member_nickname").addClass("is-valid");
@@ -220,7 +226,7 @@ $(document).ready(function(){
 							$("#member_nickname").addClass("is-invalid");
 						}
 					} else {
-						$("#span-member-nickname").html(" ");
+						$("#span-member-nickname").html(" 사용가능한 닉네임입니다. ");
 						$("#member_nickname").removeClass("is-invalid");
 						$("#member_nickname").addClass("is-valid");
 					}
@@ -254,9 +260,10 @@ $(document).ready(function(){
 		var member_password = $("#member_password").val();
 		var member_password_confirm = $("#member_password_confirm").val();
 		var member_nickname = $("#member_nickname").val();
+		var ori_member_nick = $("#ori_member_nick").val();
+		
 		var form = {member_nickname:member_nickname}
 		
-		//pw = reg_blank.test(member_password) || !reg_password.test(member_password) || reg_sc.test(member_password)
 		if(password()){
 			alert("비밀번호를 확인해주세요.");
 			$("#member_password").focus();
@@ -286,13 +293,13 @@ $(document).ready(function(){
 			    },
 				success : function(data) {
 					if(data != "") {
-						if (data == member_nickname) {
-							alert("sucess"); 
+						if (data == ori_member_nick) {
+							modifyForm.submit();
 						} else {
-							alert("nick fail"); 
+							alert("닉네임을 확인해주세요.");
 						}
 					} else {
-						alert("sucess"); 
+						modifyForm.submit();
 					}
 				},
 				error : function(request, error) {                                     
