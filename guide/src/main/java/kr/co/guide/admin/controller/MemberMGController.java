@@ -78,24 +78,16 @@ public class MemberMGController {
 	/* ● 회원정보 수정 페이지 */
 	@RequestMapping(value = "/memberModify", method = RequestMethod.GET)
 	public String memberModify(@RequestParam("member_id") String member_id, 
-				//@ModelAttribute("cri") MemberCriteria cri, 
+				@ModelAttribute("cri") MemberCriteria cri, 
 				Model model) throws Exception {
 		log.info("memberModify.............." + service.read(member_id));	
 		
 		model.addAttribute("memberModify", service.read(member_id));
-		//model.addAttribute("cri", cri);
+		model.addAttribute("cri", cri);
 		
 		return "admin/memberMG/memberModify";
 	}
 	
-	//중복 체크 기능 confirmNick
-//	@PostMapping(value = "/confirmNick", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE })
-//	public ResponseEntity<String> confirmNick(@RequestBody String member_nickname) throws Exception {
-//		log.info("userid............................................ : " + member_nickname);
-//
-//		return service.confirmNick(member_nickname) == 0 ? new ResponseEntity<String>("0", HttpStatus.OK)
-//				: new ResponseEntity<String>("1", HttpStatus.OK);
-//	}
 	
 	//수정 기능 실행
 	@RequestMapping(value = "/memberModifyPost", method = RequestMethod.POST)

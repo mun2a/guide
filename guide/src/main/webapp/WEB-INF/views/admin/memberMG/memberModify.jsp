@@ -81,7 +81,7 @@
 	                                    <tr>
 	                                        <td>
 	                                        	<a class="modify btn btn-primary btn-sm" href="${memberModify.member_id}">수정하기</a>
-	                                        	<a class="cancle btn btn-danger btn-sm" href="${memberModify.member_id}">취소하기</a>
+	                                        	<a class="cancle btn btn-danger btn-sm" >취소하기</a>
 	                                        </td>
 	                                    </tr>
 
@@ -103,14 +103,13 @@
 <script type="text/javascript">
 	var actionForm = $("#actionForm");
 	
+	
 	//회원 수정 취소
 	$(".cancle").on("click", function(e) {
-		e.preventDefault();
-		var pk = $(this).attr("href");
-		
-		actionForm.append("<input type='hidden' name='member_id' value='" + pk + "'>");
-		actionForm.attr("action", "${contextPath}/admin/memberMG/memberDetail");
-		actionForm.submit();
+
+		location.href = "${contextPath}/admin/memberMG/memberDetail?pageNum=${cri.pageNum}"
+			+"&amount=${cri.amount}"
+			+"&type=${cri.type}&keyword=${cri.keyword}&member_id=${memberModify.member_id}";
 	});
 </script>
             
@@ -127,13 +126,19 @@ $(document).ready(function(){
 	var reg_nick =  /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]{2,20}$/;   									
 	var reg_sc = /[`~!@#$%^&*|\\\'\";:\/?]/gi;	
 
-
+	
 	<%-- 비밀번호 유효성 blur처리 --%>
 	$("#member_password").on("blur",function(){
 		var member_password = $("#member_password").val();
 		var member_password_confirm = $("#member_password_confirm").val();
 		
-		if (reg_blank.test(member_password)){
+		
+		
+		if (member_password == "") {
+			$("#span-member-password").html(" ");
+			$("#member_password").removeClass("is-invalid");
+			$("#member_password").removeClass("is-valid");
+		} else if (reg_blank.test(member_password)){
 			$("#span-member-password").html("공백이 존재합니다.");
 			$("#member_password").addClass("is-invalid");
 		} else if (!reg_password.test(member_password) || reg_sc.test(member_password)){
@@ -203,7 +208,7 @@ $(document).ready(function(){
 				beforeSend : function(xhr) {
 			        xhr.setRequestHeader(csrf_headername, csrf_token);
 			    },
-				success : function(data) {
+			    success : function(data) {
 					if(data != "") {
 						if (data == member_nickname) {
 							$("#span-member-nickname").html(" ");
@@ -228,13 +233,31 @@ $(document).ready(function(){
 	});
 	
 	
+	function password() {
+		var member_password = $("#member_password").val();
+		
+		if (member_password == "") {
+			return false
+		} else if (reg_blank.test(member_password)){
+			return true
+		} else if (!reg_password.test(member_password) || reg_sc.test(member_password)){
+			return true
+		} else if (reg_password.test(member_password)){
+			return false
+		} 
+	}
+	
+	
+	
 	$(".modify").on("click", function(e) {
 		e.preventDefault();
-		member_password = $("#member_password").val();
-		member_password_confirm = $("#member_password_confirm").val();
-		member_nickname = $("#member_nickname").val();
+		var member_password = $("#member_password").val();
+		var member_password_confirm = $("#member_password_confirm").val();
+		var member_nickname = $("#member_nickname").val();
+		var form = {member_nickname:member_nickname}
 		
-		if(reg_blank.test(member_password) || !reg_password.test(member_password) || reg_sc.test(member_password)){
+		//pw = reg_blank.test(member_password) || !reg_password.test(member_password) || reg_sc.test(member_password)
+		if(password()){
 			alert("비밀번호를 확인해주세요.");
 			$("#member_password").focus();
 			return false;
@@ -250,24 +273,26 @@ $(document).ready(function(){
 			alert("닉네임을 확인해주세요.");
 			$("#member_nickname").focus();
 			return false;
-		} else if(reg_nick.test(member_nickname)){
+		} else if (reg_nick.test(member_nickname)){
+			
 			$.ajax({
 				type : "post",
-				data : member_nickname, 
+				data : JSON.stringify(form),
 				url : "${contextPath}/admin/memberMG/confirmNick",
+				processData : true, 
 				contentType: "application/json; charset-utf-8", 
 				beforeSend : function(xhr) {
 			        xhr.setRequestHeader(csrf_headername, csrf_token);
 			    },
 				success : function(data) {
-					if(data != "0") {
-						$("#span-member-nickname").html("존재하는 닉네임입니다.");
-						$("#member_nickname").removeClass("is-valid");
-						$("#member_nickname").addClass("is-invalid");
+					if(data != "") {
+						if (data == member_nickname) {
+							alert("sucess"); 
+						} else {
+							alert("nick fail"); 
+						}
 					} else {
-						$("#span-member-nickname").html("　");
-						$("#member_nickname").removeClass("is-invalid");
-						$("#member_nickname").addClass("is-valid");
+						alert("sucess"); 
 					}
 				},
 				error : function(request, error) {                                     

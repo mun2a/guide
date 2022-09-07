@@ -73,16 +73,6 @@ label {
                                             <th>설정</th>
                                         </tr>
                                     </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>이메일</th>
-                                            <th>이름</th>
-                                            <th>닉네임</th>
-                                            <th>가입일</th>
-                                            <th>잠금</th>
-                                            <th>설정</th>
-                                        </tr>
-                                    </tfoot>
                                     <tbody>
 										<c:choose>
 										<c:when test="${empty memberMGList}">

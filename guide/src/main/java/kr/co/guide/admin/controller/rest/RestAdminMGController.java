@@ -7,25 +7,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.co.guide.admin.domain.MemberDTO;
-import kr.co.guide.admin.service.IMemberMGService;
+import kr.co.guide.admin.service.IAdminMGService;
 import lombok.extern.log4j.Log4j;
 
 @RestController
-@RequestMapping("/admin/memberMG")
+@RequestMapping("/admin/adminMG")
 @Log4j
-public class RestMemberMGController {
+public class RestAdminMGController {
 	
 	@Autowired
-	private IMemberMGService service;
+	private IAdminMGService service;
 	
 	
-	//중복 체크 기능
-	@PostMapping(value="/confirmNick")
-	public String confirmNick(@RequestBody MemberDTO mDto) throws Exception {
+	//관리자 권한 추가 - 이메일 확인
+	
+	@PostMapping(value="/confirmPK")
+	public String confirmPK(@RequestBody MemberDTO mDto) throws Exception {
 		
-		log.info("==================== restControlle confirmNick Post ====================");
+		log.info("==================== restControlle confirmPK Post ====================");
 		
-		String result = service.confirmNick(mDto);
+		String result = service.confirmPK(mDto);
 		
 		return result;
 	}

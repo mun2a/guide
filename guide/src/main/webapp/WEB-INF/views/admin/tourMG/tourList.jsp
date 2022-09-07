@@ -86,17 +86,6 @@ label {
                                             <th>설정</th>
                                         </tr>
                                     </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>고유번호</th>
-                                            <th>제목</th>
-                                            <th>주소</th>
-                                            <th>구분</th>
-                                            <th>지역</th>
-                                            <th>지역 상세</th>
-                                            <th>설정</th>
-                                        </tr>
-                                    </tfoot>
                                     <tbody>
 										<c:forEach items="${tourMGList }" var="tDto">
 	                                	<tr>

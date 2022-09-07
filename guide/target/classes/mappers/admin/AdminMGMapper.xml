@@ -41,9 +41,8 @@
 	</insert>
 	
 	<!-- 관리자 이메일 확인 -->
-	<select id="confirmPK" resultType="int">
-		SELECT 
-		    count(*)
+	<select id="confirmPK" parameterType="kr.co.guide.admin.domain.MemberDTO" resultType="string">
+		SELECT member_id
 		FROM tbl_member
 		WHERE member_id = #{member_id}
 	</select>

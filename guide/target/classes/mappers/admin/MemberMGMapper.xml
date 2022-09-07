@@ -71,7 +71,8 @@
 		]]>
   			<include refid="criteria"></include>
 		<![CDATA[
-			AND rownum <= #{pageNum} * #{amount})
+			AND rownum <= #{pageNum} * #{amount}
+			ORDER BY member_id)
 			WHERE rn > (#{pageNum} - 1) * #{amount}	
 			ORDER BY member_id
 		]]>
@@ -153,7 +154,8 @@
 		]]>
   			<include refid="criteria"></include>
 		<![CDATA[
-			AND rownum <= #{pageNum} * #{amount})
+			AND rownum <= #{pageNum} * #{amount}
+			ORDER BY member_id)
 			WHERE rn > (#{pageNum} - 1) * #{amount}	
 			ORDER BY member_id
 		]]>

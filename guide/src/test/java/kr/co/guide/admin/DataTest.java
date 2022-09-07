@@ -37,45 +37,46 @@ public class DataTest {
 //		
 //		mMapper.insertMemberInfo(mDto);                     
 //		mMapper.insertAdminAuthority(mDto.getMember_id());
+//		mMapper.insertMemberAuthority(mDto.getMember_id());
 //		
 //	}
 	
-	@Test
-	public void memberData() throws Exception{
-		
-		MemberDTO mDto = new MemberDTO();
-		
-		for (int i = 1; i <= 100; i++) {
-			mDto.setMember_id("user" + i + "@naver.com");
-			mDto.setMember_password(passwordEncoder.encode("user" + i));;
-			mDto.setMember_name("userName" + i);
-			mDto.setMember_nickname("userNick" + i);
-			
-			mMapper.insertMemberInfo(mDto);                     //유저 테이블에 회원등록
-			mMapper.insertMemberAuthority(mDto.getMember_id()); //유저 권한테이블에 맴버권한 등록
-		}
-		
-		for (int i = 101; i <= 200; i++) {
-			mDto.setMember_id("user" + i + "@gmail.com");
-			mDto.setMember_password(passwordEncoder.encode("user" + i));;
-			mDto.setMember_name("userName" + i);
-			mDto.setMember_nickname("userNick" + i);
-			
-			mMapper.insertMemberInfo(mDto);                     //유저 테이블에 회원등록
-			mMapper.insertMemberAuthority(mDto.getMember_id()); //유저 권한테이블에 맴버권한 등록
-		}
-		
-		for (int i = 201; i <= 2050; i++) {
-			mDto.setMember_id("user" + i + "@daum.net");
-			mDto.setMember_password(passwordEncoder.encode("user" + i));;
-			mDto.setMember_name("userName" + i);
-			mDto.setMember_nickname("userNick" + i);
-			
-			mMapper.insertMemberInfo(mDto);                     //유저 테이블에 회원등록
-			mMapper.insertMemberAuthority(mDto.getMember_id()); //유저 권한테이블에 맴버권한 등록
-		}
-		
-	}
+//	@Test
+//	public void memberData() throws Exception{
+//		
+//		MemberDTO mDto = new MemberDTO();
+//		
+//		for (int i = 1; i <= 100; i++) {
+//			mDto.setMember_id("user" + i + "@naver.com");
+//			mDto.setMember_password(passwordEncoder.encode("user" + i));;
+//			mDto.setMember_name("userName" + i);
+//			mDto.setMember_nickname("userNick" + i);
+//			
+//			mMapper.insertMemberInfo(mDto);                     //유저 테이블에 회원등록
+//			mMapper.insertMemberAuthority(mDto.getMember_id()); //유저 권한테이블에 맴버권한 등록
+//		}
+//		
+//		for (int i = 101; i <= 200; i++) {
+//			mDto.setMember_id("user" + i + "@gmail.com");
+//			mDto.setMember_password(passwordEncoder.encode("user" + i));;
+//			mDto.setMember_name("userName" + i);
+//			mDto.setMember_nickname("userNick" + i);
+//			
+//			mMapper.insertMemberInfo(mDto);                     //유저 테이블에 회원등록
+//			mMapper.insertMemberAuthority(mDto.getMember_id()); //유저 권한테이블에 맴버권한 등록
+//		}
+//		
+//		for (int i = 201; i <= 250; i++) {
+//			mDto.setMember_id("user" + i + "@daum.net");
+//			mDto.setMember_password(passwordEncoder.encode("user" + i));;
+//			mDto.setMember_name("userName" + i);
+//			mDto.setMember_nickname("userNick" + i);
+//			
+//			mMapper.insertMemberInfo(mDto);                     //유저 테이블에 회원등록
+//			mMapper.insertMemberAuthority(mDto.getMember_id()); //유저 권한테이블에 맴버권한 등록
+//		}
+//		
+//	}
 
 	
 	
