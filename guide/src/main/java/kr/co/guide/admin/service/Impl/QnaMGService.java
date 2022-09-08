@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import kr.co.guide.admin.domain.Criteria;
+import kr.co.guide.admin.domain.QnaCriteria;
 import kr.co.guide.admin.domain.QnaDTO;
 import kr.co.guide.admin.domain.QnaReplyDTO;
 import kr.co.guide.admin.mapper.QnaMGMapper;
@@ -22,13 +22,13 @@ public class QnaMGService implements IQnaMGService {
 	private static final Logger log = LoggerFactory.getLogger(QnaMGService.class);
 
 	@Override
-	public List<QnaDTO> list(Criteria cri) throws Exception {
+	public List<QnaDTO> list(QnaCriteria cri) throws Exception {
 		log.info("QnaMGService......getListWithPaging..................");
 		return mapper.getListWithPaging(cri);
 	}
 
 	@Override
-	public int totalCnt(Criteria cri) throws Exception {
+	public int totalCnt(QnaCriteria cri) throws Exception {
 		log.info("QnaMGService......getTotalCnt..................");
 		return mapper.getTotalCnt(cri);
 	}
