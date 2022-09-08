@@ -27,6 +27,7 @@ public class TourMGController {
 	@Autowired
 	private ITourMGService service;
 	
+	/* ● 관광지 목록 페이지 */
 	@RequestMapping(value = "/tourList", method = RequestMethod.GET)
 	public void tourListAll(TourCriteria cri, Model model) throws Exception {
 		log.info("show all Tour list ...........................................");
@@ -48,8 +49,7 @@ public class TourMGController {
 		model.addAttribute("pageMaker", new TourPageDTO(cri, total));
 	}
 	
-	
-	
+	//관광지 삭제
 	@RequestMapping(value = "/tourListDel", method = RequestMethod.GET)		
 	public String tourRemove(@RequestParam("tour_no") String tour_no, @ModelAttribute("cri") TourCriteria cri,
 			RedirectAttributes rttr) throws Exception {
@@ -58,8 +58,8 @@ public class TourMGController {
 		//1개 있을 경우 이전 페이지 이동
 		int total = service.getTotalCnt(cri);
 		if (total%cri.getAmount() == 1) {
-			cri.setPageNum(cri.getPageNum()-1);
-			if (cri.getPageNum()<1) {
+			cri.setPageNum(cri.getPageNum()-1); 
+			if (cri.getPageNum()<1) {		
 				cri.setPageNum(1);
 			}
 		} 
@@ -68,6 +68,7 @@ public class TourMGController {
 		return "redirect:/admin/tourMG/tourList" + cri.GetListLink();
 	}
 	
+	/* ● 관광지 상세 페이지 */
 	@RequestMapping(value = "/tourDetail", method = RequestMethod.GET)		
 	public void tourDetail(@RequestParam("tour_no") String tour_no, 
 			@ModelAttribute("cri") TourCriteria cri, Model model) throws Exception {

@@ -39,13 +39,13 @@ public class AdminMGMapperTest {
 //		
 //	}
 	
-	@Test
-	public void testadminpk() throws Exception{
-		String member_id = "user3@naver.com";
-		
-		mapper.confirmPK(member_id);
-		
-	}
+//	@Test
+//	public void testadminpk() throws Exception{
+//		String member_id = "user3@naver.com";
+//		
+//		mapper.confirmPK(member_id);
+//		
+//	}
 	
 //	@Test
 //	public void testdelauth() throws Exception{

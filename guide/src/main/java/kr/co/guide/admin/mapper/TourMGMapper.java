@@ -2,8 +2,6 @@ package kr.co.guide.admin.mapper;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import kr.co.guide.admin.domain.AreaDTO;
 import kr.co.guide.admin.domain.TourCriteria;
 import kr.co.guide.admin.domain.TourDTO;

@@ -119,10 +119,12 @@ $(document).ready(function(){
 	var reg_blank = /[\s]/g;                        													<%-- 공백 유효성 --%>
 	var reg_email = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i; <%-- 이메일 유효성 --%>
 	var reg_password = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,15}$/;		  								 	<%-- 비밀번호 유효성 --%>
-	var reg_name = /^[가-힣]{2,5}$/;     																	<%-- 이름 및 닉네임 유효성 --%>  
-	var reg_kor  = /^[가-힣]+$/;   																		<%-- 한글 유효성 --%>
+	var reg_name = /^[가-힣a-zA-Z]{2,10}$/;   									
+	var reg_nick =  /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]{2,20}$/;     																	<%-- 이름 및 닉네임 유효성 --%>  
 	var reg_sc = /[`~!@#$%^&*|\\\'\";:\/?]/gi;															<%-- 특수문자 유효성 --%>
 	
+	
+	 /^[가-힣a-zA-Z]+$/
 	<%-- 유효성 검사 --%>
 	<%-- 아이디 유효성 blur 처리 --%>
 	$("#member_id").on("blur",function(){
@@ -339,11 +341,8 @@ $(document).ready(function(){
 		} else if (reg_blank.test(member_name)){
 			$("#span-member-name").html("공백이 존재합니다.");
 			$("#member_name").addClass("is-invalid");
-		} else if (!reg_kor.test(member_name)){
-			$("#span-member-name").html("문자형식의 한글을 입력해주세요.");
-			$("#member_name").addClass("is-invalid");
 		} else if (!reg_name.test(member_name)){
-			$("#span-member-name").html("2~5자로 입력해주세요.");
+			$("#span-member-name").html("문자형식의 한글과 영어로 2~10자 입력해주세요.");
 			$("#member_name").addClass("is-invalid");
 		} else if (reg_name.test(member_name)){
 			$("#span-member-name").html("　");
@@ -362,13 +361,10 @@ $(document).ready(function(){
 		} else if (reg_blank.test(member_nickname)){
 			$("#span-member-nickname").html("공백이 존재합니다.");
 			$("#member_nickname").addClass("is-invalid");
-		} else if (!reg_kor.test(member_nickname)){
-			$("#span-member-nickname").html("문자형식의 한글을 입력해주세요.");
+		} else if (!reg_nick.test(member_nickname)){
+			$("#span-member-nickname").html("한글, 영어, 숫자로 2~20자 입력해주세요.");
 			$("#member_nickname").addClass("is-invalid");
-		} else if (!reg_name.test(member_nickname)){
-			$("#span-member-nickname").html("2~5자로 입력해주세요.");
-			$("#member_nickname").addClass("is-invalid");
-		} else if (reg_name.test(member_nickname)){
+		} else if (reg_nick.test(member_nickname)){
 			
 			$.ajax({
 				type : "post",
@@ -452,7 +448,7 @@ $(document).ready(function(){
 			fnModal("닉네임을 입력해주세요.");
 			$("#member_nickname").focus();
 			return false;
-		} else if(!reg_name.test(member_nickname)){
+		} else if(!reg_nick.test(member_nickname)){
 			fnModal("닉네임을 확인해주세요.");
 			$("#member_nickname").focus();
 			return false;
@@ -462,7 +458,7 @@ $(document).ready(function(){
 		} else if(!check2) {
 			fnModal("개인정보 수집에 동의해주세요.");
 			return false;
-		} else if(reg_name.test(member_nickname)){
+		} else if(reg_nick.test(member_nickname)){
 			$.ajax({
 				type : "post",
 				data : JSON.stringify(form),

@@ -54,6 +54,7 @@
 	                                    </tr>
 	                                	<tr>
 	                                        <td>닉네임: <input type="text" class="form-control" name="member_nickname" id="member_nickname" value="${memberModify.member_nickname}">
+	                                        	<input type="hidden" name="ori_member_nick" id="ori_member_nick"  value="${memberModify.member_nickname}">
 	                                        	<span id="span-member-nickname">　</span>
 	                                        </td>
 	                                    </tr>
@@ -81,12 +82,16 @@
 	                                    <tr>
 	                                        <td>
 	                                        	<a class="modify btn btn-primary btn-sm" href="${memberModify.member_id}">수정하기</a>
-	                                        	<a class="cancle btn btn-danger btn-sm" href="${memberModify.member_id}">취소하기</a>
+	                                        	<a class="cancle btn btn-danger btn-sm" >취소하기</a>
 	                                        </td>
 	                                    </tr>
 
                                     </tbody>
                                 </table>
+                                <input type="hidden" name="pageNum" value="${cri.pageNum }">
+    							<input type="hidden" name="amount" value="${cri.amount }">
+							    <input type="hidden" name="type" value="${cri.type }">
+							    <input type="hidden" name="keyword" value="${cri.keyword }">
                                 </form>
                             </div>
                         </div>
@@ -103,14 +108,13 @@
 <script type="text/javascript">
 	var actionForm = $("#actionForm");
 	
+	
 	//회원 수정 취소
 	$(".cancle").on("click", function(e) {
-		e.preventDefault();
-		var pk = $(this).attr("href");
-		
-		actionForm.append("<input type='hidden' name='member_id' value='" + pk + "'>");
-		actionForm.attr("action", "${contextPath}/admin/memberMG/memberDetail");
-		actionForm.submit();
+
+		location.href = "${contextPath}/admin/memberMG/memberDetail?pageNum=${cri.pageNum}"
+			+"&amount=${cri.amount}"
+			+"&type=${cri.type}&keyword=${cri.keyword}&member_id=${memberModify.member_id}";
 	});
 </script>
             
@@ -124,18 +128,22 @@ $(document).ready(function(){
 	<%-- 정규식 --%>
 	var reg_blank = /[\s]/g;                        					<%-- 공백 유효성 --%>
 	var reg_password = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,15}$/;		  	<%-- 비밀번호 유효성 --%>
-	var reg_name = /^[가-힣]{2,5}$/;     									<%-- 이름 및 닉네임 유효성 --%>  
-	var reg_kor  = /^[가-힣]+$/;   										<%-- 한글 유효성 --%>
+	var reg_nick =  /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]{2,20}$/;   									
 	var reg_sc = /[`~!@#$%^&*|\\\'\";:\/?]/gi;	
 
-
-
+	
 	<%-- 비밀번호 유효성 blur처리 --%>
 	$("#member_password").on("blur",function(){
 		var member_password = $("#member_password").val();
 		var member_password_confirm = $("#member_password_confirm").val();
 		
-		if (reg_blank.test(member_password)){
+		
+		
+		if (member_password == "") {
+			$("#span-member-password").html(" ");
+			$("#member_password").removeClass("is-invalid");
+			$("#member_password").removeClass("is-valid");
+		} else if (reg_blank.test(member_password)){
 			$("#span-member-password").html("공백이 존재합니다.");
 			$("#member_password").addClass("is-invalid");
 		} else if (!reg_password.test(member_password) || reg_sc.test(member_password)){
@@ -183,35 +191,42 @@ $(document).ready(function(){
 	<%-- 닉네임 유효성 blur 처리--%>
 	$("#member_nickname").on("blur",function(){
 		var member_nickname = $("#member_nickname").val();
+		var ori_member_nick = $("#ori_member_nick").val();
+		var form = {member_nickname:member_nickname}
+		
 		if(member_nickname == "") {
 			$("#span-member-nickname").html("닉네임을 입력해주세요.");
 			$("#member_nickname").addClass("is-invalid");
 		} else if (reg_blank.test(member_nickname)){
 			$("#span-member-nickname").html("공백이 존재합니다.");
 			$("#member_nickname").addClass("is-invalid");
-		} else if (!reg_kor.test(member_nickname)){
-			$("#span-member-nickname").html("문자형식의 한글을 입력해주세요.");
+		} else if (!reg_nick.test(member_nickname)){
+			$("#span-member-nickname").html("한글, 영어, 숫자로 2~20자 입력해주세요.");
 			$("#member_nickname").addClass("is-invalid");
-		} else if (!reg_name.test(member_nickname)){
-			$("#span-member-nickname").html("2~5자로 입력해주세요.");
-			$("#member_nickname").addClass("is-invalid");
-		} else if (reg_name.test(member_nickname)){
+		} else if (reg_nick.test(member_nickname)){
 			
 			$.ajax({
 				type : "post",
-				data : member_nickname, 
+				data : JSON.stringify(form),
 				url : "${contextPath}/admin/memberMG/confirmNick",
+				processData : true, 
 				contentType: "application/json; charset-utf-8", 
 				beforeSend : function(xhr) {
 			        xhr.setRequestHeader(csrf_headername, csrf_token);
 			    },
-				success : function(data) {
-					if(data != "0") {
-						$("#span-member-nickname").html("존재하는 닉네임입니다.");
-						$("#member_nickname").removeClass("is-valid");
-						$("#member_nickname").addClass("is-invalid");
+			    success : function(data) {
+					if(data != "") {
+						if (data == ori_member_nick) {
+							$("#span-member-nickname").html(" ");
+							$("#member_nickname").removeClass("is-invalid");
+							$("#member_nickname").addClass("is-valid");
+						} else {
+							$("#span-member-nickname").html("존재하는 닉네임입니다.");
+							$("#member_nickname").removeClass("is-valid");
+							$("#member_nickname").addClass("is-invalid");
+						}
 					} else {
-						$("#span-member-nickname").html("　");
+						$("#span-member-nickname").html(" 사용가능한 닉네임입니다. ");
 						$("#member_nickname").removeClass("is-invalid");
 						$("#member_nickname").addClass("is-valid");
 					}
@@ -224,13 +239,32 @@ $(document).ready(function(){
 	});
 	
 	
+	function password() {
+		var member_password = $("#member_password").val();
+		
+		if (member_password == "") {
+			return false
+		} else if (reg_blank.test(member_password)){
+			return true
+		} else if (!reg_password.test(member_password) || reg_sc.test(member_password)){
+			return true
+		} else if (reg_password.test(member_password)){
+			return false
+		} 
+	}
+	
+	
+	
 	$(".modify").on("click", function(e) {
 		e.preventDefault();
-		member_password = $("#member_password").val();
-		member_password_confirm = $("#member_password_confirm").val();
-		member_nickname = $("#member_nickname").val();
+		var member_password = $("#member_password").val();
+		var member_password_confirm = $("#member_password_confirm").val();
+		var member_nickname = $("#member_nickname").val();
+		var ori_member_nick = $("#ori_member_nick").val();
 		
-		if(reg_blank.test(member_password) || !reg_password.test(member_password) || reg_sc.test(member_password)){
+		var form = {member_nickname:member_nickname}
+		
+		if(password()){
 			alert("비밀번호를 확인해주세요.");
 			$("#member_password").focus();
 			return false;
@@ -242,28 +276,30 @@ $(document).ready(function(){
 			alert("닉네임을 입력해주세요.");
 			$("#member_nickname").focus();
 			return false;
-		} else if(!reg_name.test(member_nickname)){
+		} else if(!reg_nick.test(member_nickname)){
 			alert("닉네임을 확인해주세요.");
 			$("#member_nickname").focus();
 			return false;
-		} else if(reg_name.test(member_nickname)){
+		} else if (reg_nick.test(member_nickname)){
+			
 			$.ajax({
 				type : "post",
-				data : member_nickname, 
+				data : JSON.stringify(form),
 				url : "${contextPath}/admin/memberMG/confirmNick",
+				processData : true, 
 				contentType: "application/json; charset-utf-8", 
 				beforeSend : function(xhr) {
 			        xhr.setRequestHeader(csrf_headername, csrf_token);
 			    },
 				success : function(data) {
-					if(data != "0") {
-						$("#span-member-nickname").html("존재하는 닉네임입니다.");
-						$("#member_nickname").removeClass("is-valid");
-						$("#member_nickname").addClass("is-invalid");
+					if(data != "") {
+						if (data == ori_member_nick) {
+							modifyForm.submit();
+						} else {
+							alert("닉네임을 확인해주세요.");
+						}
 					} else {
-						$("#span-member-nickname").html("　");
-						$("#member_nickname").removeClass("is-invalid");
-						$("#member_nickname").addClass("is-valid");
+						modifyForm.submit();
 					}
 				},
 				error : function(request, error) {                                     

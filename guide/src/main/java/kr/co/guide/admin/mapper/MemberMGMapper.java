@@ -22,9 +22,9 @@ public interface MemberMGMapper {
 	
 	/* ● 회원정보 수정 페이지 */
 	//닉네임 중복 확인
-	public int confirmNick(String member_nickname) throws Exception;
+	public String confirmNick(MemberDTO mDto) throws Exception;
 	
-	public int update(MemberDTO mDto) throws Exception;
+	public boolean update(MemberDTO mDto) throws Exception;
 	
 	/* ● 탈퇴한 회원 관리 페이지 */
 	public List<MemberDTO> getListWithdrawYPaging(MemberCriteria cri) throws Exception;

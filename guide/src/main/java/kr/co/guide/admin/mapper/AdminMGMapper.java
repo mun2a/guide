@@ -12,7 +12,7 @@ public interface AdminMGMapper {
 	//관리자 권한 추가
 	public int insertAdminAuth(String member_id) throws Exception;
 	//관리자 권한 추가 - 이메일 확인
-	public int confirmPK(String member_id) throws Exception;
+	public String confirmPK(MemberDTO mDto) throws Exception;
 	
 	//관리자 권한 삭제
 	public int deleteAdminAuth(String member_id) throws Exception;

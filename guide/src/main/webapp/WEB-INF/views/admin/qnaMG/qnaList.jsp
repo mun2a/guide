@@ -81,16 +81,6 @@ label {
                                             <th>답변</th>
                                         </tr>
                                     </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>글 번호</th>
-                                            <th>제목</th>
-                                            <th>작성자 아이디</th>
-                                            <th>작성자 이름</th>
-                                            <th>등록일</th>
-                                            <th>답변</th>
-                                        </tr>
-                                    </tfoot>
                                     <tbody>
                                     	<c:choose>
 										<c:when test="${empty qnaMGList}">

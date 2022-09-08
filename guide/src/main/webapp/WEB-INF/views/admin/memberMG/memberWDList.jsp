@@ -73,16 +73,6 @@ label {
                                             <th>설정</th>
                                         </tr>
                                     </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>이메일</th>
-                                            <th>이름</th>
-                                            <th>닉네임</th>
-                                            <th>가입일</th>
-                                            <th>잠금</th>
-                                            <th>설정</th>
-                                        </tr>
-                                    </tfoot>
                                     <tbody>
 										<c:choose>
 										<c:when test="${empty memberMGList}">
@@ -179,7 +169,7 @@ label {
 		e.preventDefault();
 		var pk = $(this).attr("href");
 		
-		if (confirm("탙퇴를 취소하시겠습니까? : " + pk)) {
+		if (confirm("탈퇴를 취소하시겠습니까? : " + pk)) {
 			actionForm.append("<input type='hidden' name='member_id' value='" + pk + "'>");
 			actionForm.attr("action", "${contextPath}/admin/memberMG/memberWDCancle");
 			actionForm.submit();

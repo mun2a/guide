@@ -32,9 +32,9 @@ public class AdminMGService implements IAdminMGService{
 	}
 	
 	@Override
-	public int confirmPK(String member_id) throws Exception {
+	public String confirmPK(MemberDTO mDto) throws Exception {
 		log.info("AdminMGService......confirmPK..................");
-		return mapper.confirmPK(member_id);
+		return mapper.confirmPK(mDto);
 	}
 
 	@Override

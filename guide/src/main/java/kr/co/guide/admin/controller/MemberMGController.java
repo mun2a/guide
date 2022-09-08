@@ -1,14 +1,9 @@
 package kr.co.guide.admin.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -78,24 +73,16 @@ public class MemberMGController {
 	/* ● 회원정보 수정 페이지 */
 	@RequestMapping(value = "/memberModify", method = RequestMethod.GET)
 	public String memberModify(@RequestParam("member_id") String member_id, 
-				//@ModelAttribute("cri") MemberCriteria cri, 
+				@ModelAttribute("cri") MemberCriteria cri, 
 				Model model) throws Exception {
 		log.info("memberModify.............." + service.read(member_id));	
 		
 		model.addAttribute("memberModify", service.read(member_id));
-		//model.addAttribute("cri", cri);
+		model.addAttribute("cri", cri);
 		
 		return "admin/memberMG/memberModify";
 	}
 	
-	//중복 체크 기능 confirmNick
-	@PostMapping(value = "/confirmNick", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE })
-	public ResponseEntity<String> confirmNick(@RequestBody String member_nickname) throws Exception {
-		log.info("userid............................................ : " + member_nickname);
-
-		return service.confirmNick(member_nickname) == 0 ? new ResponseEntity<String>("0", HttpStatus.OK)
-				: new ResponseEntity<String>("1", HttpStatus.OK);
-	}
 	
 	//수정 기능 실행
 	@RequestMapping(value = "/memberModifyPost", method = RequestMethod.POST)
@@ -104,8 +91,7 @@ public class MemberMGController {
 			RedirectAttributes rttr)throws Exception {
 		log.info("memberModifyPost.............." + service.modify(mDto));	
 		
-		
-		return "admin/memberMG/memberModify" + cri.GetListLink();
+		return "redirect:/admin/memberMG/memberDetail" + cri.GetListLink();
 	}
 
 	

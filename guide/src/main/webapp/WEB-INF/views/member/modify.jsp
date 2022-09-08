@@ -39,7 +39,7 @@
 								<span class="fs-6 text-danger" id="span-member-name">　</span>
 							</div>
 							<div class="form-floating mb-2">
-								<input type="text" class="form-control " id="member_nickname" name="member_nickname" value="${memberInfo.member_nickname}" placeholder="text" maxlength="5"> 
+								<input type="text" class="form-control " id="member_nickname" name="member_nickname" value="${memberInfo.member_nickname}" placeholder="text" maxlength="20"> 
 								<label for="member_nickname">닉네임</label>
 								<span class="fs-6 text-danger" id="span-member-nickname">　</span>
 							</div>
