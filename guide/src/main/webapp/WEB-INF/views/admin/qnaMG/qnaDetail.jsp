@@ -21,7 +21,10 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Q & A</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Q & A &nbsp;&nbsp;&nbsp;
+                            <a class="qnaRemove btn btn-danger btn-sm" > 문의글 삭제</a>
+                            <a class="list btn btn-secondary btn-sm" style="float: right;">목록</a>
+                            </h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -63,7 +66,18 @@
                         </div>
                         
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Q & A Reply</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Q & A Reply &nbsp;&nbsp;&nbsp;
+	                        <a class="withdraw btn btn-danger btn-sm" >답변 삭제</a>
+	                        
+	                        <c:choose>
+							<c:when test="${empty qnaReplyList}">
+                            	<a class="modify btn btn-primary btn-sm" style="float: right;">답변 등록하기</a>
+                            </c:when>
+                            <c:otherwise>
+                            	<a class="modify btn btn-primary btn-sm" style="float: right;">답변 수정하기</a>
+                            </c:otherwise>
+                            </c:choose>
+                            </h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">

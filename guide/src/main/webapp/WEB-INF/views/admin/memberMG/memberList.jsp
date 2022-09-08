@@ -16,8 +16,8 @@
 label {
     display: block;
 }
-</style>
 
+</style>
 </head>
 <!-- End table header -->
 
@@ -35,7 +35,6 @@ label {
                             <h6 class="m-0 font-weight-bold text-primary">회원 정보</h6>
                         </div>
                         <div class="card-body">
-                        
                         
                         <!-- 검색 -->
                         <div id="dataTable_filter" class="dataTables_filter">
@@ -57,9 +56,6 @@ label {
 							</label>
 						</form>
 						</div> <!-- End 검색 -->
-                        
-                        
-                        
                         
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="#" width="100%" cellspacing="0">
@@ -103,8 +99,8 @@ label {
 	                                        	</c:otherwise>
 	                                        </c:choose>
 	                                        <td>
-	                                        	<a class="detail btn btn-primary btn-sm" href="${memDto.member_id}">상세</a>
-	                                        	<a class="withdraw btn btn-danger btn-sm" href="${memDto.member_id}">탈퇴</a>
+	                                        	<a class="detail btn btn-primary btn-sm" href="${memDto.member_id}" >상세</a>
+	                                        	<a class="withdraw btn btn-danger btn-sm" href="${memDto.member_id}" >탈퇴</a>
 	                                        </td>
 	                                    </tr>
 	                                	</c:forEach>
@@ -163,6 +159,7 @@ label {
 
 <script type="text/javascript">
 	var actionForm = $("#actionForm");
+	
 	//회원 상세
 	$(".detail").on("click", function(e) {
 		e.preventDefault();
@@ -173,6 +170,7 @@ label {
 		actionForm.submit();
 	
 	});
+	
 	//회원 탈퇴
 	$(".withdraw").on("click", function(e) {
 		e.preventDefault();

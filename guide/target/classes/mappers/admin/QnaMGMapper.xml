@@ -29,6 +29,10 @@
  	
  	<!-- qna 검색 -->
 	<sql id="criteria">
+		<if test="!(qna_title == null or ''.equals(qna_title))">
+  				AND qna_title = #{qna_title}
+  		</if> 
+	
 	   	<trim prefix="AND (" suffix=")" prefixOverrides="OR" >
 			<foreach collection="typeArr" item="type">
 				<trim prefix="OR">
