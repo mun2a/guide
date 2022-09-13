@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import kr.co.guide.admin.domain.QnaCriteria;
 import kr.co.guide.admin.domain.QnaDTO;
-import kr.co.guide.admin.domain.QnaReplyDTO;
 import kr.co.guide.admin.mapper.QnaMGMapper;
 import kr.co.guide.admin.service.IQnaMGService;
 
@@ -17,31 +16,32 @@ import kr.co.guide.admin.service.IQnaMGService;
 public class QnaMGService implements IQnaMGService {
 	
 	@Autowired
-	private QnaMGMapper mapper;
+	private QnaMGMapper qnaMapper;
 	
 	private static final Logger log = LoggerFactory.getLogger(QnaMGService.class);
 
 	@Override
 	public List<QnaDTO> list(QnaCriteria cri) throws Exception {
 		log.info("QnaMGService......getListWithPaging..................");
-		return mapper.getListWithPaging(cri);
+		return qnaMapper.getListWithPaging(cri);
 	}
 
 	@Override
 	public int totalCnt(QnaCriteria cri) throws Exception {
 		log.info("QnaMGService......getTotalCnt..................");
-		return mapper.getTotalCnt(cri);
+		return qnaMapper.getTotalCnt(cri);
 	}
 
 	@Override
 	public QnaDTO read(String qna_no) throws Exception {
 		log.info("QnaMGService......detail..................");
-		return mapper.read(qna_no);
+		return qnaMapper.read(qna_no);
 	}
 
 	@Override
-	public List<QnaReplyDTO> readReply(String qna_no) throws Exception {
-		return mapper.readReply(qna_no);
+	public boolean removeQna(String qna_no) throws Exception {
+		log.info("QnaMGService......removeQna..................");
+		return qnaMapper.deleteQna(qna_no);
 	}
 
 }

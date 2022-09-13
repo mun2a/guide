@@ -22,7 +22,7 @@
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">Q & A &nbsp;&nbsp;&nbsp;
-                            <a class="qnaRemove btn btn-danger btn-sm" > 문의글 삭제</a>
+                            <a class="qna_remove btn btn-danger btn-sm" > 문의글 삭제</a>
                             <a class="list btn btn-secondary btn-sm" style="float: right;">목록</a>
                             </h6>
                         </div>
@@ -67,14 +67,14 @@
                         
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">Q & A Reply &nbsp;&nbsp;&nbsp;
-	                        <a class="withdraw btn btn-danger btn-sm" >답변 삭제</a>
+	                        <a class="qna_reply_remove btn btn-danger btn-sm" >답변 삭제</a>
 	                        
 	                        <c:choose>
 							<c:when test="${empty qnaReplyList}">
-                            	<a class="modify btn btn-primary btn-sm" style="float: right;">답변 등록하기</a>
+                            	<a class="qna_reply_add btn btn-primary btn-sm" style="float: right;">답변 등록하기</a>
                             </c:when>
                             <c:otherwise>
-                            	<a class="modify btn btn-primary btn-sm" style="float: right;">답변 수정하기</a>
+                            	<a class="qna_reply_modify btn btn-primary btn-sm" style="float: right;">답변 수정하기</a>
                             </c:otherwise>
                             </c:choose>
                             </h6>
@@ -110,9 +110,6 @@
 	                                	<tr>
 	                                        <td>답변 내용:  ${qnaReDto.qna_reply_content }</td>
 	                                    </tr>
-	                                	<tr>
-	                                        <td>글 번호:  ${qnaReDto.qna_no}</td>
-	                                    </tr>
 	                                	</c:forEach>
 	                                	</c:otherwise>
 										</c:choose>
@@ -121,34 +118,55 @@
                             </div>
                         </div>
                         
-                        
-                        
-                        
                     </div>
 
                 </div>
                 <!-- /.container-fluid -->
+                
+<a class="" href="#" data-toggle="modal" data-target="#infoModal">
+	<i class="fas fa-arrow-right"></i>
+</a> 
+                
+<form id="actionForm" action="#" method="post">
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+	<input type="hidden" name="pageNum" value="${cri.pageNum }">
+    <input type="hidden" name="amount" value="${cri.amount }">
+    <input type="hidden" name="type" value="${cri.type }">
+    <input type="hidden" name="keyword" value="${cri.keyword }">
+	                            	
+	<input type="hidden" name="qna_title" value="${cri.qna_title }">
+	
+	<input type="hidden" name="qna_no" value="${qnaDetail.qna_no }">
+</form>
 
 
 
 <script type="text/javascript">
 	var actionForm = $("#actionForm");
-/* 	$(".detail").on("click", function(e) {
-		e.preventDefault();
-		var pk = $(this).attr("href");
-		
-		actionForm.append("<input type='hidden' name='tour_no' value='" + pk + "'>");
-		actionForm.attr("action", "${contextPath}/admin/tourMG/qnaDetail");
-		actionForm.submit();
 	
-	}); */
+	//문의글 목록
+	$(".list").on("click", function(e) {
+		location.href = "${contextPath}/admin/qnaMG/qnaList?pageNum=${cri.pageNum}"
+			+"&amount=${cri.amount}&type=${cri.type}&keyword=${cri.keyword}"
+			+"&qna_title=${cri.qna_title}";
+	});
+	
+ 	$(".qna_remove").on("click", function(e) {
+		e.preventDefault();
+		/* var pk = $(this).attr("href"); */
+		
+		if (confirm("문의를 삭제하시겠습니까? : " )){
+			actionForm.attr("action", "${contextPath}/admin/qnaMG/delete");
+			actionForm.submit();
+		}
+	});
 	
 /* 	$(".remove").on("click", function(e) {
 		e.preventDefault();
 		var pk = $(this).attr("href");
 		
 		actionForm.append("<input type='hidden' name='tour_no' value='" + pk + "'>");
-		actionForm.attr("action", "${contextPath}/admin/tourMG/tourListDel");
+		actionForm.attr("action", "${contextPath}/admin/qnaMG/qnaList");
 		actionForm.submit();
 		alert("삭제되었습니다. : " + pk );
 	

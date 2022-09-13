@@ -4,7 +4,6 @@ import java.util.List;
 
 import kr.co.guide.admin.domain.QnaCriteria;
 import kr.co.guide.admin.domain.QnaDTO;
-import kr.co.guide.admin.domain.QnaReplyDTO;
 
 public interface IQnaMGService {
 	
@@ -15,7 +14,7 @@ public interface IQnaMGService {
 	//문의글 상세
 	public QnaDTO read(String qna_no) throws Exception;
 	
-	//문의글 답변
-	public List<QnaReplyDTO> readReply(String qna_no) throws Exception;
+	//문의글 삭제
+	public boolean removeQna(String qna_no) throws Exception;
 
 }

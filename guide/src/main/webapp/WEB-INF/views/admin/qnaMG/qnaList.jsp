@@ -54,7 +54,7 @@ label {
 								<option value="2">일정 문의</option>
 								<option value="3">기타 문의</option>
 							</select>
-							<br>
+							<br><br>
 							검색 유형: &nbsp;
 							<select name="type" id="type" class="form-control form-control-sm" aria-controls="dataTable" style="width: 10%;">
 								<option selected value="QEN" <c:out value="${pageMaker.cri.type == 'QEN' ? 'selected' : ''}" />>--------</option>

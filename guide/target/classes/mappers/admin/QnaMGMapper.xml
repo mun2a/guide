@@ -40,9 +40,6 @@
 						<when test="type == 'Q'.toString()">
 							qna_no LIKE '%'||#{keyword}||'%'
 						</when>
-						<when test="type == 'T'.toString()">
-							qna_title LIKE '%'||#{keyword}||'%'
-						</when>
 						<when test="type == 'E'.toString()">
 							qna_write LIKE '%'||#{keyword}||'%'
 						</when>
@@ -94,12 +91,13 @@
   		FROM tbl_qna
   		where qna_no = #{qna_no}
   	</select>
-
-	<select id="readReply" resultType="kr.co.guide.admin.domain.QnaReplyDTO">
-		SELECT * 
-  		FROM tbl_qna_reply
-  		where qna_no = #{qna_no}
-	</select>
+  	
+  	<!-- 문의글 삭제 -->
+ 	<delete id="deleteQna" parameterType="String">
+ 		DELETE  
+ 		FROM    tbl_qna
+ 		WHERE   qna_no = #{qna_no}
+ 	</delete>
 
 
 
