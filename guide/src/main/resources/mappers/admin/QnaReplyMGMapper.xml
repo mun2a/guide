@@ -27,14 +27,54 @@
  		<result property="member_id" column="member_id"/>
  	</resultMap>
  	
+ 	<!-- qna 댓글 읽기 -->
 	<select id="readReply" resultType="kr.co.guide.admin.domain.QnaReplyDTO">
 		SELECT * 
   		FROM tbl_qna_reply
-  		where qna_no = #{qna_no}
+  		WHERE qna_no = #{qna_no}
+  		ORDER BY qna_reply_regist_date
 	</select> 	
 	
-
-
+	<!-- qna 댓글 등록 -->
+	<insert id="insertQnaReply" parameterType="kr.co.guide.admin.domain.QnaReplyDTO">
+		INSERT INTO tbl_qna_reply(
+			qna_reply_no
+			,qna_reply_content
+			,qna_no
+			,member_id 
+		)
+		VALUES(  
+			seq_qna_reply.NEXTVAL
+			,#{qna_reply_content}
+			,#{qna_no}
+			,#{member_id}
+		)
+		<selectKey keyProperty="qna_reply_no" resultType="String" order="AFTER">
+			SELECT seq_qna_reply.currval 
+			FROM dual
+		</selectKey>
+	</insert>
+	
+	<!-- qna 댓글 수정 -->
+	<update id="updateQnaReply" parameterType="kr.co.guide.admin.domain.QnaReplyDTO">
+		UPDATE tbl_qna_reply
+		SET qna_reply_content = #{qna_reply_content}
+			,member_id = #{member_id}
+		WHERE qna_reply_no = #{qna_reply_no}
+	</update>
+	
+	<!-- qna 댓글 삭제 -->
+	<delete id="deleteQnaReply" parameterType="String">
+		DELETE FROM tbl_qna_reply
+		WHERE qna_reply_no = #{qna_reply_no}
+	</delete>
+	
+	<!-- qna 댓글 수 -->
+	<select id="countQnaReply" resultType="int">
+		SELECT count(*)
+  		FROM tbl_qna_reply
+  		WHERE qna_no = #{qna_no}
+	</select> 	
 
 </mapper>
   

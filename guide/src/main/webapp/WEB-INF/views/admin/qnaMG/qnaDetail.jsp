@@ -7,7 +7,24 @@
     <!-- Custom styles for this page -->
     <link href="${contextPath }/resources/admin/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
+<style type="text/css">
+#replyDiv , #replyAddDiv{
+	border: 1px solid #e3e6f0;
+	border-radius: 10px;
+	padding: 10px;
+	padding-bottom: 45px;
+}
+
+.replyAddArea {
+	width: 100%; 
+	resize: none;
+	border: 1px solid #858796;
+	padding: 10px;
+}
+
+</style>
 </head>
+
 <!-- End table header -->
 
 
@@ -28,37 +45,35 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="#" width="100%" cellspacing="0">
+                                <table class="table table-bordered" width="100%" cellspacing="0">
                                     <tbody>
 	                                	<tr>
-	                                        <td>문의글 번호: ${qnaDetail.qna_no}</td>
-	                                    </tr>
+	                                		<td colspan="3">
+	                                			<span style="float: left;">문의글 번호: ${qnaDetail.qna_no}</span>
+	                                			<span style="float: right;">등록일: ${qnaDetail.qna_regist_date}</span>
+	                                		</td>
+	                                	</tr>
 	                                	<tr>
-	                                		<td>제목:  
-	                                        <c:choose>
-	                                        	<c:when test="${qnaDetail.qna_title == '1'}">
-	                                        	계정 문의
-	                                        	</c:when>
-	                                        	<c:when test="${qnaDetail.qna_title == '2'}">
-	                                        	일정 문의
-	                                        	</c:when>
-	                                        	<c:when test="${qnaDetail.qna_title == '3'}">
-	                                        	기타 문의
-	                                        	</c:when>
-	                                        </c:choose>
+	                                		<td width="33%">제목:  
+		                                        <c:choose>
+		                                        	<c:when test="${qnaDetail.qna_title == '1'}">
+		                                        	계정 문의
+		                                        	</c:when>
+		                                        	<c:when test="${qnaDetail.qna_title == '2'}">
+		                                        	일정 문의
+		                                        	</c:when>
+		                                        	<c:when test="${qnaDetail.qna_title == '3'}">
+		                                        	기타 문의
+		                                        	</c:when>
+		                                        </c:choose>
 	                                        </td>
+	                                        <td width="33%">아이디: ${qnaDetail.qna_write}</td>
+	                                        <td width="33%">이름: ${qnaDetail.qna_write_name}</td>
 	                                    </tr>
 	                                	<tr>
-	                                        <td>작성자 아이디: ${qnaDetail.qna_write}</td>
-	                                    </tr>
-	                                	<tr>
-	                                        <td>작성자 이름: ${qnaDetail.qna_write_name}</td>
-	                                    </tr>
-	                                	<tr>
-	                                        <td>등록일: ${qnaDetail.qna_regist_date}</td>
-	                                    </tr>
-	                                	<tr>
-	                                        <td>내용: ${qnaDetail.qna_content}</td>
+	                                        <td colspan="3">
+	                                        	<p style="padding: 0px 10px;">${qnaDetail.qna_content}</p>
+	                                        </td>
 	                                    </tr>
                                     </tbody>
                                 </table>
@@ -66,55 +81,42 @@
                         </div>
                         
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Q & A Reply &nbsp;&nbsp;&nbsp;
-	                        <a class="qna_reply_remove btn btn-danger btn-sm" >답변 삭제</a>
-	                        
-	                        <c:choose>
-							<c:when test="${empty qnaReplyList}">
-                            	<a class="qna_reply_add btn btn-primary btn-sm" style="float: right;">답변 등록하기</a>
-                            </c:when>
-                            <c:otherwise>
-                            	<a class="qna_reply_modify btn btn-primary btn-sm" style="float: right;">답변 수정하기</a>
-                            </c:otherwise>
-                            </c:choose>
-                            </h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Q & A Reply &nbsp;&nbsp;&nbsp;</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="#" width="100%" cellspacing="0">
-                                    <tbody>
-	                                	<c:choose>
-										<c:when test="${empty qnaReplyList}">
-										    <tr>
-										      <td colspan="6">
-										         <p align="center">
-										            <b><span >등록된 답변이 없습니다.</span></b>
-										        </p>
-										      </td>  
-										    </tr>
-										</c:when>
-										<c:otherwise>
+                            	<div id="replyAddDiv">
+                           			<p style="padding: 10px; margin-bottom: 0;">
+										<textarea class="replyAddArea" id="qna_reply_content" name="qna_reply_content" rows="5" placeholder="댓글을 입력하세요."></textarea>
+									</p>
+									<a class="qna_reply_add btn btn-primary btn-sm float-end me-4" >답변 등록하기</a>
+                            	</div>
+                            	<br>
+                           		<c:choose>
+									<c:when test="${empty qnaReplyList}">
+                           				<div>
+									         <p align="center">
+									            <b><span >등록된 답변이 없습니다.</span></b>
+									        </p>
+										</div>
+									</c:when>
+									<c:otherwise>
 										<c:forEach items="${qnaReplyList }" var="qnaReDto">
-	                                	<tr>
-	                                        <td>글 번호: ${qnaReDto.qna_no}</td>
-	                                    </tr>
-	                                	<tr>
-	                                        <td>답변 글 번호:  ${qnaReDto.qna_reply_no}</td>
-	                                    </tr>
-	                                	<tr>
-	                                        <td>작성자:  ${qnaReDto.member_id}</td>
-	                                    </tr>
-	                                	<tr>
-	                                        <td>답변 등록일:  ${qnaReDto.qna_reply_regist_date }</td>
-	                                    </tr>
-	                                	<tr>
-	                                        <td>답변 내용:  ${qnaReDto.qna_reply_content }</td>
-	                                    </tr>
-	                                	</c:forEach>
-	                                	</c:otherwise>
-										</c:choose>
-                                    </tbody>
-                                </table>
+										<div id="replyDiv">
+	                                		<span>
+	                                			${qnaReDto.member_id}
+	                                			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+	                                			${qnaReDto.qna_reply_regist_date }
+	                                		</span>
+	                                		<br>
+	                                		<p style="margin: 15px;">${qnaReDto.qna_reply_content }</p>
+	                                			<a class="qna_reply_remove btn btn-danger btn-sm float-end me-4" data-qna_reply="${qnaReDto.qna_reply_no}">답변 삭제</a>
+		                                		<a class="qna_reply_modify btn btn-primary btn-sm float-end me-4" data-qna_reply="${qnaReDto.qna_reply_no}">답변 수정하기</a>
+										</div>
+										<br>
+										</c:forEach>
+                                	</c:otherwise>
+								</c:choose>
                             </div>
                         </div>
                         
@@ -123,9 +125,6 @@
                 </div>
                 <!-- /.container-fluid -->
                 
-<a class="" href="#" data-toggle="modal" data-target="#infoModal">
-	<i class="fas fa-arrow-right"></i>
-</a> 
                 
 <form id="actionForm" action="#" method="post">
 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
@@ -140,7 +139,6 @@
 </form>
 
 
-
 <script type="text/javascript">
 	var actionForm = $("#actionForm");
 	
@@ -151,26 +149,50 @@
 			+"&qna_title=${cri.qna_title}";
 	});
 	
+	//문의글 삭제
  	$(".qna_remove").on("click", function(e) {
 		e.preventDefault();
-		/* var pk = $(this).attr("href"); */
 		
 		if (confirm("문의를 삭제하시겠습니까? : " )){
 			actionForm.attr("action", "${contextPath}/admin/qnaMG/delete");
 			actionForm.submit();
 		}
 	});
-	
-/* 	$(".remove").on("click", function(e) {
+ 	
+ 	//댓글 등록
+ 	$(".qna_reply_add").on("click", function(e) {
 		e.preventDefault();
-		var pk = $(this).attr("href");
+		var qna_reply_content = $("#qna_reply_content").val();
+		var member_id = $("#userid").val();
 		
-		actionForm.append("<input type='hidden' name='tour_no' value='" + pk + "'>");
-		actionForm.attr("action", "${contextPath}/admin/qnaMG/qnaList");
-		actionForm.submit();
-		alert("삭제되었습니다. : " + pk );
+		if (qna_reply_content == "") {
+			alert("댓글 내용을 입력해주세요!")
+		} else {
+			actionForm.append("<input type='hidden' name='qna_reply_content' value='" + qna_reply_content + "'>");
+			actionForm.append("<input type='hidden' name='member_id' value='" + member_id + "'>");
+			actionForm.attr("action", "${contextPath}/admin/qnaReplyMG/addReply");
+			actionForm.submit();
+		}
+		
+	});
+ 	
+ 	//댓글 수정
+ 	$(".qna_reply_modify").on("click", function(e) {
+		e.preventDefault();
+		
+	});
+ 	
+ 	//댓글 삭제
+ 	$(".qna_reply_remove").on("click", function(e) {
+		e.preventDefault();
+		var qna_reply_no = $(this).data("qna_reply");
+		if (confirm("댓글을 삭제하시겠습니까? : " )){
+			actionForm.append("<input type='hidden' name='qna_reply_no' value='" + qna_reply_no + "'>");
+			actionForm.attr("action", "${contextPath}/admin/qnaReplyMG/removeReply");
+			actionForm.submit();
+		}
+	});
 	
-	}); */
 	
 	
 </script>

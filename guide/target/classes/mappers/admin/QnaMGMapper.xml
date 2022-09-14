@@ -99,7 +99,12 @@
  		WHERE   qna_no = #{qna_no}
  	</delete>
 
-
+ 	<!-- qna 댓글 존재 여부 -->
+ 	<update id="updateQnaExist" parameterType="kr.co.guide.admin.domain.QnaDTO">
+ 		UPDATE   tbl_qna
+ 		SET      qna_reply_exist = #{qna_reply_exist}
+ 		WHERE    qna_no = #{qna_no}
+ 	</update>
 
 </mapper>
   

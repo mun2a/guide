@@ -17,5 +17,7 @@ public interface QnaMGMapper {
 	//문의글 삭제
 	public boolean deleteQna(String qna_no) throws Exception;
 	
+	//qna 댓글 존재 여부
+	public int updateQnaExist(QnaDTO qDto);
 
 }
