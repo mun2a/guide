@@ -42,7 +42,6 @@ public class QnaReplyMGController {
 	//관리자 댓글 등록
 	@PostMapping(value = "/addReply")
 	public String addReplyPost(QnaReplyDTO qrDto, @ModelAttribute("cri") MemberCriteria cri,
-			//@RequestParam("qna_no") String qna_no, 
 			RedirectAttributes rttr) {
 		log.info("addReplyPost...........................................qrDto:" + qrDto);
 		
@@ -52,10 +51,21 @@ public class QnaReplyMGController {
 		return "redirect:/admin/qnaMG/qnaDetail" + cri.GetListLink() ;
 	}
 	
+	//관리자 댓글 수정
+	@PostMapping(value = "/modifyReply")
+	public String modifyReplyPost(QnaReplyDTO qrDto, @ModelAttribute("cri") MemberCriteria cri,
+			RedirectAttributes rttr) {
+		log.info("modifyReplyPost...........................................qrDto:" + qrDto);
+		
+		qnaReplyService.modifyQnaReply(qrDto);
+		rttr.addAttribute("qna_no", qrDto.getQna_no());
+		
+		return "redirect:/admin/qnaMG/qnaDetail" + cri.GetListLink() ;
+	}
+	
 	//관리자 댓글 삭제
 	@PostMapping(value = "/removeReply")
 	public String removeReplyPost(QnaReplyDTO qrDto, @ModelAttribute("cri") MemberCriteria cri,
-			//@RequestParam("qna_no") String qna_no, 
 			RedirectAttributes rttr) throws Exception {
 		log.info("removeReplyPost...........................................qrDto:" + qrDto);
 		

@@ -8,7 +8,7 @@
     <link href="${contextPath }/resources/admin/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 <style type="text/css">
-#replyDiv , #replyAddDiv{
+.replyDiv , .replyAddDiv{
 	border: 1px solid #e3e6f0;
 	border-radius: 10px;
 	padding: 10px;
@@ -85,7 +85,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                            	<div id="replyAddDiv">
+                            	<div class="replyAddDiv">
                            			<p style="padding: 10px; margin-bottom: 0;">
 										<textarea class="replyAddArea" id="qna_reply_content" name="qna_reply_content" rows="5" placeholder="댓글을 입력하세요."></textarea>
 									</p>
@@ -102,16 +102,21 @@
 									</c:when>
 									<c:otherwise>
 										<c:forEach items="${qnaReplyList }" var="qnaReDto">
-										<div id="replyDiv">
+										<div class="replyDiv" >
 	                                		<span>
 	                                			${qnaReDto.member_id}
 	                                			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
 	                                			${qnaReDto.qna_reply_regist_date }
 	                                		</span>
 	                                		<br>
-	                                		<p style="margin: 15px;">${qnaReDto.qna_reply_content }</p>
-	                                			<a class="qna_reply_remove btn btn-danger btn-sm float-end me-4" data-qna_reply="${qnaReDto.qna_reply_no}">답변 삭제</a>
-		                                		<a class="qna_reply_modify btn btn-primary btn-sm float-end me-4" data-qna_reply="${qnaReDto.qna_reply_no}">답변 수정하기</a>
+	                                		<div id="div_${qnaReDto.qna_reply_no}">
+		                                		<div id="div2_${qnaReDto.qna_reply_no}">
+		                                			<p style="margin: 15px;">${qnaReDto.qna_reply_content }</p>
+		                                		
+		                                			<a class="qna_reply_remove btn btn-danger btn-sm float-end me-4" data-qna_reply="${qnaReDto.qna_reply_no}">답변 삭제</a>
+			                                		<a class="qna_reply_modify btn btn-primary btn-sm float-end me-4" data-qna_reply="${qnaReDto.qna_reply_no}" data-qna_reply_content="${qnaReDto.qna_reply_content}">답변 수정하기</a>
+		                                		</div>
+	                                		</div>
 										</div>
 										<br>
 										</c:forEach>
@@ -176,11 +181,54 @@
 		
 	});
  	
- 	//댓글 수정
+ 	
+ 	
+ 	//댓글 수정 버튼 클릭
  	$(".qna_reply_modify").on("click", function(e) {
 		e.preventDefault();
+		var content = "";
+		var qna_reply_content = $(this).data("qna_reply_content");
+		var qna_reply_no = $(this).data("qna_reply");
+		
+		content += '<div id="div3_'+ qna_reply_no +'">';
+		content += '<p style="padding: 10px; margin-bottom: 0;">';
+		content += '<textarea class="replyAddArea" id="new_content" name="qna_reply_content" rows="5">'+ qna_reply_content +'</textarea>';
+		content += '</p>';
+		content += '<a class="btn btn-secondary btn-sm float-end me-4" onclick="cancle('+ qna_reply_no +');" >취소하기</a>';
+		content += '<a class="btn btn-primary btn-sm float-end me-4"onclick="modify('+ qna_reply_no +');" >수정하기</a>';
+		content += '</div>';
+		
+		//$("#div_"+qna_reply_no).empty();
+		$("#div2_"+qna_reply_no).hide();
+		$("#div_"+qna_reply_no).append(content);
 		
 	});
+ 	
+ 	//수정 취소
+ 	function cancle(qna_reply_no) {
+ 		$("#div2_"+qna_reply_no).show();
+ 		$("#div3_"+qna_reply_no).remove();
+	}
+ 	
+ 	// 댓글 수정 ==========================================
+ 	function modify(qna_reply_no) {
+ 		var member_id = $("#userid").val();
+ 		var qna_reply_content = $("#new_content").val();
+ 		
+ 		
+ 		if (qna_reply_content == "") {
+			alert("댓글 내용을 입력해주세요!")
+		} else {
+ 			actionForm.append("<input type='hidden' name='qna_reply_no' value='" + qna_reply_no + "'>");
+			actionForm.append("<input type='hidden' name='qna_reply_content' value='" + qna_reply_content + "'>");
+			actionForm.append("<input type='hidden' name='member_id' value='" + member_id + "'>");
+			actionForm.attr("action", "${contextPath}/admin/qnaReplyMG/modifyReply");
+			actionForm.submit();
+		} 
+ 		console.log("aaaaaaaaaaaaaaaaaa");
+ 		
+	}
+ 	
  	
  	//댓글 삭제
  	$(".qna_reply_remove").on("click", function(e) {

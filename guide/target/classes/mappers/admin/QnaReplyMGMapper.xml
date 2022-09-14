@@ -32,7 +32,7 @@
 		SELECT * 
   		FROM tbl_qna_reply
   		WHERE qna_no = #{qna_no}
-  		ORDER BY qna_reply_regist_date
+  		ORDER BY qna_reply_no
 	</select> 	
 	
 	<!-- qna 댓글 등록 -->
@@ -60,6 +60,7 @@
 		UPDATE tbl_qna_reply
 		SET qna_reply_content = #{qna_reply_content}
 			,member_id = #{member_id}
+			,qna_reply_regist_date = sysdate
 		WHERE qna_reply_no = #{qna_reply_no}
 	</update>
 	
