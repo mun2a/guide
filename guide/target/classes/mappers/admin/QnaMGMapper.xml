@@ -72,6 +72,7 @@
 		]]>
   			<include refid="criteria"></include>
 		<![CDATA[
+			ORDER BY qna_no desc
 			)
 			WHERE rn > (#{pageNum} - 1) * #{amount}	
 			ORDER BY qna_no desc

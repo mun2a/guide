@@ -158,7 +158,7 @@
  	$(".qna_remove").on("click", function(e) {
 		e.preventDefault();
 		
-		if (confirm("문의를 삭제하시겠습니까? : " )){
+		if (confirm("문의를 삭제하시겠습니까?  " )){
 			actionForm.attr("action", "${contextPath}/admin/qnaMG/delete");
 			actionForm.submit();
 		}
@@ -234,7 +234,7 @@
  	$(".qna_reply_remove").on("click", function(e) {
 		e.preventDefault();
 		var qna_reply_no = $(this).data("qna_reply");
-		if (confirm("댓글을 삭제하시겠습니까? : " )){
+		if (confirm("댓글을 삭제하시겠습니까?  " )){
 			actionForm.append("<input type='hidden' name='qna_reply_no' value='" + qna_reply_no + "'>");
 			actionForm.attr("action", "${contextPath}/admin/qnaReplyMG/removeReply");
 			actionForm.submit();

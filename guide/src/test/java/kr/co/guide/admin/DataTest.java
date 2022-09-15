@@ -9,6 +9,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import kr.co.guide.member.domain.MemberDTO;
 import kr.co.guide.member.mapper.MemberMapper;
+import kr.co.guide.qna.domain.QnaDTO;
+import kr.co.guide.qna.mapper.QnaMapper;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
@@ -21,6 +23,9 @@ public class DataTest {
 	
 	@Autowired
 	private MemberMapper mMapper;
+	
+	@Autowired
+	private QnaMapper qnaMapper;
 	
 	@Setter(onMethod_ = @Autowired)
 	private PasswordEncoder passwordEncoder;
@@ -78,6 +83,120 @@ public class DataTest {
 //		
 //	}
 
+	
+//	@Test
+//	public void qnaData() throws Exception{
+//		
+//		QnaDTO qDto = new QnaDTO();
+//		
+//		for (int i = 10; i <= 20; i++) {
+//			qDto.setQna_title("1");
+//			qDto.setQna_content("Qna content userName" + i);
+//			
+//			qDto.setQna_write("user"+ i +"@naver.com");
+//			qDto.setQna_write_name("userName" + i);
+//			
+//			qDto.setQna_secret("N");
+//			//qDto.setQna_password("");
+//			
+//			qnaMapper.insertQnaBoard(qDto);
+//		}
+//		
+//		for (int i = 20; i <= 30; i++) {
+//			qDto.setQna_title("2");
+//			qDto.setQna_content("Qna content userName" + i);
+//			
+//			qDto.setQna_write("user"+ i +"@naver.com");
+//			qDto.setQna_write_name("userName" + i);
+//			
+//			qDto.setQna_secret("Y");
+//			qDto.setQna_password("2345");
+//			
+//			qnaMapper.insertQnaBoard(qDto);
+//		}
+//		
+//		for (int i = 30; i <= 40; i++) {
+//			qDto.setQna_title("3");
+//			qDto.setQna_content("Qna content userName" + i);
+//			
+//			qDto.setQna_write("user"+ i +"@naver.com");
+//			qDto.setQna_write_name("userName" + i);
+//			
+//			qDto.setQna_secret("Y");
+//			qDto.setQna_password("3456");
+//			
+//			qnaMapper.insertQnaBoard(qDto);
+//		}
+//		
+//		for (int i = 110; i <= 120; i++) {
+//			qDto.setQna_title("1");
+//			qDto.setQna_content("Qna content userName" + i);
+//			
+//			qDto.setQna_write("user"+ i +"@gmail.com");
+//			qDto.setQna_write_name("userName" + i);
+//			
+//			qDto.setQna_secret("Y");
+//			qDto.setQna_password("1123");
+//			
+//			qnaMapper.insertQnaBoard(qDto);
+//		}
+//		
+//		for (int i = 120; i <= 130; i++) {
+//			qDto.setQna_title("2");
+//			qDto.setQna_content("Qna content userName" + i);
+//			
+//			qDto.setQna_write("user"+ i +"@gmail.com");
+//			qDto.setQna_write_name("userName" + i);
+//			
+//			qDto.setQna_secret("N");
+//			//qDto.setQna_password("user"+ i);
+//			
+//			qnaMapper.insertQnaBoard(qDto);
+//		}
+//		
+//		for (int i = 130; i <= 140; i++) {
+//			qDto.setQna_title("3");
+//			qDto.setQna_content("Qna content userName" + i);
+//			
+//			qDto.setQna_write("user"+ i +"@gmail.com");
+//			qDto.setQna_write_name("userName" + i);
+//			
+//			qDto.setQna_secret("N");
+//			//qDto.setQna_password("user"+ i);
+//			
+//			qnaMapper.insertQnaBoard(qDto);
+//		}
+//		
+//		for (int i = 220; i <= 230; i++) {
+//			qDto.setQna_title("2");
+//			qDto.setQna_content("Qna content userName" + i);
+//			
+//			qDto.setQna_write("user"+ i +"@daum.net");
+//			qDto.setQna_write_name("userName" + i);
+//			
+//			qDto.setQna_secret("N");
+//			//qDto.setQna_password("user"+ i);
+//			
+//			qnaMapper.insertQnaBoard(qDto);
+//		}
+//		
+//		for (int i = 230; i <= 240; i++) {
+//			qDto.setQna_title("3");
+//			qDto.setQna_content("Qna content userName" + i);
+//			
+//			qDto.setQna_write("user"+ i +"@daum.net");
+//			qDto.setQna_write_name("userName" + i);
+//			
+//			qDto.setQna_secret("Y");
+//			qDto.setQna_password("2345");
+//			
+//			qnaMapper.insertQnaBoard(qDto);
+//		}
+//		
+//		
+//	}
+	
+	
 	
 	
 	

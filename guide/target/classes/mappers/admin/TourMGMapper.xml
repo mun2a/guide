@@ -96,7 +96,9 @@
 		]]>
   			<include refid="criteria"></include>
 		<![CDATA[
-			AND rownum <= #{pageNum} * #{amount})
+			AND rownum <= #{pageNum} * #{amount}
+			ORDER BY t.area_code, t.area_detail_code, tour_title
+			)
 			WHERE rn > (#{pageNum} - 1) * #{amount}	
 			ORDER BY rn
 		]]>

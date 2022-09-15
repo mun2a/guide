@@ -20,6 +20,7 @@
 	<security:http auto-config="true" use-expressions="true">
 	
 		<!-- <security:intercept-url pattern="/gogo.co.kr" access="hasRole('ROLE_MEMBER')"/> -->
+		<security:intercept-url pattern="/gogo.co.kr/admin/**" access="hasRole('ROLE_ADMIN')"/>
 		
 		<security:form-login  username-parameter="member_id"         
 							  password-parameter="member_password"
