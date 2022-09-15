@@ -45,6 +45,30 @@
             </div>
         </div>
     </div>
+    
+    
+      <!-- infoModal-->
+      <div id="modal">
+		  <div class="modal fade" id="infoModal" tabindex="-1"  tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+		    <div class="modal-dialog" role="document">
+		      <div class="modal-content">
+		        <div class="modal-header">
+		          <h5 class="modal-title" id="infoModalLabel">Information</h5>
+		          <button class="close" type="button" data-bs-dismiss="modal" aria-label="Close">
+		          x
+		          </button>
+		        </div>
+		        <div class="modal-body">
+			        <!-- msg -->
+		        </div>
+		        <div class="modal-footer">
+		          <button class="btn btn-primary" type="button" data-bs-dismiss="modal">닫기</button>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+	  </div>
+    
 
     <!-- Bootstrap core JavaScript-->
     <script src="${contextPath }/resources/admin/vendor/jquery/jquery.min.js"></script>
@@ -74,6 +98,21 @@
 	
 	<%-- 바디 끝 --%>
 
+<script type="text/javascript">
 
+	$(document).ready(function(){
+		
+		var msg = "";
+		msg += "${msg}";
+		
+		$(".modal-body").append(msg);
+		if(msg != "") {
+			$("#infoModal").modal("show");
+		}
+		
+		
+	});
+
+</script>
 	
 	<%-- <%@ include file="../../common/mainfooter.jsp"%> --%>

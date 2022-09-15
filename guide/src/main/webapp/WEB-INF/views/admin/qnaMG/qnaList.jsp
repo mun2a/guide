@@ -45,14 +45,20 @@ label {
                         
                         <!-- 검색 -->
                       <div id="dataTable_filter" class="dataTables_filter">
-                        <form id="searchForm" action="#" method="post">
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                        <form id="searchForm" action="#" method="get">
 							<label>Search <br>
+							문의 유형: &nbsp;
+							<select name="qna_title" class="form-control form-control-sm" aria-controls="dataTable" style="width: 19%;">
+								<option selected="selected" value="">--------</option>
+								<option value="1">계정 문의</option>
+								<option value="2">일정 문의</option>
+								<option value="3">기타 문의</option>
+							</select>
+							<br><br>
 							검색 유형: &nbsp;
 							<select name="type" id="type" class="form-control form-control-sm" aria-controls="dataTable" style="width: 10%;">
-								<option selected value="QTEN" <c:out value="${pageMaker.cri.type == 'QTEN' ? 'selected' : ''}" />>--------</option>
+								<option selected value="QEN" <c:out value="${pageMaker.cri.type == 'QEN' ? 'selected' : ''}" />>--------</option>
 								<option value="Q" <c:out value="${pageMaker.cri.type == 'Q' ? 'selected' : ''}" />>글 번호</option>
-								<option value="T" <c:out value="${pageMaker.cri.type == 'T' ? 'selected' : ''}" />>제목</option>
 								<option value="E" <c:out value="${pageMaker.cri.type == 'E' ? 'selected' : ''}" />>아이디</option>
 								<option value="N" <c:out value="${pageMaker.cri.type == 'N' ? 'selected' : ''}" />>이름</option>
 							</select>
@@ -74,7 +80,7 @@ label {
                                     <thead>
                                         <tr>
                                             <th>글 번호</th>
-                                            <th>제목</th>
+                                            <th>문의 유형</th>
                                             <th>작성자 아이디</th>
                                             <th>작성자 이름</th>
                                             <th>등록일</th>
@@ -154,12 +160,13 @@ label {
                             </div>
                             
                             
-                            <form id="actionForm" action="${contextPath}/admin/qnaMG/qnaList" method="post">
-                            	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                            <form id="actionForm" action="${contextPath}/admin/qnaMG/qnaList" method="get">
                             	<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
                             	<input type="hidden" name="amount" value="${pageMaker.cri.amount }">
                             	<input type="hidden" name="type" value="${pageMaker.cri.type }">
                             	<input type="hidden" name="keyword" value="${pageMaker.cri.keyword }">
+                            	
+                            	<input type="hidden" name="qna_title" value="${pageMaker.cri.qna_title }">
                             </form>
                                 
                                 
@@ -171,9 +178,6 @@ label {
                 <!-- /.container-fluid -->
 
 
-<%-- <form id="actionForm" action="${contextPath}/admin/memberMG/memberList" method="post">
-	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-</form> --%>
 
 <script type="text/javascript">
 	var actionForm = $("#actionForm");

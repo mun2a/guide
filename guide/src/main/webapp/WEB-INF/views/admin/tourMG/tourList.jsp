@@ -16,6 +16,7 @@
 label {
     display: block;
 }
+
 </style>
 </head>
 <!-- End table header -->
@@ -87,6 +88,17 @@ label {
                                         </tr>
                                     </thead>
                                     <tbody>
+                                    	<c:choose>
+										<c:when test="${empty tourMGList}">
+										    <tr>
+										      <td colspan="7">
+										         <p align="center">
+										            <b><span >등록된 관광지가 없습니다.</span></b>
+										        </p>
+										      </td>  
+										    </tr>
+										</c:when>
+										<c:otherwise>
 										<c:forEach items="${tourMGList }" var="tDto">
 	                                	<tr>
 	                                        <td>${tDto.tour_no}</td>
@@ -114,6 +126,8 @@ label {
 	                                        </td>
 	                                    </tr>
 	                                	</c:forEach>
+	                                	</c:otherwise>
+	                                	</c:choose>
 
                                     </tbody>
                                 </table>
@@ -262,8 +276,6 @@ label {
 		searchForm.submit();
 		
 	});
-	
-	
 
 </script>
 
@@ -276,9 +288,9 @@ label {
 		
 		actionForm.append("<input type='hidden' name='tour_no' value='" + pk + "'>");
 		actionForm.attr("action", "${contextPath}/admin/tourMG/tourDetail");
-		actionForm.submit();
+		actionForm.submit(); 
 	
-	});
+	}); 
 	
  	$(".remove").on("click", function(e) {
 		e.preventDefault();

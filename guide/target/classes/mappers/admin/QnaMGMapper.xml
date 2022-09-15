@@ -29,15 +29,16 @@
  	
  	<!-- qna 검색 -->
 	<sql id="criteria">
+		<if test="!(qna_title == null or ''.equals(qna_title))">
+  				AND qna_title = #{qna_title}
+  		</if> 
+	
 	   	<trim prefix="AND (" suffix=")" prefixOverrides="OR" >
 			<foreach collection="typeArr" item="type">
 				<trim prefix="OR">
 					<choose>
 						<when test="type == 'Q'.toString()">
 							qna_no LIKE '%'||#{keyword}||'%'
-						</when>
-						<when test="type == 'T'.toString()">
-							qna_title LIKE '%'||#{keyword}||'%'
 						</when>
 						<when test="type == 'E'.toString()">
 							qna_write LIKE '%'||#{keyword}||'%'
@@ -71,6 +72,7 @@
 		]]>
   			<include refid="criteria"></include>
 		<![CDATA[
+			ORDER BY qna_no desc
 			)
 			WHERE rn > (#{pageNum} - 1) * #{amount}	
 			ORDER BY qna_no desc
@@ -90,14 +92,20 @@
   		FROM tbl_qna
   		where qna_no = #{qna_no}
   	</select>
+  	
+  	<!-- 문의글 삭제 -->
+ 	<delete id="deleteQna" parameterType="String">
+ 		DELETE  
+ 		FROM    tbl_qna
+ 		WHERE   qna_no = #{qna_no}
+ 	</delete>
 
-	<select id="readReply" resultType="kr.co.guide.admin.domain.QnaReplyDTO">
-		SELECT * 
-  		FROM tbl_qna_reply
-  		where qna_no = #{qna_no}
-	</select>
-
-
+ 	<!-- qna 댓글 존재 여부 -->
+ 	<update id="updateQnaExist" parameterType="kr.co.guide.admin.domain.QnaDTO">
+ 		UPDATE   tbl_qna
+ 		SET      qna_reply_exist = #{qna_reply_exist}
+ 		WHERE    qna_no = #{qna_no}
+ 	</update>
 
 </mapper>
   
