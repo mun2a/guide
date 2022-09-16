@@ -30,9 +30,7 @@
 
 <%-- 메인 css --%> 	
 <link rel="stylesheet" type="text/css" href="${contextPath }/resources/css/mainCss.css">
-<link rel="stylesheet" type="text/css" href="${contextPath}/resources/css/mainCss.css">
 
-	
 <%--진아 파일--%>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
 <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" ></script>
