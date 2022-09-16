@@ -13,6 +13,11 @@
 }
 </style>
 
+	<sec:authorize access="isAuthenticated()">
+	<sec:authentication property="principal.username"  var="username" />
+		<input type="hidden" id="userid" value="${username }">
+	</sec:authorize>
+
 
 	<%-- header UI 시작 --%>
 	<nav class="navbar navbar-expand-lg navbar-info shadow-sm" aria-label="Fifth navbar example">
@@ -51,7 +56,7 @@
 				        <%-- 일반회원 로그인 상태 --%>
 				        <c:if test="${principal.authorities eq '[ROLE_MEMBER]'}">
 					        <li class="nav-item">
-								<a class="nav-link text-dark" href="${contextPath}/member/info">마이페이지</a>
+								<a class="nav-link text-dark" href="${contextPath}/mypage/info">마이페이지</a>
 							</li>
 				        </c:if>
 				        
@@ -71,15 +76,12 @@
 			        <li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle text-dark" href="#" id="dropdown05" data-bs-toggle="dropdown" aria-expanded="false">커뮤니티</a>
 						<ul class="dropdown-menu" aria-labelledby="dropdown05">
-							<li><a class="dropdown-item" href="#">추천코스</a></li>
+							<!-- <li><a class="dropdown-item" href="#">추천코스</a></li> -->
 							<li><a class="dropdown-item" href="${contextPath}/qna/list">문의게시판</a></li>
 						</ul>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link text-dark" href="#">이용방법</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link text-dark" href="${contextPath}/travel/schedule">일정페이지(임시)</a>
 					</li>
 	
 				</ul>

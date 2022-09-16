@@ -39,7 +39,7 @@ public class MemberController {
 	public String joinPost(MemberDTO mDto,  RedirectAttributes rttr) {
 		log.info("==================== controller join Post ====================");
 		
-		boolean result = memberService.insertMemberInfo(mDto);
+		memberService.insertMemberInfo(mDto);
 		
 		rttr.addFlashAttribute("message", mDto.getMember_name() + "님 회원가입을 축하합니다.");
 		
@@ -76,9 +76,16 @@ public class MemberController {
 	
 	// 마이페이지 이동
 	@RequestMapping(value="/info", method = RequestMethod.GET)
-	public String infoGet() {
+	public String infoGet(Principal principal, Model model) {
 		
 		log.info("==================== controller info Get ====================");
+		
+		MemberDTO mDto = null;
+		if(principal != null) {
+			mDto = memberService.selectMemberInfo(principal.getName());
+		}
+		log.info("==================== controller mDto ====================" + mDto);
+		model.addAttribute("memberInfo", mDto);
 		
 		return "/member/info";
 	}
@@ -90,11 +97,9 @@ public class MemberController {
 		log.info("==================== controller modify Get ====================");
 		
 		MemberDTO mDto = null;
-		
 		if(principal != null) {
 			mDto = memberService.selectMemberInfo(principal.getName());
 		}
-		
 		model.addAttribute("memberInfo", mDto);
 		
 		return "/member/modify";

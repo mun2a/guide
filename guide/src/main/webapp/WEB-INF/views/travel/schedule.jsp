@@ -199,7 +199,7 @@
 <div class="row g-0">
 	<form action="#" method="post" id="scheduleFrm" class="col-lg-2 text-center p-0" style="height: 100%">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-		<input type="hidden" id="member_id" name="member_id" value="user1@naver.com">
+		<input type="hidden" id="member_id" name="member_id">
 		<div class="city pt-2 mb-3">
 			<h2 class="fw-bold area_name"></h2>
 		   	<h4 class="text-secondary area_english_title"></h4>
@@ -377,6 +377,9 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=84f7824a42d57ad9bcccbdefb2ef0476"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript">
+
+$("#member_id").val($("#userid").val());
+
  $(function() {
 	// 쿼리스트링 지역코드 가져오기
 	var qs = getQueryStringObject();
@@ -754,7 +757,6 @@
 			}else if (member_id == "" ) {
 				alert("로그인 필요")
 			}else {	
-				alert($("#scheduleFrm").find("[name='schedule_day']")[0].value);
 				$.ajax({
 					type : "post",
 					data : JSON.stringify(form),
