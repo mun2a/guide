@@ -32,15 +32,16 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Logout</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">로그아웃하시겠습니까?</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
+                    <a class="btn btn-primary" href="javascript:logout.submit();">로그아웃</a>
+                    <div id="div_logout"></div>
                 </div>
             </div>
         </div>
@@ -102,6 +103,7 @@
 
 	$(document).ready(function(){
 		
+		/* 모달창 내용 */
 		var msg = "";
 		msg += "${msg}";
 		
@@ -109,6 +111,15 @@
 		if(msg != "") {
 			$("#infoModal").modal("show");
 		}
+		
+		<%-- 로그아웃 가상돔 --%>
+		var str = "";
+
+		str += '<form action="${contextPath}/logout" method="POST" name="logout">';
+		str += '<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>';
+		str += '</form>';
+					
+		$("#div_logout").append(str);
 		
 		
 	});

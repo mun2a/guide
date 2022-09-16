@@ -92,4 +92,22 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
+	
+	<!-- 에러 페이지 -->
+	<error-page>
+		<error-code>403</error-code>
+		<location>/error/error403</location>
+	</error-page>
+	
+	<error-page>
+		<error-code>404</error-code>
+		<location>/error/error404</location>
+	</error-page>
+	
+	<error-page>
+		<error-code>500</error-code>
+		<location>/error/error500</location>
+	</error-page>
+
+
 </web-app>
