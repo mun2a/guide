@@ -110,18 +110,6 @@
             
             
             <!-- Nav Item - 관리자 관리(adminMG) -->
-<%--             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsAdminMG"
-                    aria-expanded="true" aria-controls="collapsAdminMG">
-                    <span>관리자 관리</span>
-                </a>
-                <div id="collapsAdminMG" class="collapse" aria-labelledby="headingAdminMG" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="${contextPath}/admin/adminMG/adminList">관리자 목록</a>
-                    </div>
-                </div>
-            </li> --%>
-            
             <li class="nav-item">
 	            <a class="nav-link" href="${contextPath}/admin/adminMG/adminList">
 	            	<span>관리자 관리</span> 
@@ -152,16 +140,41 @@
 
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-					<sec:authorize access="isAuthenticated()">
-						<sec:authentication property="principal.username"  var="username" />${username }
-						<input type="hidden" id="userid" value="${username }">
-					</sec:authorize>
-		
 		
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+                    
+						<div class="topbar-divider d-none d-sm-block"></div>
+           
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                <sec:authorize access="isAuthenticated()">
+									<sec:authentication property="principal.username"  var="username" />${username }
+										<input type="hidden" id="userid" value="${username }">
+									</sec:authorize>
+                                </span>
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+
 
                 </nav>
                 <!-- End of Topbar -->
