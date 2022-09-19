@@ -15,5 +15,18 @@
 	FROM tbl_qna 
 	WHERE qna_write = #{member_id}
 </select>
+
+<select id="readSchedule" parameterType="String" resultType="kr.co.guide.travel.domain.ScheduleDTO">
+	SELECT * 
+	FROM tbl_schedule 
+	WHERE member_id = #{member_id}
+</select>
+
+<select id="readArea" resultType="kr.co.guide.travel.domain.AreaDTO">
+	SELECT area_code, area_detail_code, area_english_title, area_image, area_name, area_detail_name
+	FROM tbl_area 
+	WHERE area_code = #{area_code}
+	AND area_detail_code = #{area_detail_code}
+</select>
 	
 </mapper>
