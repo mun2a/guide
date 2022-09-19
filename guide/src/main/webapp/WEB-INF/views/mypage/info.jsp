@@ -30,7 +30,7 @@
 							<div class="border border-dark me-2 p-1 fs-4" style="width: 130px; display: inline-block;">
 								일정
 								<br>
-								<strong>0</strong>
+								<strong>${countSchedule }</strong>
 							</div>
 							<div class="border border-dark me-2 p-1 fs-4"  style="width: 130px; display: inline-block;">
 								리뷰
@@ -40,7 +40,7 @@
 							<div class="border border-dark p-1 fs-4"   style="width: 130px; display: inline-block;">
 								문의
 								<br>
-								<strong>0</strong>
+								<strong>${countQna }</strong>
 							</div>
 							
 						</div>

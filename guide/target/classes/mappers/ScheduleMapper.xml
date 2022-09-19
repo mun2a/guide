@@ -43,14 +43,3 @@
 	
 
 	
-<!--  	<insert id="sdInsert" parameterType="kr.co.guide.travel.mapper.ScheduleDetialMapper">
-		INSERT INTO tbl_schedule_detail(schedule_day, schedule_order, schedule_no, tour_no)
-		VALUES
- 		<foreach collection="list" item="item" separator=" , "> 
-			(#{schedule_day}, #{schedule_order},
-			(SELECT MAX(schedule_no)
-			FROM tbl_schedule
-			WHERE member_id = #{member_id}),
-			#{tour_no})
-		</foreach>
-	</insert> -->
