@@ -21,21 +21,21 @@ public class RestTravelController {
 	@Autowired
 	private ScheduleService sService;
 	
-	   @PostMapping(value="/scheduleInsert")
-	   public int scheduleInsert(@RequestBody ScheduleDTO sDto) throws Exception {
+	   @PostMapping(value="/addSchedule")
+	   public int addSchedule(@RequestBody ScheduleDTO sDto) throws Exception {
 		   
-		   logger.info("scheduleInsert ScheduleDTO..........." + sDto);
-		   sService.sInsert(sDto);
-		   logger.info("scheduleInsert sDto.getMember_id();..........." + sDto.getSchedule_no());
+		   logger.info("addSchedule .............................. ScheduleDTO: " + sDto);
+		   sService.addSchedule(sDto);
+		   logger.info("addSchedule ................................. sDto.getSchedule_no(): " + sDto.getSchedule_no());
 		   return sDto.getSchedule_no();
 	   }
 	   
 	   
-	   @PostMapping(value="/sdInsert")
-		public void sdInsert(@RequestBody ScheduleDetailDTO sdDto) {
+	   @PostMapping(value="/addScheduleDetail")
+		public void addScheduleDetail(@RequestBody ScheduleDetailDTO sdDto) {
 			
-		    logger.info("scheduleInsert sdInsert..........." + sdDto);
-		    sService.sdInsert(sdDto);
+		    logger.info("addScheduleDetail .....................................ScheduleDetailDTO: " + sdDto);
+		    sService.addScheduleDetail(sdDto);
 		}
 	
 	

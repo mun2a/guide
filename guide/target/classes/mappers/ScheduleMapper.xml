@@ -3,16 +3,39 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.guide.travel.mapper.ScheduleMapper">
-	<insert id="sInsert" parameterType="kr.co.guide.travel.domain.ScheduleDTO">
-		INSERT INTO tbl_schedule(schedule_no, schedule_start, schedule_end, member_id)
-		VALUES(seq_schedule.nextval, #{schedule_start}, #{schedule_end}, #{member_id})
+
+
+<!-- 	<resultMap type="kr.co.guide.travel.domain.ScheduleDTO" id="schelduleMap">
+ 		<id property="schedule_no" column="schedule_no"/>
+ 		<result property="schedule_no" column="schedule_no"/>
+ 		<result property="schedule_title" column="schedule_title"/>
+ 		<result property="schedule_regist_date" column="schedule_regist_date"/>
+ 		<result property="schedule_start" column="schedule_start"/>
+ 		<result property="schedule_end" column="schedule_end"/>
+ 		<result property="schedule_recommend" column="schedule_recommend"/>
+ 		<result property="schedule_viewcount" column="schedule_viewcount"/>
+ 		<result property="member_id" column="member_id"/>
+ 		<collection property="areaList" resultMap="areaMap"/>
+ 	</resultMap>
+ 	<resultMap type="kr.co.guide.travel.domain.AreaDTO" id="areaMap">
+ 		<result property="area_code" column="area_code"/>
+ 		<result property="area_detail_code" column="area_detail_code"/>
+ 		<result property="area_english_title" column="area_english_title"/>
+ 		<result property="area_name" column="area_name"/>
+ 		<result property="area_detail_name" column="area_detail_name"/>
+ 	</resultMap> -->
+ 	
+ 	
+	<insert id="insertSchedule" parameterType="kr.co.guide.travel.domain.AreaDTO">
+		INSERT INTO tbl_schedule(schedule_no, schedule_start, schedule_end, member_id, area_code, area_detail_code)
+		VALUES(seq_schedule.nextval, #{schedule_start}, #{schedule_end}, #{member_id}, #{area_code}, #{area_detail_code})
 		<selectKey keyProperty="schedule_no" resultType="int" >
         	SELECT seq_schedule.currval FROM DUAL
     	</selectKey>   
 
 	</insert>
 	
- 	<insert id="sdInsert" parameterType="kr.co.guide.travel.domain.ScheduleDetailDTO">
+ 	<insert id="insertScheduleDetail" parameterType="kr.co.guide.travel.domain.ScheduleDetailDTO">
 		INSERT INTO tbl_schedule_detail(schedule_day, schedule_order, schedule_no, tour_no)
 		VALUES(#{schedule_day}, #{schedule_order}, #{schedule_no}, #{tour_no})
 	</insert>
@@ -20,14 +43,14 @@
 	
 
 	
-<!-- 	<insert id="sdInsert" parameterType="kr.co.guide.travel.mapper.ScheduleDetialMapper"> -->
-<!-- 		INSERT INTO tbl_schedule_detail(schedule_day, schedule_order, schedule_no, tour_no) -->
-<!-- 		VALUES -->
-<!--  		<foreach collection="list" item="item" separator=" , ">  -->
-<!-- 			(#{schedule_day}, #{schedule_order}, -->
-<!-- 			(SELECT MAX(schedule_no) -->
-<!-- 			FROM tbl_schedule -->
-<!-- 			WHERE member_id = #{member_id}), -->
-<!-- 			#{tour_no}) -->
-<!-- 		</foreach> -->
-<!-- 	</insert> -->
+<!--  	<insert id="sdInsert" parameterType="kr.co.guide.travel.mapper.ScheduleDetialMapper">
+		INSERT INTO tbl_schedule_detail(schedule_day, schedule_order, schedule_no, tour_no)
+		VALUES
+ 		<foreach collection="list" item="item" separator=" , "> 
+			(#{schedule_day}, #{schedule_order},
+			(SELECT MAX(schedule_no)
+			FROM tbl_schedule
+			WHERE member_id = #{member_id}),
+			#{tour_no})
+		</foreach>
+	</insert> -->

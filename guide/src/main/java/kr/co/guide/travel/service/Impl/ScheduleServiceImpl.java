@@ -15,12 +15,12 @@ public class ScheduleServiceImpl implements ScheduleService {
 	private ScheduleMapper mapper;
 	
 	@Override
-	public void sInsert(ScheduleDTO sDto) {
-		mapper.sInsert(sDto);
+	public void addSchedule(ScheduleDTO sDto) {
+		mapper.insertSchedule(sDto);
 	}
 
 	@Override
-	public void sdInsert(ScheduleDetailDTO sdDto) {
-		mapper.sdInsert(sdDto);
+	public void addScheduleDetail(ScheduleDetailDTO sdDto) {
+		mapper.insertScheduleDetail(sdDto);
 	}
 }
