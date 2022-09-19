@@ -249,18 +249,27 @@ html {
                 transform: scale(.6);
       }
   }
+  
+  .link-back-button{
+	color: #4e73df;
+    text-decoration: none;
+    background-color: transparent;
+    cursor: pointer;
+  }
 
 </style>
 
 
 </head>
 <body>
+<input id="error_code" type="hidden" value='<c:out value="${requestScope['javax.servlet.error.status_code']}"/>'>
 	<div class="container">
         <div class="error">
             <h1>500</h1>
             <h2>error</h2>
             <p>Ruh-roh, something just isn't right... Time to paw through your logs and get down and dirty in your
                 stack-trace;)</p>
+                 <a onclick="history.back(-1)" class="link-back-button">← Go Back</a>
         </div>
         <div class="stack-container">
             <div class="card-container">

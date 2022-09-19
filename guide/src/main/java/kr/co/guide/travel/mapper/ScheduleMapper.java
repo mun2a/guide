@@ -4,8 +4,12 @@ import kr.co.guide.travel.domain.ScheduleDTO;
 import kr.co.guide.travel.domain.ScheduleDetailDTO;
 
 public interface ScheduleMapper {
-	public void sInsert(ScheduleDTO sDto);
-	public void sdInsert(ScheduleDetailDTO sdDto);
+	
+	//일정 저장
+	public void insertSchedule(ScheduleDTO sDto);
+	
+	//일정 상세 저장
+	public void insertScheduleDetail(ScheduleDetailDTO sdDto);
 	
 	
 	

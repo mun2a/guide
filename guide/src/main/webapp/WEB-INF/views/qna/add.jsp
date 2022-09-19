@@ -61,7 +61,7 @@
 								    </div>
 								    
 								    <div class="hstack gap-3 w-50 ms-auto">
-										<input type="submit" value="글 등록" class="btn btn-dark btn-login text-uppercase fw-bold main-hover w-50" id="btn-board-add">
+										<a id="btn-board-add" class="btn btn-dark btn-login text-uppercase fw-bold main-hover w-50" >글 등록</a>
 										<a href="${contextPath}/qna/list?pageNum=${criteria.pageNum}" class="w-50">
 											<input type="button" value="취소" class="btn btn-dark btn-login text-uppercase fw-bold sub-hover w-100">
 										</a>
@@ -104,6 +104,21 @@ $(document).ready(function(){
 		} 
 		
 	})
+	
+ 	//글 등록
+	var actionForm = $("#form-computer-board-add");
+ 	$("#btn-board-add").on("click", function(e) {
+		e.preventDefault();
+		var qna_content = $("#qna_content").val();
+		
+		if (qna_content == "") {
+			alert("글 내용을 입력해주세요!")
+		} else {
+			actionForm.submit();
+		}
+		
+	});
+	
 	
 })
 

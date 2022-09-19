@@ -18,4 +18,7 @@ public class ScheduleDTO {
 	private String schedule_recommend;
 	private int schedule_viewcount;
 	private String member_id;
+	
+	private String area_code;
+	private String area_detail_code;
 }

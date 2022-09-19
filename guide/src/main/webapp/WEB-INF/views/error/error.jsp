@@ -21,29 +21,29 @@
 
 </head>
 <body>
-			<div class="container-fluid">
 
-                    <!-- 404 Error Text -->
-                    <div class="text-center" style="margin: 100px;">
-                    	<c:set var="error_code" value="${requestScope['javax.servlet.error.status_code']}"></c:set>
-                        <div class="error mx-auto" data-text="${error_code }"> ${error_code }
-                        </div>
-                        <p class="lead text-gray-800 mb-5">${msg }</p>
-                        <p class="text-gray-500 mb-0">${txt }</p>
-                        
-                        <a href="#" onclick="back();">← Go Back</a>
-                        <br><br>
-                        <a href="${contextPath}">← Go Home</a>
-                    </div>
-                    
-                </div>
+	<div class="container-fluid">
+
+		<!-- 404 Error Text -->
+		<div class="text-center" style="margin: 100px;">
+			<c:set var="error_code"
+				value="${requestScope['javax.servlet.error.status_code']}"></c:set>
+			<div class="error mx-auto" data-text="${error_code }">
+				${error_code }</div>
+			<p class="lead text-gray-800 mb-5">${msg }</p>
+			<p class="text-gray-500 mb-0">${txt }</p>
+
+			<a href="#" onclick="back();">← Go Back</a> <br>
+			<br> <a href="${contextPath}">← Go Home</a>
+		</div>
+
+	</div>
 
 <script type="text/javascript">
 
-function back() {
-	history.go(-1); 
-}
-
+	function back() {
+		history.go(-1); 
+	}
 </script>
 
 </body>

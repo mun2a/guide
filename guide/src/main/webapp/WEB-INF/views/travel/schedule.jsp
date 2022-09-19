@@ -199,7 +199,7 @@
 <div class="row g-0">
 	<form action="#" method="post" id="scheduleFrm" class="col-lg-2 text-center p-0" style="height: 100%">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-		<input type="hidden" id="member_id" name="member_id" value="user1@naver.com">
+		<input type="hidden" id="member_id" name="member_id">
 		<div class="city pt-2 mb-3">
 			<h2 class="fw-bold area_name"></h2>
 		   	<h4 class="text-secondary area_english_title"></h4>
@@ -377,11 +377,16 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=84f7824a42d57ad9bcccbdefb2ef0476"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript">
+
+$("#member_id").val($("#userid").val());
+var code;
+var detailCode;
+
  $(function() {
 	// 쿼리스트링 지역코드 가져오기
 	var qs = getQueryStringObject();
-	var code = qs.area_code;
-	var detailCode = qs.area_detail_code;
+	code = qs.area_code;
+	detailCode = qs.area_detail_code;
 	
 	function getQueryStringObject() {
 	    var a = window.location.search.substr(1).split('&');
@@ -742,7 +747,9 @@
 			var member_id = $("#member_id").val();
 			var schedule_no;
 			
-			var form = {schedule_start : startDate, schedule_end : endDate, member_id : member_id};
+			var form = {schedule_start : startDate, schedule_end : endDate, member_id : member_id, area_code : code, area_detail_code : detailCode};
+			
+			console.log(form);
 			
 			var len = $("#scheduleFrm").find("[name='tour_no']").length;
 	 		let frmArray = new Array();	 //저장 일정 데이터
@@ -754,12 +761,12 @@
 			}else if (member_id == "" ) {
 				alert("로그인 필요")
 			}else {	
-				alert($("#scheduleFrm").find("[name='schedule_day']")[0].value);
+				// 일정 저장
 				$.ajax({
 					type : "post",
 					data : JSON.stringify(form),
 					dataType : "text",
-					url : "${contextPath}/travel/scheduleInsert",
+					url : "${contextPath}/travel/addSchedule",
 					processData : true,                                                      
 					contentType: "application/json; charset-utf-8", 
 					beforeSend : function(xhr) {
@@ -776,11 +783,13 @@
 							frmObj.schedule_no = schedule_no;
 							
 							frmArray.push(frmObj);		
+							
+							//상세 일정 저장
 							$.ajax({
 								type : "post",
 								data : JSON.stringify(frmObj),
 								dataType : "text",
-								url : "${contextPath}/travel/sdInsert",
+								url : "${contextPath}/travel/addScheduleDetail",
 								processData : true,                                                      
 								contentType: "application/json; charset-utf-8", 
 								beforeSend : function(xhr) {
