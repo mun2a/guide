@@ -101,7 +101,7 @@
 
 		AND 	rn <= #{total} -  ((#{criteria.pageNum} - 1) * #{criteria.amount})
 		]]>
-		ORDER BY rn DESC
+		ORDER BY qna_no DESC
  	</select>
  	
  	<select id="countQnaBoard" resultType="int">

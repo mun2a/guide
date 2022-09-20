@@ -61,9 +61,9 @@
 									  	 		<c:when test="${principal.username eq qnaInfo.qna_write}">
 									  	 			<div class="hstack gap-3 w-75 ms-auto">
 									  	 				<input type="button" value="댓글등록" class="btn btn-dark btn-login text-uppercase fw-bold sub-hover w-50" id="btn-reply-add">
-											  	 		<a href="${contextPath}/qna/modify?pageNum=${criteria.pageNum}&qna_no=${qnaInfo.qna_no}" class="w-50">
+<%-- 											  	 		<a href="${contextPath}/qna/modify?pageNum=${criteria.pageNum}&qna_no=${qnaInfo.qna_no}" class="w-50">
 															<input type="button" value="글 수정" class="btn btn-dark btn-login text-uppercase fw-boldr w-100">
-														</a>
+														</a> --%>
 															<input type="submit" value="글 삭제" class="btn btn-dark btn-login text-uppercase fw-bold w-50">
 														<a href="${contextPath}/qna/list?pageNum=${criteria.pageNum}" class="w-50">
 															<input type="button" value="목록보기" class="btn btn-dark btn-login text-uppercase fw-bold w-100 " style="float: right;">
@@ -90,9 +90,11 @@
 									  	 	
 									  	 		<c:when test="${principal.username eq qnaInfo.qna_write}">
 									  	 			<div class="hstack gap-3 w-75 ms-auto">
+<%-- 									  	 			
 										  	 			<a href="${contextPath}/qna/modify?pageNum=${criteria.pageNum}&qna_no=${qnaInfo.qna_no}" class="w-50">
 															<input type="button" value="글 수정" class="btn btn-dark btn-login text-uppercase fw-boldr w-100">
 														</a>
+ --%>														
 															<input type="submit" value="글 삭제" class="btn btn-dark btn-login text-uppercase fw-bold w-50">
 														<a href="${contextPath}/qna/list?pageNum=${criteria.pageNum}" class="w-50">
 															<input type="button" value="목록보기" class="btn btn-dark btn-login text-uppercase fw-bold w-100 " style="float: right;">

@@ -222,7 +222,7 @@
 											<span class="badge rounded-pill bg-info text-dark">답변완료</span>
 										</c:when>
 									</c:choose>
-									<button type="button" class="btn shadow rounded-3 float-end me-4" >바로가기</button>
+									<button type="button" class="btn shadow rounded-3 float-end me-4 btn-qna-detail" data-qna_no = "${qnaDto.qna_no }" >바로가기</button>
 								</div>
 							</c:forEach>
 						</c:otherwise>
@@ -260,8 +260,7 @@ $(document).ready(function(){
 	});
 	
 	
-	<%-- 일정 삭제 기능 --%>
-	
+	//일정 삭제 기능
 	$(".btn-tour-delete").on("click",function(e){
 		e.preventDefault();
 		var schedule_no = $(this).data("schedule_no");
@@ -272,6 +271,15 @@ $(document).ready(function(){
 			actionForm.attr("action", "${contextPath}/mypage/removeSchedule");
 			actionForm.submit();
 		}
+	});
+	
+	//문의 상세
+	$(".btn-qna-detail").on("click", function(e) { 
+		var qna_no = $(this).data("qna_no");
+		
+		actionForm.append("<input type='hidden' name='qna_no' value='" + qna_no + "'>");
+		actionForm.attr("action", "${contextPath}/mypage/qnaDetail");
+		actionForm.submit();
 	});
 	
 	<%-- 리뷰 삭제 기능 --%>

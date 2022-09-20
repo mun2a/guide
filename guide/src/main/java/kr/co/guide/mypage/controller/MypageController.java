@@ -10,11 +10,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.guide.member.domain.MemberDTO;
 import kr.co.guide.member.service.IMemberService;
 import kr.co.guide.mypage.service.IMypageService;
 import kr.co.guide.qna.domain.QnaDTO;
+import kr.co.guide.qna.domain.ReplyDTO;
+import kr.co.guide.qna.service.IQnaService;
+import kr.co.guide.qna.service.IReplyService;
 import kr.co.guide.travel.domain.AreaDTO;
 import kr.co.guide.travel.domain.ScheduleDTO;
 import lombok.extern.log4j.Log4j;
@@ -25,11 +29,16 @@ import lombok.extern.log4j.Log4j;
 public class MypageController {
 
 	@Autowired
+	private IMypageService mypageService;
+	
+	@Autowired
 	private IMemberService memberService;
 	
 	@Autowired
-	private IMypageService mypageService;
+	private IQnaService qnaService;
 	
+	@Autowired
+	private IReplyService replyService;
 	
 	// 마이페이지 이동
 	@RequestMapping(value="/info")
@@ -83,7 +92,6 @@ public class MypageController {
 		return "/mypage/info";
 	}
 	
-	
 	//일정 여행 이름 변경 기능
 	@PostMapping(value = "/modifyScheduleTitle")
 	public String modifyScheduleTitle(ScheduleDTO sDto) {
@@ -104,7 +112,36 @@ public class MypageController {
 		
 	}
 	
+	//문의 상세
+	@RequestMapping(value="/qnaDetail")
+	public String qnaDetail(@RequestParam("qna_no") String qna_no, Principal principal, Model model) {
+		log.info("==================== qnaDetail ====================");
+		
+		QnaDTO qnaInfo = qnaService.selectQnaInfo(qna_no);
+		List<ReplyDTO> replyList = replyService.selectReplyList(qna_no);
+
+		if(principal != null) {
+			MemberDTO memberInfo = memberService.selectMemberInfo(principal.getName());
+			model.addAttribute("memberInfo", memberInfo);
+		}
+		
+		model.addAttribute("qnaInfo", qnaInfo);    
+		model.addAttribute("replyList", replyList); 
+		
+		return "/mypage/qnaDetail";
+	}
 	
+	//문의 삭제
+	@PostMapping("/qnaRemove")
+	public String qnaRemove(@RequestParam("qna_no") String qna_no, RedirectAttributes rttr) {
+		log.info("==================== qnaRemove ====================");
+		
+		qnaService.delectQnaBoard(qna_no);
+		rttr.addFlashAttribute("message", "문의 글이 삭제되었습니다.");
+		
+		return "redirect:/mypage/info";
+		
+	}
 	
 	
 	
