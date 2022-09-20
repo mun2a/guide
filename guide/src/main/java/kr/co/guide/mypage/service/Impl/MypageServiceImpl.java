@@ -39,6 +39,16 @@ public class MypageServiceImpl implements IMypageService{
 		log.info("==================== readArea ====================");
 		return mypageMapper.readArea(area_code, area_detail_code);
 	}
+
+	@Override
+	public int countScheduleDetail(int schedule_no) {
+		return mypageMapper.countScheduleDetail(schedule_no);
+	}
+
+	@Override
+	public boolean modifyScheduleTitle(ScheduleDTO sDto) {
+		return mypageMapper.updateScheduleTitle(sDto);
+	}
 	
 
 }

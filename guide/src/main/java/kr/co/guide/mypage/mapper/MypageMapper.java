@@ -18,6 +18,10 @@ public interface MypageMapper {
 	public List<ScheduleDTO> readSchedule(String member_id);
 	//일정 지역
 	public AreaDTO readArea(@Param("area_code") String area_code, @Param("area_detail_code") String area_detail_code);
+	//일정 상세 수
+	public int countScheduleDetail(int schedule_no);
+	//여행 이름 수정
+	public boolean updateScheduleTitle(ScheduleDTO sDto);
 	
 	
 }

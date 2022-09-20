@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.co.guide.member.domain.MemberDTO;
@@ -39,6 +40,7 @@ public class MypageController {
 		int countQna = 0;
 		List<ScheduleDTO> scheduleList = null;
 		List<AreaDTO> areaList = new ArrayList<AreaDTO>();
+		List<Integer> countScheduleDetailList = new ArrayList<Integer>();
 		
 		if(principal != null) {
 			mDto = memberService.selectMemberInfo(principal.getName());
@@ -47,26 +49,36 @@ public class MypageController {
 			scheduleList = mypageService.readSchedule(mDto.getMember_id());
 			log.info("mypageInfo.........................................................scheduleList : " + scheduleList);
 			
-			//List<AreaDTO> areaList = new List<AreaDTO>[scheduleList.size()];
-			//AreaDTO[] areaList = new AreaDTO[scheduleList.size()];
-			
 			for (ScheduleDTO scheduleDTO : scheduleList) {
 				AreaDTO aDto = mypageService.readArea(scheduleDTO.getArea_code(), scheduleDTO.getArea_detail_code());
 				areaList.add(aDto);
+
+				Integer countScheduleDetail = mypageService.countScheduleDetail(scheduleDTO.getSchedule_no());
+				countScheduleDetailList.add(countScheduleDetail);
 			}
-			log.info("mypageInfo.........................................................areaList : " + areaList);
-			
 		}
-		
 
 		model.addAttribute("memberInfo", mDto);
 		model.addAttribute("countSchedule", countSchedule);
 		model.addAttribute("countQna", countQna);
 		model.addAttribute("scheduleList", scheduleList);
 		model.addAttribute("areaList", areaList);
+		model.addAttribute("countScheduleDetailList", countScheduleDetailList);
 		
 		return "/mypage/info";
 	}
+	
+	
+	//일정 여행 이름 변경 기능
+	@PostMapping(value = "/modifyScheduleTitle")
+	public String modifyScheduleTitle(ScheduleDTO sDto) {
+		log.info("==================== controller modifyScheduleTitle ====================");
+		
+		mypageService.modifyScheduleTitle(sDto);
+		
+		return "redirect:/mypage/info";
+	}
+	
 	
 	
 	

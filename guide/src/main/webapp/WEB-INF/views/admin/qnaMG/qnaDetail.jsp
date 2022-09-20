@@ -225,7 +225,6 @@
 			actionForm.attr("action", "${contextPath}/admin/qnaReplyMG/modifyReply");
 			actionForm.submit();
 		} 
- 		console.log("aaaaaaaaaaaaaaaaaa");
  		
 	}
  	

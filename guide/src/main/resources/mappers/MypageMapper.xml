@@ -28,5 +28,17 @@
 	WHERE area_code = #{area_code}
 	AND area_detail_code = #{area_detail_code}
 </select>
+
+<select id="countScheduleDetail" resultType="int">
+	SELECT count(*) 
+	FROM tbl_schedule_detail 
+	WHERE schedule_no = #{schedule_no}
+</select>
+
+<update id="updateScheduleTitle" parameterType="kr.co.guide.travel.domain.ScheduleDTO">
+	UPDATE tbl_schedule 
+	SET schedule_title = #{schedule_title}
+	WHERE schedule_no = #{schedule_no} 
+</update>
 	
 </mapper>

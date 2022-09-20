@@ -107,7 +107,7 @@ public class MemberController {
 	
 	// 회원정보 수정 기능
 	@RequestMapping(value="/modify", method = RequestMethod.POST)
-	public String modifyPost(MemberDTO mDto, String new_password,RedirectAttributes rttr) {
+	public String modifyPost(MemberDTO mDto, String new_password, RedirectAttributes rttr) {
 		
 		log.info("==================== controller modify Post ====================");
 		

@@ -1,9 +1,44 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
-
 	
 <%@ include file="../common/cssLink.jsp"%>
+
+<style>
+	.modify_schedule_title {
+	    width: 40px;
+	    display: inline-flex;
+	    justify-content: center;
+	    align-items: center;
+	    color: #999;
+		margin: 0;
+	    border: none;
+	    border-radius: 0;
+	    overflow: visible;
+	    padding: 0;
+	    background-color: transparent;
+	    fill: currentcolor;
+	    text-decoration: none;
+	    cursor: pointer;
+	    vertical-align: middle;
+	}
+	.schedule_title {
+		width: 200px;
+		background: 0 0;
+	    border-color: transparent;
+		height: 40px;
+	    vertical-align: middle;
+	    display: inline-block;
+	    max-width: 100%;
+	    padding: 0 10px;
+	    color: #666;
+	    border: 1px solid #e5e5e5;
+	    overflow: visible;
+	    box-sizing: border-box;
+	    margin: 0;
+	    border-radius: 0;
+	}
+	
+</style>
 <body>
 <%@ include file="../common/mainheader.jsp"%>
 	
@@ -72,7 +107,15 @@
 										   		<div class="float-start border-0" style="height: 25px; width: 2px; background-color: #98DDE3; margin-right: 10px"></div>
 										    	
 										    	<h5><strong>${areaList[status.index].area_name } ${areaList[status.index].area_detail_name }</strong> &nbsp;<span class="fs-6 text-secondary">${areaList[status.index].area_english_title }</span> </h5>
-										    	<div class="my-3">여행 이름 : <input type="text"></div>
+										    	<div class="my-3">여행 이름 : 
+			                                        <input class="schedule_title ${scheduleDto.schedule_no }" type="text" placeholder="여행이름" value="${scheduleDto.schedule_title }">
+			                                        <a class="modify_schedule_title " uk-icon="icon: file-edit" data-schedule_no = "${scheduleDto.schedule_no }">
+				                                        <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+					                                        <path fill="none" stroke="#000" d="M18.65,1.68 C18.41,1.45 18.109,1.33 17.81,1.33 C17.499,1.33 17.209,1.45 16.98,1.68 L8.92,9.76 L8,12.33 L10.55,11.41 L18.651,3.34 C19.12,2.87 19.12,2.15 18.65,1.68 L18.65,1.68 L18.65,1.68 Z"></path>
+					                                        <polyline fill="none" stroke="#000" points="16.5 8.482 16.5 18.5 3.5 18.5 3.5 1.5 14.211 1.5"></polyline>
+				                                        </svg>
+			                                        </a>
+										    	</div>
 										    	
 										    	<fmt:parseDate var="dateFmtStart" pattern="yyyy-MM-dd HH:mm:ss" value="${scheduleDto.schedule_start }"/>
 												<fmt:formatDate var="schedule_start" pattern="yyyy.MM.dd" value="${dateFmtStart }"/>
@@ -80,15 +123,13 @@
 												<fmt:formatDate var="schedule_end" pattern="yyyy.MM.dd" value="${dateFmtEnd }"/>
 										    	<div class="my-3">여행 날짜 : ${schedule_start } ~ ${schedule_end }</div>
 										    	
-										    	
-										    	<div class="my-3">선택 장소 : 11</div>
+										    	<div class="my-3">선택 장소 : ${countScheduleDetailList[status.index]} 곳</div>
 										    	<button type="button" class="btn shadow rounded-3">일정 수정</button>
 											    <button type="button" class="btn shadow rounded-3 text-dark" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">일정표</button>
 											    <div class="dropdown-menu" style="">
 											      <a class="dropdown-item" href="#">모바일 일정표</a>
 											      <a class="dropdown-item" href="#">엑셀 일정표</a>
 											    </div>
-										    	<button type="button" class="btn shadow rounded-3">일정 공유</button>
 												<%-- 삭제 스크립트 조작 data-tour 생각 클래스에 btn속성있음 --%>
 										    	<button type="button" class="btn shadow rounded-3 btn-tour-delete" data-tour="00142">삭제</button>
 										    </div>
@@ -161,12 +202,31 @@
 	</div>
 <%-- 바디 끝 --%>
 
+<form id="actionForm" action="#" method="post">
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+</form>
 	
 <%@ include file="../common/mainfooter.jsp"%>
 <%@ include file="../common/jsLink.jsp"%>
 <script type="text/javascript">
 
 $(document).ready(function(){
+	
+	var actionForm = $("#actionForm");
+	
+	//여행이름 변경
+	$(".modify_schedule_title").on("click", function(e) {
+		e.preventDefault();
+		var schedule_no = $(this).data("schedule_no");
+		var schedule_title = $(".schedule_title." + schedule_no).val();
+		
+		actionForm.append("<input type='hidden' name='schedule_no' value='" + schedule_no + "'>");
+		actionForm.append("<input type='hidden' name='schedule_title' value='" + schedule_title + "'>");
+		actionForm.attr("action", "${contextPath}/mypage/modifyScheduleTitle");
+		actionForm.submit();
+	
+	});
+	
 	
 	<%-- 일정 삭제 기능 --%>
 	
