@@ -38,6 +38,13 @@
 	    border-radius: 0;
 	}
 	
+	.span_qna_title {
+		font-weight: bold;
+	}
+	.span_qna_regist_date {
+		float: right;
+		color: #858796;
+	}
 </style>
 <body>
 <%@ include file="../common/mainheader.jsp"%>
@@ -67,11 +74,13 @@
 								<br>
 								<strong>${countSchedule }</strong>
 							</div>
-							<div class="border border-dark me-2 p-1 fs-4"  style="width: 130px; display: inline-block;">
+<!--
+ 							<div class="border border-dark me-2 p-1 fs-4"  style="width: 130px; display: inline-block;">
 								리뷰
 								<br>
 								<strong>0</strong>
 							</div>
+ -->							
 							<div class="border border-dark p-1 fs-4"   style="width: 130px; display: inline-block;">
 								문의
 								<br>
@@ -86,7 +95,6 @@
                            		<b>일정</b>
                            </h5>
                         </div>
-                        
                         <c:choose>
                         	<c:when test="${empty scheduleList }">
 		                        <%-- 일정이 없는경우 --%>
@@ -97,8 +105,7 @@
                         	<c:otherwise>
                         		<c:forEach items="${scheduleList }" var="scheduleDto" varStatus="status">
 			                         <%-- 일정이 있는 경우 --%>
-			                         <%-- 삭제 스크립트 조작 data-tour 생각 --%>
-									<div class="col-sm-12 col-md-12 col-lg-12 mx-auto border-0 p-4 pb-5 shadow rounded-3 my-4" id="00142">
+									<div class="col-sm-12 col-md-12 col-lg-12 mx-auto border-0 p-4 pb-5 shadow rounded-3 my-4" id="${scheduleDto.schedule_no }">
 										<div class="row">
 										    <div class="col-md-4 mt-3">
 										        <img class="" src="${areaList[status.index].area_image }" alt="" style="width: 100%; height: 200px">
@@ -116,7 +123,6 @@
 				                                        </svg>
 			                                        </a>
 										    	</div>
-										    	
 										    	<fmt:parseDate var="dateFmtStart" pattern="yyyy-MM-dd HH:mm:ss" value="${scheduleDto.schedule_start }"/>
 												<fmt:formatDate var="schedule_start" pattern="yyyy.MM.dd" value="${dateFmtStart }"/>
 										    	<fmt:parseDate var="dateFmtEnd" pattern="yyyy-MM-dd HH:mm:ss" value="${scheduleDto.schedule_end }"/>
@@ -130,8 +136,7 @@
 											      <a class="dropdown-item" href="#">모바일 일정표</a>
 											      <a class="dropdown-item" href="#">엑셀 일정표</a>
 											    </div>
-												<%-- 삭제 스크립트 조작 data-tour 생각 클래스에 btn속성있음 --%>
-										    	<button type="button" class="btn shadow rounded-3 btn-tour-delete" data-tour="00142">삭제</button>
+										    	<button type="button" class="btn shadow rounded-3 btn-tour-delete" data-schedule_no = "${scheduleDto.schedule_no }">삭제</button>
 										    </div>
 										  </div>
 									</div>
@@ -139,22 +144,18 @@
                         	</c:otherwise>
                         </c:choose>
                         
-                        
-                        
-                        
-                        
-                        
+<!-- 						 
                         <div class="section-title-container mt-5">
                            <div class="float-start border-0" style="height: 25px; width: 10px; background-color: #98DDE3; margin-right: 10px"></div>
                            <h5 style="margin-bottom: 15px">
                            	  <b>리뷰</b>
                            </h5>
                         </div>
-						 
-						 <%-- 리뷰가 없는경우 --%>
-						 <div class="text-center" style="width: 100%; height: 100px">
+                        
+						<%-- 리뷰가 없는경우 --%>
+						<div class="text-center" style="width: 100%; height: 100px">
                         	<br><br>현재 등록된 리뷰 없습니다.
-                        </div>
+                   		</div>
                         
                         <%-- 리뷰가 있는 경우 --%>
 						<div class="col-sm-12 col-md-12 col-lg-12 mx-auto border-0 p-4 pb-5 shadow rounded-3 my-4" id="3333">
@@ -170,31 +171,63 @@
 							<button type="button" class="btn shadow rounded-3 float-end btn-review-delete" data-review="3333">삭제</button>
 							<button type="button" class="btn shadow rounded-3 float-end me-4" >수정</button>
 						</div>
-                        
+ -->
                         <div class="section-title-container mt-5">
                            <div class="float-start border-0" style="height: 25px; width: 10px; background-color: #98DDE3; margin-right: 10px"></div>
                            <h5 style="margin-bottom: 15px">
                           	  <b>문의 내역</b>
                            </h5>
                         </div>
-						 
+						<c:choose>
+						<c:when test="${empty qnaList }">
 						 <%-- 문의가 없는경우 --%>
-						 <div class="text-center" style="width: 100%; height: 100px">
-                        	<br><br>현재 등록된 문의 내역이 없습니다.
-                        </div>
+							<div class="text-center" style="width: 100%; height: 100px">
+	                        	<br><br>현재 등록된 문의 내역이 없습니다.
+	                        </div>
+						</c:when>
+						<c:otherwise>
+							<c:forEach items="${qnaList }" var="qnaDto" >
+		                        <div class="col-sm-12 col-md-12 col-lg-12 mx-auto border-0 p-4 shadow rounded-3 my-4">
+									<div class="float-start border-0" style="height: 25px; width: 2px; background-color: #98DDE3; margin-right: 10px"></div>		
+									<p>
+										<span class="span_qna_title">
+											<c:choose>
+	                                        	<c:when test="${qnaDto.qna_title == '1'}">
+	                                        	계정 문의
+	                                        	</c:when>
+	                                        	<c:when test="${qnaDto.qna_title == '2'}">
+	                                        	일정 문의
+	                                        	</c:when>
+	                                        	<c:when test="${qnaDto.qna_title == '3'}">
+	                                        	기타 문의
+	                                        	</c:when>
+		                                 	</c:choose>
+										</span>
+										<span class="span_qna_regist_date">
+											<fmt:formatDate var="qna_regist_date" pattern="yyyy-MM-dd HH:mm" value="${qnaDto.qna_regist_date}"/>
+											${qna_regist_date}
+										</span>
+									</p>
+									
+									<br>
+									<%-- 리뷰 내용 --%>
+									${qnaDto.qna_content}
+									<br>
+									<br> 
+									<c:choose>
+										<c:when test="${qnaDto.qna_reply_exist == 'N'}">
+											<span class="badge rounded-pill bg-secondary">답변 대기중</span>
+										</c:when>
+										<c:when test="${qnaDto.qna_reply_exist == 'Y'}">
+											<span class="badge rounded-pill bg-info text-dark">답변완료</span>
+										</c:when>
+									</c:choose>
+									<button type="button" class="btn shadow rounded-3 float-end me-4" >바로가기</button>
+								</div>
+							</c:forEach>
+						</c:otherwise>
+						</c:choose>						 
                         
-                        <div class="col-sm-12 col-md-12 col-lg-12 mx-auto border-0 p-4 pb-5 shadow rounded-3 my-4">
-							<div class="float-start border-0" style="height: 25px; width: 2px; background-color: #98DDE3; margin-right: 10px"></div>		
-							<h5><strong>로그인 문의<%-- 관광명소 이름 --%></strong></h5>
-							<br>
-							로그인 왜 안되죠??? <%-- 리뷰 내용 --%>
-							<br>
-							<br> 
-							<span class="badge rounded-pill bg-secondary">답변 대기중</span>
-							<span class="badge rounded-pill bg-info text-dark">답변완료</span>
-							<br>
-							<span class="float-end me-4">바로가기</span>
-						</div>
 					</div>
 				</div>
 			</div>
@@ -224,7 +257,6 @@ $(document).ready(function(){
 		actionForm.append("<input type='hidden' name='schedule_title' value='" + schedule_title + "'>");
 		actionForm.attr("action", "${contextPath}/mypage/modifyScheduleTitle");
 		actionForm.submit();
-	
 	});
 	
 	
@@ -232,20 +264,14 @@ $(document).ready(function(){
 	
 	$(".btn-tour-delete").on("click",function(e){
 		e.preventDefault();
+		var schedule_no = $(this).data("schedule_no");
 		
-		
-		var result = confirm("삭제하시겠습니까");
-		
-		<%-- ajax로 db값 지운후 아래 로직 실행하면됨 ( 화면에서 사라지는 로직 ) --%>
-		
-		<%-- 취소시 동작 x --%>
-		if(!result) {
-			return false;
+		if (confirm("삭제하시겠습니까? ")) {
+			$("#" + schedule_no).remove();
+			actionForm.append("<input type='hidden' name='schedule_no' value='" + schedule_no + "'>");
+			actionForm.attr("action", "${contextPath}/mypage/removeSchedule");
+			actionForm.submit();
 		}
-		
-		var tour = $(".btn-tour-delete").data("tour");
-		
-		$("#" + tour).remove();
 	});
 	
 	<%-- 리뷰 삭제 기능 --%>

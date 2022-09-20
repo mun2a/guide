@@ -16,6 +16,7 @@
 	WHERE qna_write = #{member_id}
 </select>
 
+<!-- 일정 -->
 <select id="readSchedule" parameterType="String" resultType="kr.co.guide.travel.domain.ScheduleDTO">
 	SELECT * 
 	FROM tbl_schedule 
@@ -40,5 +41,25 @@
 	SET schedule_title = #{schedule_title}
 	WHERE schedule_no = #{schedule_no} 
 </update>
+
+<delete id="deleteSchedule">
+	DELETE FROM tbl_schedule
+  	WHERE schedule_no = #{schedule_no}
+</delete>
+
+<!-- 문의 -->
+<select id="readQna" resultType="kr.co.guide.qna.domain.QnaDTO">
+	SELECT * 
+	FROM tbl_qna 
+	WHERE qna_write = #{member_id}
+</select>
+
+
 	
 </mapper>
+
+
+
+
+
+

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import kr.co.guide.qna.domain.QnaDTO;
 import kr.co.guide.travel.domain.AreaDTO;
 import kr.co.guide.travel.domain.ScheduleDTO;
 
@@ -22,6 +23,12 @@ public interface MypageMapper {
 	public int countScheduleDetail(int schedule_no);
 	//여행 이름 수정
 	public boolean updateScheduleTitle(ScheduleDTO sDto);
+	//일정 삭제
+	public boolean deleteSchedule(int schedule_no);
+	
+	//문의
+	public List<QnaDTO> readQna(String member_id);
+	
 	
 	
 }

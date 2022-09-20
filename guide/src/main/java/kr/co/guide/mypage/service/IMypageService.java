@@ -2,6 +2,7 @@ package kr.co.guide.mypage.service;
 
 import java.util.List;
 
+import kr.co.guide.qna.domain.QnaDTO;
 import kr.co.guide.travel.domain.AreaDTO;
 import kr.co.guide.travel.domain.ScheduleDTO;
 
@@ -20,5 +21,10 @@ public interface IMypageService {
 	public int countScheduleDetail(int schedule_no);
 	//여행 이름 수정
 	public boolean modifyScheduleTitle(ScheduleDTO sDto);
+	//일정 삭제
+	public boolean removeSchedule(int schedule_no);
+	
+	//문의
+	public List<QnaDTO> readQna(String member_id);
 	
 }

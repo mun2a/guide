@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import kr.co.guide.mypage.mapper.MypageMapper;
 import kr.co.guide.mypage.service.IMypageService;
+import kr.co.guide.qna.domain.QnaDTO;
 import kr.co.guide.travel.domain.AreaDTO;
 import kr.co.guide.travel.domain.ScheduleDTO;
 import lombok.extern.log4j.Log4j;
@@ -19,7 +20,6 @@ public class MypageServiceImpl implements IMypageService{
 	private MypageMapper mypageMapper;
 	
 	public int countSchedule(String member_id) {
-		log.info("==================== countSchedule ====================");
 		return mypageMapper.countSchedule(member_id);
 	}
 
@@ -48,6 +48,17 @@ public class MypageServiceImpl implements IMypageService{
 	@Override
 	public boolean modifyScheduleTitle(ScheduleDTO sDto) {
 		return mypageMapper.updateScheduleTitle(sDto);
+	}
+
+	@Override
+	public boolean removeSchedule(int schedule_no) {
+		return mypageMapper.deleteSchedule(schedule_no);
+	}
+
+	@Override
+	public List<QnaDTO> readQna(String member_id) {
+		log.info("==================== readSchedule ====================");
+		return mypageMapper.readQna(member_id);
 	}
 	
 

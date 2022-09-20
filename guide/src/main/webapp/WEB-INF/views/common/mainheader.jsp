@@ -66,7 +66,7 @@
 								<a class="nav-link text-dark" href="${contextPath}/admin/adHome">관리자페이지</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link text-dark" href="${contextPath}/member/info">마이페이지</a>
+								<a class="nav-link text-dark" href="${contextPath}/mypage/info">마이페이지</a>
 							</li>
 				        </sec:authorize>
 				        
