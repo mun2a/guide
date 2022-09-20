@@ -75,20 +75,20 @@ public class MemberController {
 	}
 	
 	// 마이페이지 이동
-	@RequestMapping(value="/info", method = RequestMethod.GET)
-	public String infoGet(Principal principal, Model model) {
-		
-		log.info("==================== controller info Get ====================");
-		
-		MemberDTO mDto = null;
-		if(principal != null) {
-			mDto = memberService.selectMemberInfo(principal.getName());
-		}
-		log.info("==================== controller mDto ====================" + mDto);
-		model.addAttribute("memberInfo", mDto);
-		
-		return "/member/info";
-	}
+//	@RequestMapping(value="/info", method = RequestMethod.GET)
+//	public String infoGet(Principal principal, Model model) {
+//		
+//		log.info("==================== controller info Get ====================");
+//		
+//		MemberDTO mDto = null;
+//		if(principal != null) {
+//			mDto = memberService.selectMemberInfo(principal.getName());
+//		}
+//		log.info("==================== controller mDto ====================" + mDto);
+//		model.addAttribute("memberInfo", mDto);
+//		
+//		return "/member/info";
+//	}
 	
 	// 회원정보 수정 페이지 이동
 	@RequestMapping(value="/modify", method = RequestMethod.GET)
@@ -107,7 +107,7 @@ public class MemberController {
 	
 	// 회원정보 수정 기능
 	@RequestMapping(value="/modify", method = RequestMethod.POST)
-	public String modifyPost(MemberDTO mDto, String new_password,RedirectAttributes rttr) {
+	public String modifyPost(MemberDTO mDto, String new_password, RedirectAttributes rttr) {
 		
 		log.info("==================== controller modify Post ====================");
 		
